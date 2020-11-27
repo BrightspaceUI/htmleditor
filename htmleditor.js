@@ -1,6 +1,7 @@
 import './components/quicklink.js';
 import './components/equation.js';
 import './components/preview.js';
+import './components/templates.js';
 import 'tinymce/tinymce.js';
 import 'tinymce/icons/default/icons.js';
 import 'tinymce/plugins/autosave/plugin.js';
@@ -278,7 +279,7 @@ class HtmlEditor extends ProviderMixin(Localizer(RtlMixin(LitElement))) {
 				language_url: `${baseImportPath}/tinymce/langs/${tinymceLang}.js`,
 				menubar: false,
 				object_resizing : true,
-				plugins: `a11ychecker ${this.autoSave ? 'autosave' : ''} advtable charmap advcode directionality emoticons ${this.fullPage ? 'fullpage' : ''} fullscreen hr image ${this.pasteLocalImages ? 'imagetools' : ''} lists powerpaste ${D2L.LP ? 'd2l-preview' : 'preview'} table textpattern d2l-equation d2l-image d2l-isf d2l-quicklink`,
+				plugins: `a11ychecker ${this.autoSave ? 'autosave' : ''} advtable charmap advcode directionality emoticons ${this.fullPage ? 'fullpage' : ''} fullscreen hr image ${this.pasteLocalImages ? 'imagetools' : ''} lists powerpaste ${D2L.LP ? 'd2l-preview' : 'preview'} table textpattern d2l-equation d2l-image d2l-isf d2l-quicklink d2l-templates`,
 				relative_urls: false,
 				resize: true,
 				setup: (editor) => {
@@ -377,7 +378,7 @@ class HtmlEditor extends ProviderMixin(Localizer(RtlMixin(LitElement))) {
 				`styleselect | bold italic underline d2l-inline | d2l-align d2l-list | d2l-isf d2l-quicklink d2l-image | table d2l-equation charmap emoticons hr | a11ycheck | fontselect | fontsizeselect | forecolor | ${ D2L.LP ? 'd2l-preview' : 'preview'} code | undo redo | fullscreen`
 			];
 		} else {
-			return `styleselect | bold italic underline d2l-inline | d2l-align d2l-list | d2l-isf d2l-quicklink d2l-image | table d2l-equation charmap emoticons hr | a11ycheck | fontselect | fontsizeselect | forecolor | ${ D2L.LP ? 'd2l-preview' : 'preview'} code | undo redo | fullscreen`;
+			return `styleselect | bold italic underline d2l-inline | d2l-align d2l-list | d2l-isf d2l-quicklink d2l-image | table d2l-templates d2l-equation charmap emoticons hr | a11ycheck | fontselect | fontsizeselect | forecolor | ${ D2L.LP ? 'd2l-preview' : 'preview'} code | undo redo | fullscreen`;
 		}
 	}
 

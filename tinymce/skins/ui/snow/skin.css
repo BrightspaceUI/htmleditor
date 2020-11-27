@@ -2822,7 +2822,7 @@ body.tox-dialog__disable-scroll {
   display: flex;
   flex-wrap: wrap;
   margin: 8px 0;
-  padding: 0 16px 0 20px;
+  padding: 0 4px 0 8px; /* d2l: customized padding*/
 }
 .tox .tox-toolbar__group--pull-right {
   margin-left: auto;
