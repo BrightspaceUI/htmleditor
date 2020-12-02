@@ -8,5 +8,5 @@ export default {
 	"image.tooltip": "插入图像",
 	"insertstuff.tooltip": "插入资料",
 	"preview.tooltip": "预览",
-	"quicklink.tooltip": "插入 QuickLink"
+	"quicklink.tooltip": "插入 Quicklink"
 };

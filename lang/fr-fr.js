@@ -3,7 +3,7 @@
 export default {
 	"equationeditor.chemistrytooltip": "Équation de chimie",
 	"equationeditor.graphicaltooltip": "Équation graphique",
-	"equationeditor.latextooltip": "Équation de LaTeX",
+	"equationeditor.latextooltip": "Équation LaTeX",
 	"equationeditor.mathmltooltip": "Équation MathML",
 	"image.tooltip": "Insérer une image",
 	"insertstuff.tooltip": "Insérer quelque chose",

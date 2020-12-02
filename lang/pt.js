@@ -5,8 +5,8 @@ export default {
 	"equationeditor.graphicaltooltip": "Equação gráfica",
 	"equationeditor.latextooltip": "Equação LaTeX",
 	"equationeditor.mathmltooltip": "Equação MathML",
-	"image.tooltip": "Inserir Imagem",
+	"image.tooltip": "Inserir imagem",
 	"insertstuff.tooltip": "Inserir Item",
 	"preview.tooltip": "Visualizar",
-	"quicklink.tooltip": "Inserir Link Direto"
+	"quicklink.tooltip": "Inserir QuickLink"
 };
