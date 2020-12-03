@@ -125,7 +125,7 @@ tinymce.PluginManager.add('d2l-wordcount', function(editor) {
 
 	countButton.onclick = openWordCountDialog;
 
-	editor.on('init', () => {	
+	editor.on('init', () => {
 		const statusBar = root.querySelector('.tox-statusbar');
 		const statusBarResizeHandler = statusBar.querySelector('.tox-statusbar__resize-handle');
 
@@ -133,7 +133,7 @@ tinymce.PluginManager.add('d2l-wordcount', function(editor) {
 	});
 
 	let timerId = 0;
-	editor.on('change input selectionchange setcontent textInput', (e) => {
+	editor.on('change input selectionchange setcontent textInput', () => {
 		clearTimeout(timerId);
 
 		timerId = setTimeout(() => {
