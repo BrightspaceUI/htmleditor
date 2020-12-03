@@ -163,7 +163,7 @@ class HtmlEditor extends ProviderMixin(Localizer(RtlMixin(LitElement))) {
 		this.title = '';
 		this.type = editorTypes.FULL;
 		this.width = '100%';
-		this.wordCountInFooter = false;
+		this.wordCountInFooter = true;//false;
 		this._editorId = getUniqueId();
 		this._html = '';
 		this._initializationComplete = new Promise((resolve) => {

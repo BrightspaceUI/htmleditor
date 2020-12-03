@@ -9,16 +9,6 @@ export function countAll(text) {
 		};
 	}
 
-	// When the editor is "empty", it actually contains a single line feed character.
-	// As soon as any other text is added, this is removed, so we likely shouldn't count this.
-	if (text.length === 1 && text.charCodeAt(0) === 10) {
-		return {
-			wordCount: 0,
-			characterCount: 0,
-			characterCountWithoutSpaces: 0
-		};
-	}
-
 	let charCount = 0;
 	let wordCount = 0;
 	for (let i = 0; i < text.length; i++) {
@@ -43,9 +33,6 @@ export function countAll(text) {
 }
 
 export function countCharacters(text) {
-	// When the editor is "empty", it actually contains a single line feed character.
-	// As soon as any other text is added, this is removed, so we likely shouldn't count this.
-	if (text.length === 1 && text.charCodeAt(0) === 10) return 0;
 	return text.length;
 }
 

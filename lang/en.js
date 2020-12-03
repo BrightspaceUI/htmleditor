@@ -23,6 +23,7 @@ export default {
 	"wordcount.footer.selectionwordcount": "{count, plural, one { 1 Word } other { { count } Words }} in selection",
 	"wordcount.footer.wordcount": "{count, plural, one { 1 Word } other { { count } Words }}",
 	"wordcount.footerselector.charactercount": "Character Count",
+	"wordcount.footerselector.menulabel": "Type of count displayed in editor footer",
 	"wordcount.footerselector.nocount": "Nothing",
 	"wordcount.footerselector.wordcount": "Word Count",
 	"wordcount.footerselectorlabel.character": "Footer Displays: Character Count",

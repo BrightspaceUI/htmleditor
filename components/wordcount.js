@@ -1,5 +1,8 @@
+import '@brightspace-ui/core/components/button/button.js';
 import '@brightspace-ui/core/components/colors/colors.js';
 import '@brightspace-ui/core/components/dialog/dialog.js';
+import '@brightspace-ui/core/components/dropdown/dropdown-button-subtle.js';
+import '@brightspace-ui/core/components/dropdown/dropdown-menu.js';
 import '@brightspace-ui/core/components/menu/menu.js';
 import 'tinymce/tinymce.js';
 import { countAll, countCharacters, countWords } from '../wordcount/wordcount.js';
@@ -122,30 +125,26 @@ tinymce.PluginManager.add('d2l-wordcount', function(editor) {
 
 	countButton.onclick = openWordCountDialog;
 
-	editor.on('init', () => {
+	editor.on('init', () => {	
 		const statusBar = root.querySelector('.tox-statusbar');
 		const statusBarResizeHandler = statusBar.querySelector('.tox-statusbar__resize-handle');
 
 		statusBar.insertBefore(countButton, statusBarResizeHandler);
 	});
 
-	const onInputDelay = 100;
-	let lastRunTime = Date.now();
-	editor.on('change selectionchange textInput input', (e) => {
-		// Don't debounce on selectionchange because it leaves quick selections with
-		// inaccurate counts (selection happens too fast)
-		if (e.type !== 'selectionchange' && Date.now() < (lastRunTime + onInputDelay)) return;
+	let timerId = 0;
+	editor.on('change input selectionchange setcontent textInput', (e) => {
+		clearTimeout(timerId);
 
-		const isSelection = editor.selection && !editor.selection.isCollapsed();
+		timerId = setTimeout(() => {
+			const isSelection = editor.selection && !editor.selection.isCollapsed();
+			const text = isSelection
+				? editor.selection.getContent({ source_view: true, format: 'text' })
+				: editor.getContent({ source_view: true, format: 'text' });
 
-		const text = isSelection
-			? editor.selection.getContent({ source_view: true, format: 'text' })
-			: editor.getContent({ source_view: true, format: 'text' });
-
-		const countOption = countButton.getAttribute('data-d2l-count-option');
-
-		countButton.textContent = localize(getButtonLangTerm(countOption, isSelection), { count: getButtonCount(countOption, text) });
-		lastRunTime = Date.now();
+			const countOption = countButton.getAttribute('data-d2l-count-option');
+			countButton.textContent = localize(getButtonLangTerm(countOption, isSelection), { count: getButtonCount(countOption, text) });
+		}, 100);
 	});
 
 });
@@ -162,17 +161,20 @@ class WordCountDialog extends RequesterMixin(RtlMixin(LitElement)) {
 	}
 
 	static get styles() {
-		return [
-			selectStyles,
-			css`
+		return [ selectStyles, css`
 			:host {
 				display: block;
 			}
 			:host([hidden]) {
 				display: none;
 			}
-			.d2l-wordcount-option-button {
-				float: right;
+			[slot="footer"] {
+				display: flex;
+				flex-wrap: wrap;
+				justify-content: space-between;
+			}
+			d2l-button {
+				flex: 0 1 auto;
 			}
 			table {
 				border-collapse: collapse;
@@ -213,7 +215,6 @@ class WordCountDialog extends RequesterMixin(RtlMixin(LitElement)) {
 		this.countType = footerCountType.WORD;
 		this.opened = false;
 		this.selectedCounts = {};
-		this._width = 500;
 	}
 
 	connectedCallback() {
@@ -224,10 +225,12 @@ class WordCountDialog extends RequesterMixin(RtlMixin(LitElement)) {
 
 	render() {
 		return html`
-			<d2l-dialog width="${this._width}" title-text="${this._localize('wordcount.dialog.title')}" ?opened="${this.opened}" @d2l-dialog-close=${(this._handleDialogClosed)}>
+			<d2l-dialog width="500" title-text="${this._localize('wordcount.dialog.title')}" ?opened="${this.opened}" @d2l-dialog-close=${(this._handleDialogClosed)}>
 				${this._renderWordCountInfo()}
-				<d2l-button slot="footer" primary data-dialog-action>${this._localize('wordcount.dialog.closebutton')}</d2l-button>
-				${this._wordCountInFooter ? this._renderCountSelectionDropdown() : ''}
+				<div slot="footer">
+					<d2l-button primary data-dialog-action>${this._localize('wordcount.dialog.closebutton')}</d2l-button>
+					${this._wordCountInFooter ? this._renderCountSelectionDropdown() : ''}
+				</div>
 			</d2l-dialog>`;
 	}
 
@@ -263,9 +266,9 @@ class WordCountDialog extends RequesterMixin(RtlMixin(LitElement)) {
 
 	_renderCountSelectionDropdown() {
 		return html`
-			<d2l-dropdown-button-subtle slot="footer" id="d2l-wordcount-option" class="d2l-wordcount-option-button" text="${this._getCountOptionText()}">
+			<d2l-dropdown-button-subtle id="d2l-wordcount-option" text="${this._getCountOptionText()}">
 				<d2l-dropdown-menu>
-					<d2l-menu>
+					<d2l-menu label=${this._localize('wordcount.footerselector.menulabel')}>
 						<d2l-menu-item
 							text=${this._localize('wordcount.footerselector.wordcount')}
 							@d2l-menu-item-select="${this._handleSelectWordCountOption}">
@@ -339,11 +342,6 @@ class WordCountDialog extends RequesterMixin(RtlMixin(LitElement)) {
 
 function _countParagraphs(editor, text) {
 	if (text.length === 0) return 0;
-
-	// When the editor is "empty", it actually contains a single line feed character.
-	// As soon as any other text is added, this is removed, so we likely shouldn't count this.
-	if (text.length === 1 && text.charCodeAt(0) === 10) return 0;
-
 	return editor.getBody().getElementsByTagName('p').length;
 }
 
