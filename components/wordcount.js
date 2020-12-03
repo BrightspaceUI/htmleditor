@@ -12,6 +12,8 @@ import { formatNumber } from '@brightspace-ui/intl/lib/number.js';
 import { RtlMixin } from '@brightspace-ui/core/mixins/rtl-mixin.js';
 import { selectStyles } from '@brightspace-ui/core/components/inputs/input-select-styles.js';
 
+// TODO: Replace placeholder "preview" icon with actual word count icon once we have one
+
 const footerCountType = {
 	CHAR: 'char',
 	NOTHING: 'nothing',
