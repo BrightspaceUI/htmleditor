@@ -1,8 +1,8 @@
 /* eslint quotes: 0 */
 
 export default {
-	"equationeditor.chemistrytooltip": "Hafaliad cemeg",
-	"equationeditor.graphicaltooltip": "Hafaliad graffigol",
+	"equationeditor.chemistrytooltip": "Hafaliad Cemeg",
+	"equationeditor.graphicaltooltip": "Hafaliad Graffigol",
 	"equationeditor.latextooltip": "Hafaliad LaTeX",
 	"equationeditor.mathmltooltip": "Hafaliad MathML",
 	"image.tooltip": "Mewnosod Delwedd",

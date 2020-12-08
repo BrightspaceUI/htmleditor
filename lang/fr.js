@@ -3,10 +3,10 @@
 export default {
 	"equationeditor.chemistrytooltip": "Équation chimique",
 	"equationeditor.graphicaltooltip": "Équation graphique",
-	"equationeditor.latextooltip": "Équation de LaTeX",
-	"equationeditor.mathmltooltip": "Équation de MathML",
-	"image.tooltip": "Insérer l’image",
-	"insertstuff.tooltip": "Insérer le symbole",
+	"equationeditor.latextooltip": "Équation LaTeX",
+	"equationeditor.mathmltooltip": "Équation MathML",
+	"image.tooltip": "Inclure une image",
+	"insertstuff.tooltip": "Inclure quelque chose",
 	"preview.tooltip": "Prévisualiser",
-	"quicklink.tooltip": "Insérer le lien rapide"
+	"quicklink.tooltip": "Inclure le lien rapide"
 };

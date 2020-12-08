@@ -35,7 +35,6 @@
   "license": "Apache-2.0",
   "devDependencies": {
     "@brightspace-ui/stylelint-config": "^0.0.3",
-    "@brightspace-ui/visual-diff": "^1",
     "@open-wc/testing": "^2",
     "@open-wc/testing-karma": "^4",
     "babel-eslint": "^10",
@@ -50,7 +49,6 @@
     "karma-sauce-launcher": "^4.1.4",
     "lit-analyzer": "^1",
     "mocha": "~8.2.0",
-    "puppeteer": "^5",
     "stylelint": "^13"
   },
   "dependencies": {
