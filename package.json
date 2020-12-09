@@ -8,7 +8,6 @@
   },
   "files": [
     "htmleditor.js",
-    "icons.js",
     "/components",
     "/generated",
     "/lang",
@@ -16,8 +15,9 @@
     "/wordcount/wordcount.js"
   ],
   "scripts": {
+    "build:icons": "node ./cli/icon-generator.js",
     "build:langs": "node ./cli/lang-generator.js",
-    "build": "npm run build:langs",
+    "build": "npm run build:langs && npm run build:icons",
     "lint": "npm run lint:eslint && npm run lint:style && npm run lint:lit",
     "lint:eslint": "eslint . --ext .js,.html",
     "lint:lit": "lit-analyzer htmleditor.js demo test",

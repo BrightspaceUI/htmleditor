@@ -2,7 +2,6 @@ import 'tinymce/tinymce.js';
 import { css, LitElement } from 'lit-element/lit-element.js';
 import { RequesterMixin, requestInstance } from '@brightspace-ui/core/mixins/provider-mixin.js';
 import { getComposedActiveElement } from '@brightspace-ui/core/helpers/focus.js';
-import { icons } from '../icons.js';
 
 tinymce.PluginManager.add('d2l-quicklink', function(editor) {
 
@@ -11,11 +10,9 @@ tinymce.PluginManager.add('d2l-quicklink', function(editor) {
 
 	const localize = requestInstance(editor.getElement(), 'localize');
 
-	editor.ui.registry.addIcon('d2l-quicklink', icons['link']);
-
 	editor.ui.registry.addButton('d2l-quicklink', {
 		tooltip: localize('quicklink.tooltip'),
-		icon: 'd2l-quicklink',
+		icon: 'link',
 		onAction: () => {
 			const root = editor.getElement().getRootNode();
 

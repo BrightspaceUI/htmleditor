@@ -2,7 +2,6 @@
 
 import { css, LitElement } from 'lit-element/lit-element.js';
 import { getComposedActiveElement } from '@brightspace-ui/core/helpers/focus.js';
-import { icons } from '../icons.js';
 import { requestInstance } from '@brightspace-ui/core/mixins/provider-mixin.js';
 
 const editorTypes = {
@@ -18,11 +17,6 @@ tinymce.PluginManager.add('d2l-equation', function(editor) {
 	if (!D2L.LP) return;
 
 	const localize = requestInstance(editor.getElement(), 'localize');
-
-	editor.ui.registry.addIcon('d2l-equation-chemistry', icons['equation-chemistry']);
-	editor.ui.registry.addIcon('d2l-equation-graphical', icons['equation-graphical']);
-	editor.ui.registry.addIcon('d2l-equation-latex', icons['equation-latex']);
-	editor.ui.registry.addIcon('d2l-equation-mathml', icons['equation-mathml']);
 
 	const getSelectedMathImage = () => {
 		const contextNode = (editor.selection ? editor.selection.getNode() : null);
@@ -79,25 +73,25 @@ tinymce.PluginManager.add('d2l-equation', function(editor) {
 			const editorType = (contextNode ? getEditorTypeForImage(contextNode) : null);
 			callback([{
 				type: 'choiceitem',
-				icon: 'd2l-equation-graphical',
+				icon: 'equation-graphical',
 				text: localize('equationeditor.graphicaltooltip'),
 				value: editorTypes.Graphical,
 				disabled: contextNode && editorType !== editorTypes.Graphical
 			}, {
 				type: 'choiceitem',
-				icon: 'd2l-equation-latex',
+				icon: 'equation-latex',
 				text: localize('equationeditor.latextooltip'),
 				value: editorTypes.Latex,
 				disabled: contextNode && editorType !== editorTypes.Latex
 			}, {
 				type: 'choiceitem',
-				icon: 'd2l-equation-mathml',
+				icon: 'equation-mathml',
 				text: localize('equationeditor.mathmltooltip'),
 				value: editorTypes.MathML,
 				disabled: contextNode && editorType !== editorTypes.MathML
 			}, {
 				type: 'choiceitem',
-				icon: 'd2l-equation-chemistry',
+				icon: 'equation-chemistry',
 				text: localize('equationeditor.chemistrytooltip'),
 				value: editorTypes.Chemistry,
 				disabled: contextNode && editorType !== editorTypes.Chemistry

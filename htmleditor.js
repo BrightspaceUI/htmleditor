@@ -21,8 +21,8 @@ import 'tinymce/plugins/table/plugin.js';
 import 'tinymce/plugins/textpattern/plugin.js';
 import 'tinymce/themes/silver/theme.js';
 import { css, html, LitElement, unsafeCSS } from 'lit-element/lit-element.js';
+import { addIcons } from './generated/icons.js';
 import { getUniqueId } from '@brightspace-ui/core/helpers/uniqueId.js';
-import { icons } from './icons.js';
 import { isfStyles } from './components/isf.js';
 import { Localizer } from './lang/localizer.js';
 import { ProviderMixin } from '@brightspace-ui/core/mixins/provider-mixin.js';
@@ -305,7 +305,7 @@ class HtmlEditor extends ProviderMixin(Localizer(RtlMixin(LitElement))) {
 				relative_urls: false,
 				resize: true,
 				setup: (editor) => {
-					editor.ui.registry.addIcon('resize-handle', icons['resize-handle']);
+					addIcons(editor);
 
 					if (this.pasteLocalImages) editor.on('blur', () => editor.uploadImages());
 
