@@ -105,6 +105,7 @@ class HtmlEditor extends ProviderMixin(Localizer(RtlMixin(LitElement))) {
 			fullPageFontSize: { type: String, attribute: 'full-page-font-size' },
 			height: { type: String },
 			html: { type: String },
+			mentions: { type: Boolean },
 			noFilter: { type: Boolean, attribute: 'no-filter' },
 			noSpellchecker: { type: Boolean, attribute: 'no-spellchecker' },
 			pasteLocalImages: { type: Boolean, attribute: 'paste-local-images' },
@@ -157,6 +158,7 @@ class HtmlEditor extends ProviderMixin(Localizer(RtlMixin(LitElement))) {
 		this.fullPage = false;
 		this.fullPageFontColor = '#494c4e';
 		this.height = '355px';
+		this.mentions = false;
 		this.noFilter = false;
 		this.noSpellchecker = false;
 		this.pasteLocalImages = false;
@@ -258,6 +260,7 @@ class HtmlEditor extends ProviderMixin(Localizer(RtlMixin(LitElement))) {
 					'a11ychecker': `${baseImportPath}/tinymce/plugins/a11ychecker/plugin.js`,
 					'advcode': `${baseImportPath}/tinymce/plugins/advcode/plugin.js`,
 					'advtable': `${baseImportPath}/tinymce/plugins/advtable/plugin.js`,
+					'mentions': `${baseImportPath}/tinymce/plugins/mentions/plugin.js`,
 					'powerpaste': `${baseImportPath}/tinymce/plugins/powerpaste/plugin.js`
 				},
 				font_formats: 'Arabic Transparent=arabic transparent,sans-serif; Arial (Recommended)=arial,helvetica,sans-serif; Comic Sans=comic sans ms,sans-serif; Courier=courier new,courier,sans-serif; Ezra SIL=ezra sil,arial unicode ms,arial,sans-serif; Georgia=georgia,serif; SBL Hebrew=sbl hebrew,times new roman,serif; Simplified Arabic=simplified arabic,sans-serif; Tahoma=tahoma,sans-serif; Times New Roman=times new roman,times,serif; Traditional Arabic=traditional arabic,serif; Trebuchet=trebuchet ms,helvetica,sans-serif; Verdana=verdana,sans-serif; 돋움 (Dotum)=dotum,arial,helvetica,sans-serif; 宋体 (Sim Sun)=simsun; 細明體 (Ming Liu)=mingliu,arial,helvetica,sans-serif',
@@ -281,8 +284,24 @@ class HtmlEditor extends ProviderMixin(Localizer(RtlMixin(LitElement))) {
 				language: tinymceLang,
 				language_url: `${baseImportPath}/tinymce/langs/${tinymceLang}.js`,
 				menubar: false,
+				mentions_fetch: (query, success) => {
+					setTimeout(() => D2L.LP.Web.UI.Rpc.Connect(
+						D2L.LP.Web.UI.Rpc.Verbs.GET,
+						new D2L.LP.Web.Http.UrlLocation('/d2l/lp/htmleditor/tinymce/mentionsSearchQuery'),
+						{ searchTerm: query.term, orgUnitId: context.orgUnitId },
+						{ success: success }
+					), 0);
+				},
+				mentions_menu_complete: (editor, userinfo) => {
+					const span = editor.getDoc().createElement('span');
+					span.className = 'd2lmention';
+					span.textContent = `@${userinfo.name}`;
+					span.setAttribute('data-d2l-mentions-id', userinfo.id);
+					return span;
+				},
+				mentions_selector: 'span.d2lmention',
 				object_resizing : true,
-				plugins: `a11ychecker ${this.autoSave ? 'autosave' : ''} advtable charmap advcode directionality emoticons ${this.fullPage ? 'fullpage' : ''} fullscreen hr image ${this.pasteLocalImages ? 'imagetools' : ''} lists powerpaste ${D2L.LP ? 'd2l-preview' : 'preview'} table textpattern d2l-equation d2l-image d2l-isf d2l-quicklink d2l-wordcount`,
+				plugins: `a11ychecker ${this.autoSave ? 'autosave' : ''} advtable charmap advcode directionality emoticons ${this.fullPage ? 'fullpage' : ''} fullscreen hr image ${this.pasteLocalImages ? 'imagetools' : ''} lists ${(this.mentions && D2L.LP) ? 'mentions' : ''} powerpaste ${D2L.LP ? 'd2l-preview' : 'preview'} table textpattern d2l-equation d2l-image d2l-isf d2l-quicklink d2l-wordcount`,
 				relative_urls: false,
 				resize: true,
 				setup: (editor) => {
