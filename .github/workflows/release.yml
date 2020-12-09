@@ -22,6 +22,8 @@ jobs:
         run: npm install
       - name: Build
         run: npm run build
+      - name: Prepare Translations for NPM
+        uses: BrightspaceUI/actions/prepare-translations-for-npm@master
       - name: Semantic Release
         uses: BrightspaceUI/actions/semantic-release@master
         with:

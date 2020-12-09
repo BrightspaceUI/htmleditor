@@ -1,7 +1,7 @@
 {
   "name": "@brightspace-ui/htmleditor",
   "description": "An HTML editor that integrates with Brightspace",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "repository": "https://github.com/BrightspaceUI/htmleditor.git",
   "publishConfig": {
     "access": "public"
@@ -12,7 +12,8 @@
     "/components",
     "/generated",
     "/lang",
-    "/tinymce"
+    "/tinymce",
+    "/wordcount/wordcount.js"
   ],
   "scripts": {
     "build:langs": "node ./cli/lang-generator.js",
@@ -34,7 +35,6 @@
   "license": "Apache-2.0",
   "devDependencies": {
     "@brightspace-ui/stylelint-config": "^0.0.3",
-    "@brightspace-ui/visual-diff": "^1",
     "@open-wc/testing": "^2",
     "@open-wc/testing-karma": "^4",
     "babel-eslint": "^10",
@@ -49,11 +49,11 @@
     "karma-sauce-launcher": "^4.1.4",
     "lit-analyzer": "^1",
     "mocha": "~8.2.0",
-    "puppeteer": "^5",
     "stylelint": "^13"
   },
   "dependencies": {
     "@brightspace-ui/core": "^1",
+    "@brightspace-ui/intl": "^3",
     "@webcomponents/webcomponentsjs": "^2",
     "lit-element": "^2",
     "tinymce": "5.6.1"
