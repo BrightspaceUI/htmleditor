@@ -2,7 +2,6 @@ import 'tinymce/tinymce.js';
 import { css, LitElement } from 'lit-element/lit-element.js';
 import { RequesterMixin, requestInstance } from '@brightspace-ui/core/mixins/provider-mixin.js';
 import { getComposedActiveElement } from '@brightspace-ui/core/helpers/focus.js';
-import { icons } from '../icons.js';
 
 export const isfStyles = css`
 	/* stylelint-disable-next-line selector-class-pattern */
@@ -31,11 +30,9 @@ tinymce.PluginManager.add('d2l-isf', function(editor) {
 	const localize = requestInstance(editor.getElement(), 'localize');
 	const wmodeOpaque = requestInstance(editor.getElement(), 'wmodeOpaque');
 
-	editor.ui.registry.addIcon('d2l-isf', icons['media']);
-
 	editor.ui.registry.addButton('d2l-isf', {
 		tooltip: localize('insertstuff.tooltip'),
-		icon: 'd2l-isf',
+		icon: 'insert-stuff',
 		onAction: () => {
 			const root = editor.getElement().getRootNode();
 

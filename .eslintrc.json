@@ -3,7 +3,7 @@
   "globals": {
     "tinymce": false
   },
-  "ignorePatterns": ["tinymce"],
+  "ignorePatterns": ["tinymce", "icons.js"],
   "rules": {
     "no-console": 0,
     "prefer-arrow-callback": 0

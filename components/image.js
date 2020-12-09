@@ -2,7 +2,6 @@ import 'tinymce/tinymce.js';
 import { css, LitElement } from 'lit-element/lit-element.js';
 import { RequesterMixin, requestInstance } from '@brightspace-ui/core/mixins/provider-mixin.js';
 import { getComposedActiveElement } from '@brightspace-ui/core/helpers/focus.js';
-import { icons } from '../icons.js';
 
 const fileTypes = {
 	All: 0,
@@ -85,11 +84,9 @@ tinymce.PluginManager.add('d2l-image', function(editor) {
 
 	const localize = requestInstance(editor.getElement(), 'localize');
 
-	editor.ui.registry.addIcon('d2l-image', icons['image']);
-
 	editor.ui.registry.addButton('d2l-image', {
 		tooltip: localize('image.tooltip'),
-		icon: 'd2l-image',
+		icon: 'image',
 		onAction: () => {
 			const root = editor.getElement().getRootNode();
 
