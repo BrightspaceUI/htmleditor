@@ -303,12 +303,11 @@ class HtmlEditor extends ProviderMixin(Localizer(RtlMixin(LitElement))) {
 				},
 				mentions_menu_complete: (editor, userinfo) => {
 					const span = editor.getDoc().createElement('span');
-					span.className = 'd2lmention';
 					span.textContent = `@${userinfo.name}`;
-					span.setAttribute('data-d2l-mentions-id', userinfo.id);
+					span.setAttribute('data-mentions-id', userinfo.id);
 					return span;
 				},
-				mentions_selector: 'span.d2lmention',
+				mentions_selector: 'span[data-mentions-id]',
 				object_resizing : true,
 				plugins: `a11ychecker ${this.autoSave ? 'autosave' : ''} advtable charmap advcode directionality emoticons ${this.fullPage ? 'fullpage' : ''} fullscreen hr image ${this.pasteLocalImages ? 'imagetools' : ''} lists ${(this.mentions && D2L.LP) ? 'mentions' : ''} powerpaste ${D2L.LP ? 'd2l-preview' : 'preview'} table textpattern d2l-equation d2l-image d2l-isf d2l-quicklink d2l-wordcount`,
 				relative_urls: false,
