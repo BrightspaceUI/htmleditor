@@ -1,3 +1,4 @@
+import '@brightspace-ui/core/components/alert/alert.js';
 import './components/quicklink.js';
 import './components/equation.js';
 import './components/preview.js';
@@ -22,6 +23,7 @@ import 'tinymce/plugins/textpattern/plugin.js';
 import 'tinymce/themes/silver/theme.js';
 import { css, html, LitElement, unsafeCSS } from 'lit-element/lit-element.js';
 import { addIcons } from './generated/icons.js';
+import { classMap } from 'lit-html/directives/class-map.js';
 import { getUniqueId } from '@brightspace-ui/core/helpers/uniqueId.js';
 import { isfStyles } from './components/isf.js';
 import { Localizer } from './lang/localizer.js';
@@ -46,6 +48,8 @@ const editorTypes = {
 	INLINE: 'inline',
 	INLINE_LIMITED: 'inline-limited'
 };
+
+const isShadowDOMSupported = !(window.ShadyDOM && window.ShadyDOM.inUse);
 
 const context = JSON.parse(document.documentElement.getAttribute('data-he-context'));
 
@@ -126,6 +130,9 @@ class HtmlEditor extends ProviderMixin(Localizer(RtlMixin(LitElement))) {
 				/* padding: 4px; */
 			}
 			:host([hidden]) {
+				display: none;
+			}
+			.d2l-htmleditor-no-tinymce {
 				display: none;
 			}
 			/* stylelint-disable selector-class-pattern */
@@ -213,6 +220,8 @@ class HtmlEditor extends ProviderMixin(Localizer(RtlMixin(LitElement))) {
 
 	firstUpdated(changedProperties) {
 		super.firstUpdated(changedProperties);
+
+		if (!isShadowDOMSupported) return;
 
 		requestAnimationFrame(() => {
 
@@ -376,10 +385,14 @@ class HtmlEditor extends ProviderMixin(Localizer(RtlMixin(LitElement))) {
 	}
 
 	render() {
+		const textAreaClasses = {
+			'd2l-htmleditor-no-tinymce': !isShadowDOMSupported
+		};
 		//if (this.type === editorTypes.INLINE || this.type === editorTypes.INLINE_LIMITED) {
 		//	return html`<div id="${this._editorId}" .innerHTML="${this._html}"></div>`;
 		//} else {
-		return html`<textarea id="${this._editorId}" aria-hidden="true" tabindex="-1">${this._html}</textarea>`;
+		return html`<textarea id="${this._editorId}" class="${classMap(textAreaClasses)}" aria-hidden="true" tabindex="-1">${this._html}</textarea>
+		${!isShadowDOMSupported ? html`<d2l-alert>Web Components are not supported in this browser. Upgrade or switch to a newer browser to use the shiny new HtmlEditor.</d2l-alert>` : ''}`;
 		//}
 	}
 
