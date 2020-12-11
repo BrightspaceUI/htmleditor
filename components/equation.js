@@ -58,7 +58,7 @@ tinymce.PluginManager.add('d2l-equation', function(editor) {
 	};
 
 	editor.ui.registry.addSplitButton('d2l-equation', {
-		icon: 'd2l-equation-graphical',
+		icon: 'equation-graphical',
 		tooltip: localize('equationeditor.graphicaltooltip'),
 		onAction: () => {
 			launchEditor(editorTypes.Graphical);
