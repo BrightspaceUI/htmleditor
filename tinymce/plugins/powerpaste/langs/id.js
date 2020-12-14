@@ -1,9 +1,9 @@
-tinymce.addI18n('id', {
+tinymce.addI18n("id", {
   "Paste Formatting Options": "Opsi Pemformatan Rekat",
   "Choose to keep or remove formatting in the pasted content.": "Pilih untuk menyimpan atau menghapus pemformatan di konten yang direkatkan.",
   "Keep Formatting": "Simpan Pemformatan",
-  "Remove Formatting": "Hapus Pemformatan",
-  // "Safari does not support direct paste of images. <a href=\"https://support.ephox.com/entries/88543243-Safari-Direct-paste-of-images-does-not-work\" style=\"text-decoration: underline\">More information on image pasting for Safari</a>": "",
+  "Remove Formatting": "Hapus Format",
+  'Safari does not support direct paste of images. <a href="https://support.ephox.com/entries/88543243-Safari-Direct-paste-of-images-does-not-work" style="text-decoration: underline">More information on image pasting for Safari</a>': 'Safari tidak mendukung penempelan gambar langsung. <a href="https://support.ephox.com/entries/88543243-Safari-Direct-paste-of-images-does-not-work" style="text-decoration: underline">Informasi lainnya tentang penempelan gambar di Safari</a>',
   "The images service was not found: (": "Layanan gambar tidak ditemukan: (",
   "Image failed to upload: (": "Gagal mengunggah gambar: (",
   ").": ").",

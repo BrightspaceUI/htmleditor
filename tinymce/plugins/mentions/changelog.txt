@@ -1,3 +1,8 @@
+Version 2.2.0 (2020-11-18)
+  [FEATURE] Added new "profile" mentions select card with avatar, name and description #TINY-6506
+  [FEATURE] Added new `mentions_item_type` setting for specifying the type of item to use when displaying the mentions user list #TINY-6506
+  [FEATURE] Added new `mentions_min_chars` setting for configuring when mentions should activate while typing #TINY-6506
+  [BUG] Fixed mentions not converted to contenteditable=false elements when set via `editor.setContent()` #TINY-6413
 Version 2.1.0 (2019-10-17)
   [BUG] Fixed select menu being hidden while changing selection and when hovering. #TINY-3752
   [FEATURE] Added the ability to include "extra" menu items that allow reloading with different search params. #MENTIONS-17

@@ -124,10 +124,10 @@ class HtmlEditor extends ProviderMixin(Localizer(RtlMixin(LitElement))) {
 	static get styles() {
 		return css`
 			:host {
-				/* border: 1px solid var(--d2l-color-mica); */
+				border: 1px solid var(--d2l-color-mica); /* snow */
 				border-radius: 6px;
 				display: block;
-				/* padding: 4px; */
+				padding: 4px; /* snow */
 			}
 			:host([hidden]) {
 				display: none;
@@ -136,6 +136,9 @@ class HtmlEditor extends ProviderMixin(Localizer(RtlMixin(LitElement))) {
 				display: none;
 			}
 			/* stylelint-disable selector-class-pattern */
+			.tox .tox-toolbar__group {
+				padding: 0 4px 0 8px; /* snow */
+			}
 			.tox-tinymce-aux,
 			.tox-tinymce.tox-fullscreen {
 				z-index: 1000;
@@ -367,7 +370,7 @@ class HtmlEditor extends ProviderMixin(Localizer(RtlMixin(LitElement))) {
 					]);
 
 				},
-				skin_url: `${baseImportPath}/tinymce/skins/ui/oxide`,
+				skin_url: `${baseImportPath}/tinymce/skins/ui/snow`,
 				statusbar: true,
 				target: textarea,
 				toolbar: this._getToolbarConfig(),
