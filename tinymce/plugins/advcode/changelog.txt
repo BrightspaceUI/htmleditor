@@ -1,3 +1,7 @@
+Version 2.3.0 (2020-11-18)
+  [FEATURE] Added the ability to maintain the cursor position when opening the code dialog #TINY-5091
+  [BUG] Fixed the code view not using monospace fonts #TINY-6579
+  [BUG] Fixed an issue where non-breaking spaces were inserted instead of regular spaces on Safari #TINY-6579
 Version 2.2.0 (2020-09-29)
   [FEATURE] Added support for loading UI components within a ShadowRoot #TINY-6299
 Version 2.1.0 (2020-07-01)

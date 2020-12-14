@@ -1,5 +1,10 @@
-Version 5.3.3 (2020-09-29)
-  [BUG] Fixed missing `bg_BG`, `eu` and `id` translations #TINY-6374
+Version 5.4.0 (2020-11-18)
+  [FEATURE] Added a new `images_file_types` setting to determine which image file formats will be automatically processed into `img` tags #TINY-6306
+  [BUG] Fixed the `Cut` menu item not working in the latest version of Firefox #TINY-6615
+  [SECURITY] Fixed an issue where internal HTML content wasn't sanitized in some cases #TINY-6568
+  [SECURITY] Fixed an issue where specific HTML comments weren't sanitized in some cases #TINY-6569
+Version 5.3.3 (2020-10-06)
+  [BUG] Fixed missing translations #TINY-6374
 Version 5.3.2 (2020-08-18)
   [BUG] Fixed an exception thrown on IE 11 due to using `String.startsWith` #TINY-6269
   [BUG] Fixed an issue where lists would become corrupt on IE 11 due to invalid empty font elements #TINY-6270

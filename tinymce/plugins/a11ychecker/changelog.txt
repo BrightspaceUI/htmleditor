@@ -1,3 +1,5 @@
+Version 2.3.1 (2020-11-18)
+  [BUG] Fixed an issue where internal TinyMCE elements were not ignored #TINY-4877
 Version 2.3.0 (2020-10-06)
   [FEATURE] Added the `a11ychecker_ignored_rules` setting to allow filtering of rules by rule ID. #TINY-6265
   [FEATURE] Added the `a11ychecker_issue_url_callback` setting to allow custom URLs to be used for the more info links. #TINY-6198
