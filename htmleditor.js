@@ -6,6 +6,7 @@ import './components/wordcount.js';
 import 'tinymce/tinymce.js';
 import 'tinymce/icons/default/icons.js';
 import 'tinymce/plugins/autosave/plugin.js';
+import 'tinymce/plugins/autolink/plugin.js';
 import 'tinymce/plugins/charmap/plugin.js';
 import 'tinymce/plugins/code/plugin.js';
 import 'tinymce/plugins/directionality/plugin.js';
@@ -16,6 +17,7 @@ import 'tinymce/plugins/fullscreen/plugin.js';
 import 'tinymce/plugins/hr/plugin.js';
 import 'tinymce/plugins/image/plugin.js';
 import 'tinymce/plugins/imagetools/plugin.js';
+import 'tinymce/plugins/link/plugin.js';
 import 'tinymce/plugins/lists/plugin.js';
 import 'tinymce/plugins/preview/plugin.js';
 import 'tinymce/plugins/table/plugin.js';
@@ -295,6 +297,8 @@ class HtmlEditor extends ProviderMixin(Localizer(RtlMixin(LitElement))) {
 				// inline: this.type === editorTypes.INLINE || this.type === editorTypes.INLINE_LIMITED,
 				language: tinymceLang,
 				language_url: `${baseImportPath}/tinymce/langs/${tinymceLang}.js`,
+				link_context_toolbar: true,
+				link_default_protocol: 'https',
 				menubar: false,
 				mentions_fetch: (query, success) => {
 					setTimeout(() => D2L.LP.Web.UI.Rpc.Connect(
@@ -312,7 +316,7 @@ class HtmlEditor extends ProviderMixin(Localizer(RtlMixin(LitElement))) {
 				},
 				mentions_selector: 'span[data-mentions-id]',
 				object_resizing : true,
-				plugins: `a11ychecker ${this.autoSave ? 'autosave' : ''} advtable charmap advcode directionality emoticons ${this.fullPage ? 'fullpage' : ''} fullscreen hr image ${this.pasteLocalImages ? 'imagetools' : ''} lists ${(this.mentions && D2L.LP) ? 'mentions' : ''} powerpaste ${D2L.LP ? 'd2l-preview' : 'preview'} table textpattern d2l-equation d2l-image d2l-isf d2l-quicklink d2l-wordcount`,
+				plugins: `a11ychecker ${this.autoSave ? 'autosave' : ''} advtable autolink charmap advcode directionality emoticons ${this.fullPage ? 'fullpage' : ''} fullscreen hr image ${this.pasteLocalImages ? 'imagetools' : ''} lists link ${(this.mentions && D2L.LP) ? 'mentions' : ''} powerpaste ${D2L.LP ? 'd2l-preview' : 'preview'} table textpattern d2l-equation d2l-image d2l-isf d2l-quicklink d2l-wordcount`,
 				relative_urls: false,
 				resize: true,
 				setup: (editor) => {
