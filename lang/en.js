@@ -1,6 +1,7 @@
 /* eslint quotes: 0 */
 
 export default {
+	"font.family.recommended": "Recommended",
 	"equationeditor.chemistrytooltip": "Chemistry Equation",
 	"equationeditor.graphicaltooltip": "Graphical Equation",
 	"equationeditor.latextooltip": "LaTeX Equation",
