@@ -1,7 +1,7 @@
 {
   "name": "@brightspace-ui/htmleditor",
   "description": "An HTML editor that integrates with Brightspace",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "repository": "https://github.com/BrightspaceUI/htmleditor.git",
   "publishConfig": {
     "access": "public"
