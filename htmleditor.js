@@ -20,6 +20,7 @@ import 'tinymce/plugins/imagetools/plugin.js';
 import 'tinymce/plugins/link/plugin.js';
 import 'tinymce/plugins/lists/plugin.js';
 import 'tinymce/plugins/preview/plugin.js';
+import 'tinymce/plugins/quickbars/plugin.js';
 import 'tinymce/plugins/table/plugin.js';
 import 'tinymce/plugins/textpattern/plugin.js';
 import 'tinymce/themes/silver/theme.js';
@@ -140,6 +141,15 @@ class HtmlEditor extends ProviderMixin(Localizer(RtlMixin(LitElement))) {
 			/* stylelint-disable selector-class-pattern */
 			.tox .tox-toolbar__group {
 				padding: 0 4px 0 8px; /* snow */
+			}
+			.tox .tox-pop__dialog .tox-toolbar-nav-js {
+				margin-bottom: 0; /* snow */
+				margin-top: 0; /* snow */
+				min-height: auto; /* snow */
+				padding: 0; /* snow */
+			}
+			.tox .tox-pop__dialog .tox-toolbar {
+				background: none; /* snow */
 			}
 			.tox-tinymce-aux,
 			.tox-tinymce.tox-fullscreen {
@@ -316,7 +326,8 @@ class HtmlEditor extends ProviderMixin(Localizer(RtlMixin(LitElement))) {
 				},
 				mentions_selector: 'span[data-mentions-id]',
 				object_resizing : true,
-				plugins: `a11ychecker ${this.autoSave ? 'autosave' : ''} advtable autolink charmap advcode directionality emoticons ${this.fullPage ? 'fullpage' : ''} fullscreen hr image ${this.pasteLocalImages ? 'imagetools' : ''} lists link ${(this.mentions && D2L.LP) ? 'mentions' : ''} powerpaste ${D2L.LP ? 'd2l-preview' : 'preview'} table textpattern d2l-equation d2l-image d2l-isf d2l-quicklink d2l-wordcount`,
+				plugins: `a11ychecker ${this.autoSave ? 'autosave' : ''} advtable autolink charmap advcode directionality emoticons ${this.fullPage ? 'fullpage' : ''} fullscreen hr image ${this.pasteLocalImages ? 'imagetools' : ''} lists link ${(this.mentions && D2L.LP) ? 'mentions' : ''} powerpaste ${D2L.LP ? 'd2l-preview' : 'preview'} quickbars table textpattern d2l-equation d2l-image d2l-isf d2l-quicklink d2l-wordcount`,
+				quickbars_insert_toolbar: false,
 				relative_urls: false,
 				resize: true,
 				setup: (editor) => {
