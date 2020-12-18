@@ -142,6 +142,15 @@ class HtmlEditor extends ProviderMixin(Localizer(RtlMixin(LitElement))) {
 			.tox .tox-toolbar__group {
 				padding: 0 4px 0 8px; /* snow */
 			}
+			.tox .tox-pop__dialog .tox-toolbar-nav-js {
+				margin-bottom: 0; /* snow */
+				margin-top: 0; /* snow */
+				min-height: auto; /* snow */
+				padding: 0; /* snow */
+			}
+			.tox .tox-pop__dialog .tox-toolbar {
+				background: none; /* snow */
+			}
 			.tox-tinymce-aux,
 			.tox-tinymce.tox-fullscreen {
 				z-index: 1000;
