@@ -1,6 +1,7 @@
 /* eslint quotes: 0 */
 
 export default {
+	"font.family.recommended": "Recomendado",
 	"equationeditor.chemistrytooltip": "Equação química",
 	"equationeditor.graphicaltooltip": "Equação gráfica",
 	"equationeditor.latextooltip": "Equação LaTeX",
@@ -8,5 +9,26 @@ export default {
 	"image.tooltip": "Inserir imagem",
 	"insertstuff.tooltip": "Inserir Item",
 	"preview.tooltip": "Visualizar",
-	"quicklink.tooltip": "Inserir QuickLink"
+	"quicklink.tooltip": "Inserir QuickLink",
+	"wordcount.dialog.characters": "caracteres",
+	"wordcount.dialog.characterswithoutspaces": "Caracteres (sem espaços)",
+	"wordcount.dialog.closebutton": "Fechar",
+	"wordcount.dialog.countlabel": "Contagem",
+	"wordcount.dialog.documentlabel": "Documento",
+	"wordcount.dialog.paragraphs": "Parágrafos",
+	"wordcount.dialog.selectionlabel": "Seleção",
+	"wordcount.dialog.title": "Contagem de palavras",
+	"wordcount.dialog.words": "Palavras",
+	"wordcount.footer.charactercount": "{count, plural, one { 1 caractere } other { { count } caracteres }}",
+	"wordcount.footer.selectioncharactercount": "{count, plural, one { 1 caractere } other { { count } caracteres }} na seleção",
+	"wordcount.footer.selectionwordcount": "{count, plural, one { 1 palavra } other { { count } palavras }} na seleção",
+	"wordcount.footer.wordcount": "{count, plural, one { 1 palavra } other { { count } palavras }}",
+	"wordcount.footerselector.charactercount": "Contagem de caracteres",
+	"wordcount.footerselector.menulabel": "Alterar rótulo do rodapé: contagem de palavras, contagem de caracteres ou nada",
+	"wordcount.footerselector.nocount": "Nada",
+	"wordcount.footerselector.wordcount": "Contagem de palavras",
+	"wordcount.footerselectorlabel.character": "Rodapé exibe: contagem de caracteres",
+	"wordcount.footerselectorlabel.nocount": "Rodapé exibe: nada",
+	"wordcount.footerselectorlabel.word": "Rodapé exibe: contagem de palavras",
+	"wordcount.tooltip": "Contagem de palavras"
 };

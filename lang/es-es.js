@@ -1,6 +1,7 @@
 /* eslint quotes: 0 */
 
 export default {
+	"font.family.recommended": "Recomendado",
 	"equationeditor.chemistrytooltip": "Ecuación química",
 	"equationeditor.graphicaltooltip": "Ecuación gráfica",
 	"equationeditor.latextooltip": "Ecuación de LaTeX",
@@ -8,5 +9,26 @@ export default {
 	"image.tooltip": "Insertar imagen",
 	"insertstuff.tooltip": "Insertar recursos",
 	"preview.tooltip": "Vista previa",
-	"quicklink.tooltip": "Insertar enlace rápido"
+	"quicklink.tooltip": "Insertar enlace rápido",
+	"wordcount.dialog.characters": "caracteres",
+	"wordcount.dialog.characterswithoutspaces": "Caracteres (sin espacios)",
+	"wordcount.dialog.closebutton": "Cerrar",
+	"wordcount.dialog.countlabel": "Total",
+	"wordcount.dialog.documentlabel": "Documento",
+	"wordcount.dialog.paragraphs": "Párrafos",
+	"wordcount.dialog.selectionlabel": "Selección",
+	"wordcount.dialog.title": "Recuento de palabras",
+	"wordcount.dialog.words": "palabras",
+	"wordcount.footer.charactercount": "{count, plural, one { 1 carácter } other { { count } caracteres }}",
+	"wordcount.footer.selectioncharactercount": "{count, plural, one { 1 carácter } other { { count } caracteres }} en la selección",
+	"wordcount.footer.selectionwordcount": "{count, plural, one { 1 palabra } other { { count } palabras }} en la selección",
+	"wordcount.footer.wordcount": "{count, plural, one {1 palabra } other {{count} palabras }}",
+	"wordcount.footerselector.charactercount": "Recuento de caracteres",
+	"wordcount.footerselector.menulabel": "Cambiar etiqueta de pie de página: recuento de palabras, recuento de caracteres o nada",
+	"wordcount.footerselector.nocount": "Nada",
+	"wordcount.footerselector.wordcount": "Recuento de palabras",
+	"wordcount.footerselectorlabel.character": "El pie de página indica: recuento de caracteres",
+	"wordcount.footerselectorlabel.nocount": "El pie de página indica: nada",
+	"wordcount.footerselectorlabel.word": "El pie de página indica: recuento de palabras",
+	"wordcount.tooltip": "Recuento de palabras"
 };

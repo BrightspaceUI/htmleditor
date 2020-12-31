@@ -1,6 +1,7 @@
 /* eslint quotes: 0 */
 
 export default {
+	"font.family.recommended": "Aanbevolen",
 	"equationeditor.chemistrytooltip": "Scheikundige vergelijking",
 	"equationeditor.graphicaltooltip": "Grafische vergelijking",
 	"equationeditor.latextooltip": "LaTeX-vergelijking",
@@ -8,5 +9,26 @@ export default {
 	"image.tooltip": "Afbeelding invoegen",
 	"insertstuff.tooltip": "Inhoud invoegen",
 	"preview.tooltip": "Voorbeeldweergave",
-	"quicklink.tooltip": "QuickLink invoegen"
+	"quicklink.tooltip": "QuickLink invoegen",
+	"wordcount.dialog.characters": "Tekens",
+	"wordcount.dialog.characterswithoutspaces": "Tekens (geen spaties)",
+	"wordcount.dialog.closebutton": "Sluiten",
+	"wordcount.dialog.countlabel": "Aantal",
+	"wordcount.dialog.documentlabel": "Document",
+	"wordcount.dialog.paragraphs": "Alinea's",
+	"wordcount.dialog.selectionlabel": "Selectie",
+	"wordcount.dialog.title": "Aantal woorden",
+	"wordcount.dialog.words": "woorden",
+	"wordcount.footer.charactercount": "{count, plural, one { 1 teken } other { { count } tekens }}",
+	"wordcount.footer.selectioncharactercount": "{count, plural, one { 1 teken } other { { count } tekens }} in selectie",
+	"wordcount.footer.selectionwordcount": "{count, plural, one { 1 woord } other { { count } woorden }} in selectie",
+	"wordcount.footer.wordcount": "{count, plural, one { 1 woord } other { { count } woorden }}",
+	"wordcount.footerselector.charactercount": "Aantal tekens",
+	"wordcount.footerselector.menulabel": "Voettekstlabel wijzigen: aantal woorden, aantal tekens of niets",
+	"wordcount.footerselector.nocount": "Niets",
+	"wordcount.footerselector.wordcount": "Aantal woorden",
+	"wordcount.footerselectorlabel.character": "Voettekst wordt weergegeven: Aantal tekens",
+	"wordcount.footerselectorlabel.nocount": "Voettekst wordt weergegeven: Niets",
+	"wordcount.footerselectorlabel.word": "Voettekst wordt weergegeven: Aantal woorden",
+	"wordcount.tooltip": "Aantal woorden"
 };

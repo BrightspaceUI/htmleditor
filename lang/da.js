@@ -1,6 +1,7 @@
 /* eslint quotes: 0 */
 
 export default {
+	"font.family.recommended": "Anbefales",
 	"equationeditor.chemistrytooltip": "Kemisk ligning",
 	"equationeditor.graphicaltooltip": "Grafisk ligning",
 	"equationeditor.latextooltip": "LaTeX-ligning",
@@ -8,5 +9,26 @@ export default {
 	"image.tooltip": "Indsæt billede",
 	"insertstuff.tooltip": "Indsæt noget",
 	"preview.tooltip": "Forhåndsvisning",
-	"quicklink.tooltip": "Indsæt genvejslink"
+	"quicklink.tooltip": "Indsæt genvejslink",
+	"wordcount.dialog.characters": "Tegn",
+	"wordcount.dialog.characterswithoutspaces": "Tegn (uden mellemrum)",
+	"wordcount.dialog.closebutton": "Luk",
+	"wordcount.dialog.countlabel": "Antal",
+	"wordcount.dialog.documentlabel": "Dokument",
+	"wordcount.dialog.paragraphs": "Afsnit",
+	"wordcount.dialog.selectionlabel": "Valg",
+	"wordcount.dialog.title": "Antal ord",
+	"wordcount.dialog.words": "Ord",
+	"wordcount.footer.charactercount": "{count, plural, one { 1 tegn } other { { count } tegn }}",
+	"wordcount.footer.selectioncharactercount": "{count, plural, one { 1 tegn } other { { count } tegn }} i valg",
+	"wordcount.footer.selectionwordcount": "{count, plural, one { 1 ord } other { { count } ord }} i valg",
+	"wordcount.footer.wordcount": "{count, plural, one { 1 ord } other { { count } ord }}",
+	"wordcount.footerselector.charactercount": "Antal tegn",
+	"wordcount.footerselector.menulabel": "Skift betegnelse for sidefod: Antal ord, antal tegn eller intet",
+	"wordcount.footerselector.nocount": "Intet",
+	"wordcount.footerselector.wordcount": "Antal ord",
+	"wordcount.footerselectorlabel.character": "Sidefod viser: Antal tegn",
+	"wordcount.footerselectorlabel.nocount": "Sidefod viser: Intet",
+	"wordcount.footerselectorlabel.word": "Sidefod viser: Antal ord",
+	"wordcount.tooltip": "Antal ord"
 };
