@@ -333,6 +333,16 @@ class HtmlEditor extends ProviderMixin(Localizer(RtlMixin(LitElement))) {
 				setup: (editor) => {
 					addIcons(editor);
 
+					editor.on('blur', () => {
+						if (this.pasteLocalImages) editor.uploadImages();
+
+						this.dispatchEvent(new CustomEvent(
+							'd2l-htmleditor-blur', {
+								bubbles: true
+							}
+						));
+					});
+
 					if (this.pasteLocalImages) editor.on('blur', () => editor.uploadImages());
 
 					const createSplitButton = (name, icon, tooltip, cmd, items) => {
@@ -419,6 +429,11 @@ class HtmlEditor extends ProviderMixin(Localizer(RtlMixin(LitElement))) {
 
 	get initializationComplete() {
 		return this._initializationComplete;
+	}
+
+	get isDirty() {
+		const editor = tinymce.EditorManager.get(this._editorId);
+		return editor.isDirty();
 	}
 
 	_getToolbarConfig() {
