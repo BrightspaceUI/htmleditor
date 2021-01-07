@@ -310,6 +310,7 @@ class HtmlEditor extends ProviderMixin(Localizer(RtlMixin(LitElement))) {
 				link_context_toolbar: true,
 				link_default_protocol: 'https',
 				menubar: false,
+				min_height: this.height < 300 ? this.height : 300,
 				mentions_fetch: (query, success) => {
 					setTimeout(() => D2L.LP.Web.UI.Rpc.Connect(
 						D2L.LP.Web.UI.Rpc.Verbs.GET,
@@ -342,8 +343,6 @@ class HtmlEditor extends ProviderMixin(Localizer(RtlMixin(LitElement))) {
 							}
 						));
 					});
-
-					if (this.pasteLocalImages) editor.on('blur', () => editor.uploadImages());
 
 					const createSplitButton = (name, icon, tooltip, cmd, items) => {
 						editor.ui.registry.addSplitButton(name, {
@@ -424,7 +423,8 @@ class HtmlEditor extends ProviderMixin(Localizer(RtlMixin(LitElement))) {
 	}
 
 	focus() {
-		tinymce.EditorManager.get(this._editorId).focus();
+		const editor = tinymce.EditorManager.get(this._editorId);
+		if (editor) editor.focus();
 	}
 
 	get initializationComplete() {
