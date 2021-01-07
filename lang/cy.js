@@ -1,6 +1,7 @@
 /* eslint quotes: 0 */
 
 export default {
+	"font.family.recommended": "Argymhellir",
 	"equationeditor.chemistrytooltip": "Hafaliad Cemeg",
 	"equationeditor.graphicaltooltip": "Hafaliad Graffigol",
 	"equationeditor.latextooltip": "Hafaliad LaTeX",
@@ -8,5 +9,26 @@ export default {
 	"image.tooltip": "Mewnosod Delwedd",
 	"insertstuff.tooltip": "Mewnosod Stwff",
 	"preview.tooltip": "Rhagolwg",
-	"quicklink.tooltip": "Mewnosod Dolen Sydyn"
+	"quicklink.tooltip": "Mewnosod Dolen Sydyn",
+	"wordcount.dialog.characters": "Nod",
+	"wordcount.dialog.characterswithoutspaces": "Nodau (heb fylchau)",
+	"wordcount.dialog.closebutton": "Cau",
+	"wordcount.dialog.countlabel": "Cyfrif",
+	"wordcount.dialog.documentlabel": "Dogfen",
+	"wordcount.dialog.paragraphs": "Paragraffau",
+	"wordcount.dialog.selectionlabel": "Dewis",
+	"wordcount.dialog.title": "Cyfrif Geiriau",
+	"wordcount.dialog.words": "Gair",
+	"wordcount.footer.charactercount": "Mae {count, plural, one { 1 Nod } other { { count } Characters }}",
+	"wordcount.footer.selectioncharactercount": "Mae {count, plural, one { 1 Character } other { { count } Nod }} yn y detholiad",
+	"wordcount.footer.selectionwordcount": "Mae {count, plural, one { 1 Gair } other { { count } o Eiriau }} yn y detholiad",
+	"wordcount.footer.wordcount": "{count, plural, one { 1 Gair } other { { count } o Eiriau }}",
+	"wordcount.footerselector.charactercount": "Cyfrif Nodau",
+	"wordcount.footerselector.menulabel": "Newid label troedyn: Cyfrif geiriau, cyfrif nodau, neu ddim byd",
+	"wordcount.footerselector.nocount": "Dim Byd",
+	"wordcount.footerselector.wordcount": "Cyfrif Geiriau",
+	"wordcount.footerselectorlabel.character": "Troedyn yn dangos: Cyfrif Nodau",
+	"wordcount.footerselectorlabel.nocount": "Troedyn yn dangos: Dim Byd",
+	"wordcount.footerselectorlabel.word": "Troedyn yn dangos: Cyfrif Geiriau",
+	"wordcount.tooltip": "Cyfrif Geiriau"
 };

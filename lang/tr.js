@@ -1,6 +1,7 @@
 /* eslint quotes: 0 */
 
 export default {
+	"font.family.recommended": "Önerilen",
 	"equationeditor.chemistrytooltip": "Kimya Denklemi",
 	"equationeditor.graphicaltooltip": "Grafik Denklemi",
 	"equationeditor.latextooltip": "LaTeX Denklemi",
@@ -8,5 +9,26 @@ export default {
 	"image.tooltip": "Görüntü Ekle",
 	"insertstuff.tooltip": "Öğe Ekle",
 	"preview.tooltip": "Önizle",
-	"quicklink.tooltip": "Hızlı Bağlantı Ekle"
+	"quicklink.tooltip": "Hızlı Bağlantı Ekle",
+	"wordcount.dialog.characters": "Karakter",
+	"wordcount.dialog.characterswithoutspaces": "Karakter (Boşluksuz)",
+	"wordcount.dialog.closebutton": "Kapat",
+	"wordcount.dialog.countlabel": "Sayım",
+	"wordcount.dialog.documentlabel": "Belge",
+	"wordcount.dialog.paragraphs": "Paragraf",
+	"wordcount.dialog.selectionlabel": "Seçim",
+	"wordcount.dialog.title": "Kelime Sayısı",
+	"wordcount.dialog.words": "Kelime",
+	"wordcount.footer.charactercount": "{count, plural, one { 1 Karakter } other { { count } Karakter }}",
+	"wordcount.footer.selectioncharactercount": "{count, plural, one { 1 Karakter } other { { count } Karakter }} seçildi",
+	"wordcount.footer.selectionwordcount": "{count, plural, one { 1 Kelime } other { { count } Kelime }} seçildi",
+	"wordcount.footer.wordcount": "{count, plural, one { 1 Kelime } other { { count } Kelime }}",
+	"wordcount.footerselector.charactercount": "Karakter Sayısı",
+	"wordcount.footerselector.menulabel": "Altbilgi etiketini değiştir: Kelime sayısı, karakter sayısı veya hiçbir şey",
+	"wordcount.footerselector.nocount": "Hiçbir şey",
+	"wordcount.footerselector.wordcount": "Kelime Sayısı",
+	"wordcount.footerselectorlabel.character": "Altbilgi Şunu Görüntüler: Karakter Sayısı",
+	"wordcount.footerselectorlabel.nocount": "Altbilgi Şunu Görüntüler: Hiçbir Şey",
+	"wordcount.footerselectorlabel.word": "Altbilgi Şunu Görüntüler: Kelime Sayısı",
+	"wordcount.tooltip": "Kelime Sayısı"
 };

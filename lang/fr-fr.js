@@ -1,6 +1,7 @@
 /* eslint quotes: 0 */
 
 export default {
+	"font.family.recommended": "Recommandé",
 	"equationeditor.chemistrytooltip": "Équation de chimie",
 	"equationeditor.graphicaltooltip": "Équation graphique",
 	"equationeditor.latextooltip": "Équation LaTeX",
@@ -8,5 +9,26 @@ export default {
 	"image.tooltip": "Insérer une image",
 	"insertstuff.tooltip": "Insérer quelque chose",
 	"preview.tooltip": "Prévisualiser",
-	"quicklink.tooltip": "Ajouter un Lien rapide"
+	"quicklink.tooltip": "Ajouter un Lien rapide",
+	"wordcount.dialog.characters": "Caractères",
+	"wordcount.dialog.characterswithoutspaces": "Caractères (sans espace)",
+	"wordcount.dialog.closebutton": "Fermer",
+	"wordcount.dialog.countlabel": "Compter",
+	"wordcount.dialog.documentlabel": "Document",
+	"wordcount.dialog.paragraphs": "Paragraphes",
+	"wordcount.dialog.selectionlabel": "Sélection",
+	"wordcount.dialog.title": "Nombre de mots",
+	"wordcount.dialog.words": "Mots",
+	"wordcount.footer.charactercount": "{count, plural, one { 1 caractère } other { { count } caractères }}",
+	"wordcount.footer.selectioncharactercount": "{count, plural, one { 1 caractère } other { { count } caractères }} dans la sélection",
+	"wordcount.footer.selectionwordcount": "{count, plural, one { 1 mot } other { { count } mots }} dans la sélection",
+	"wordcount.footer.wordcount": "{count, plural, one { 1 mot } other { { count } mots }}",
+	"wordcount.footerselector.charactercount": "Nombre de caractères",
+	"wordcount.footerselector.menulabel": "Modifier l’étiquette du pied de page : nombre de mots, nombre de caractères ou rien",
+	"wordcount.footerselector.nocount": "Rien",
+	"wordcount.footerselector.wordcount": "Nombre de mots",
+	"wordcount.footerselectorlabel.character": "Le pied de page affiche : nombre de caractères",
+	"wordcount.footerselectorlabel.nocount": "Le pied de page affiche : rien",
+	"wordcount.footerselectorlabel.word": "Le pied de page affiche : nombre de mots",
+	"wordcount.tooltip": "Nombre de mots"
 };

@@ -1,6 +1,7 @@
 /* eslint quotes: 0 */
 
 export default {
+	"font.family.recommended": "建议",
 	"equationeditor.chemistrytooltip": "化学反应式",
 	"equationeditor.graphicaltooltip": "图形等式",
 	"equationeditor.latextooltip": "LaTeX 等式",
@@ -8,5 +9,26 @@ export default {
 	"image.tooltip": "插入图像",
 	"insertstuff.tooltip": "插入资料",
 	"preview.tooltip": "预览",
-	"quicklink.tooltip": "插入 Quicklink"
+	"quicklink.tooltip": "插入 Quicklink",
+	"wordcount.dialog.characters": "个字符",
+	"wordcount.dialog.characterswithoutspaces": "个字符（无空格）",
+	"wordcount.dialog.closebutton": "关闭",
+	"wordcount.dialog.countlabel": "计数",
+	"wordcount.dialog.documentlabel": "文档",
+	"wordcount.dialog.paragraphs": "段落",
+	"wordcount.dialog.selectionlabel": "选择",
+	"wordcount.dialog.title": "字数",
+	"wordcount.dialog.words": "个字",
+	"wordcount.footer.charactercount": "{count, plural, one { 1 个字符 } other { { count } 个字符 }}",
+	"wordcount.footer.selectioncharactercount": "{count, plural, one { 1 个字符 } other { { count } 个字符 }}已选",
+	"wordcount.footer.selectionwordcount": "{count, plural, one { 1 个字 } other { { count } 个字 }} 已选",
+	"wordcount.footer.wordcount": "{count, plural, one { 1 个字 } other { { count } 个字 }}",
+	"wordcount.footerselector.charactercount": "字符数",
+	"wordcount.footerselector.menulabel": "更改页脚标签：字数、字符数或不显示任何信息",
+	"wordcount.footerselector.nocount": "不显示任何信息",
+	"wordcount.footerselector.wordcount": "字数",
+	"wordcount.footerselectorlabel.character": "页脚显示：字符数",
+	"wordcount.footerselectorlabel.nocount": "页脚显示：不显示任何信息",
+	"wordcount.footerselectorlabel.word": "页脚显示：字数",
+	"wordcount.tooltip": "字数"
 };

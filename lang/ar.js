@@ -1,6 +1,7 @@
 /* eslint quotes: 0 */
 
 export default {
+	"font.family.recommended": "موصى به",
 	"equationeditor.chemistrytooltip": "معادلة في الكيمياء",
 	"equationeditor.graphicaltooltip": "معادلة رسومية",
 	"equationeditor.latextooltip": "معادلة LaTeX",
@@ -8,5 +9,26 @@ export default {
 	"image.tooltip": "إدراج صورة",
 	"insertstuff.tooltip": "إدراج الأغراض",
 	"preview.tooltip": "معاينة",
-	"quicklink.tooltip": "إدراج ارتباط سريع"
+	"quicklink.tooltip": "إدراج ارتباط سريع",
+	"wordcount.dialog.characters": "من الأحرف",
+	"wordcount.dialog.characterswithoutspaces": "الأحرف (من دون مسافات)",
+	"wordcount.dialog.closebutton": "إغلاق",
+	"wordcount.dialog.countlabel": "العدد",
+	"wordcount.dialog.documentlabel": "المستند",
+	"wordcount.dialog.paragraphs": "الفقرات",
+	"wordcount.dialog.selectionlabel": "التحديد",
+	"wordcount.dialog.title": "عدد الكلمات",
+	"wordcount.dialog.words": "من الكلمات",
+	"wordcount.footer.charactercount": "{count, plural, one { حرف واحد } other { { count } من الأحرف }}",
+	"wordcount.footer.selectioncharactercount": "{count, plural, one { حرف واحد } other { { count } من الأحرف }} في التحديد",
+	"wordcount.footer.selectionwordcount": "{count, plural, one { كلمة واحدة } other { { count } من الكلمات }} في التحديد",
+	"wordcount.footer.wordcount": "{count, plural, one { كلمة واحدة } other { { count } من الكلمات }}",
+	"wordcount.footerselector.charactercount": "عدد الأحرف",
+	"wordcount.footerselector.menulabel": "تغيير تسمية التذييل: عدد الكلمات أو عدد الأحرف أو لا شيء",
+	"wordcount.footerselector.nocount": "لا شيء",
+	"wordcount.footerselector.wordcount": "عدد الكلمات",
+	"wordcount.footerselectorlabel.character": "يعرض التذييل: عدد الأحرف",
+	"wordcount.footerselectorlabel.nocount": "يعرض التذييل: لا شيء",
+	"wordcount.footerselectorlabel.word": "يعرض التذييل: عدد الكلمات",
+	"wordcount.tooltip": "عدد الكلمات"
 };

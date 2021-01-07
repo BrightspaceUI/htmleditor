@@ -1,6 +1,7 @@
 /* eslint quotes: 0 */
 
 export default {
+	"font.family.recommended": "Empfohlen",
 	"equationeditor.chemistrytooltip": "Chemische Gleichung",
 	"equationeditor.graphicaltooltip": "Grafische Formel",
 	"equationeditor.latextooltip": "LaTeX-Formel",
@@ -8,5 +9,26 @@ export default {
 	"image.tooltip": "Bild einfügen",
 	"insertstuff.tooltip": "Elemente einfügen",
 	"preview.tooltip": "Vorschau",
-	"quicklink.tooltip": "QuickLink einfügen"
+	"quicklink.tooltip": "QuickLink einfügen",
+	"wordcount.dialog.characters": "Zeichen",
+	"wordcount.dialog.characterswithoutspaces": "Zeichen (keine Leerzeichen)",
+	"wordcount.dialog.closebutton": "Schließen",
+	"wordcount.dialog.countlabel": "Anzahl",
+	"wordcount.dialog.documentlabel": "Dokument",
+	"wordcount.dialog.paragraphs": "Absätze",
+	"wordcount.dialog.selectionlabel": "Auswahl",
+	"wordcount.dialog.title": "Wortanzahl",
+	"wordcount.dialog.words": "Wörter",
+	"wordcount.footer.charactercount": "{count, plural, one { 1 Zeichen } other { { Anzahl } Zeichen }}",
+	"wordcount.footer.selectioncharactercount": "{count, plural, one { 1 Zeichen } other { { Anzahl } Zeichen }} im Abschnitt",
+	"wordcount.footer.selectionwordcount": "{count, plural, one { 1 Wort } other { { Anzahl } Wörter }} im Abschnitt",
+	"wordcount.footer.wordcount": "{count, plural, one {1 Wort } other { {Anzahl } Wörter }}",
+	"wordcount.footerselector.charactercount": "Zeichenanzahl",
+	"wordcount.footerselector.menulabel": "Fußzeile ändern: Wortanzahl, Zeichenanzahl oder nichts",
+	"wordcount.footerselector.nocount": "Nichts",
+	"wordcount.footerselector.wordcount": "Wortanzahl",
+	"wordcount.footerselectorlabel.character": "Anzeige in der Fußzeile: Zeichenanzahl",
+	"wordcount.footerselectorlabel.nocount": "Anzeige in der Fußzeile: Nichts",
+	"wordcount.footerselectorlabel.word": "Anzeige in der Fußzeile: Wortanzahl",
+	"wordcount.tooltip": "Wortanzahl"
 };

@@ -1,6 +1,7 @@
 /* eslint quotes: 0 */
 
 export default {
+	"font.family.recommended": "권장 절차",
 	"equationeditor.chemistrytooltip": "화학 방정식",
 	"equationeditor.graphicaltooltip": "그래픽 수식",
 	"equationeditor.latextooltip": "LaTeX 수식",
@@ -8,5 +9,26 @@ export default {
 	"image.tooltip": "이미지 삽입",
 	"insertstuff.tooltip": "항목 삽입",
 	"preview.tooltip": "미리 보기",
-	"quicklink.tooltip": "빠른 링크 삽입"
+	"quicklink.tooltip": "빠른 링크 삽입",
+	"wordcount.dialog.characters": "문자",
+	"wordcount.dialog.characterswithoutspaces": "문자(공백 없음)",
+	"wordcount.dialog.closebutton": "닫기",
+	"wordcount.dialog.countlabel": "수",
+	"wordcount.dialog.documentlabel": "문서",
+	"wordcount.dialog.paragraphs": "단락",
+	"wordcount.dialog.selectionlabel": "선택",
+	"wordcount.dialog.title": "단어 수",
+	"wordcount.dialog.words": "단어",
+	"wordcount.footer.charactercount": "{count, plural, one { 1자 } other { { count }자 }}",
+	"wordcount.footer.selectioncharactercount": "선택 영역의 {count, plural, one { 1자 } other { { count }자 }}",
+	"wordcount.footer.selectionwordcount": "선택 영역의 {count, plural, one { 1단어 } other { { count }단어 }}",
+	"wordcount.footer.wordcount": "{count, plural, one { 1단어 } other { { count }단어 }}",
+	"wordcount.footerselector.charactercount": "문자 수",
+	"wordcount.footerselector.menulabel": "바닥글 레이블 변경: 단어 수, 문자 수 또는 없음",
+	"wordcount.footerselector.nocount": "없음",
+	"wordcount.footerselector.wordcount": "단어 수",
+	"wordcount.footerselectorlabel.character": "바닥글 표시: 문자 수",
+	"wordcount.footerselectorlabel.nocount": "바닥글 표시: 없음",
+	"wordcount.footerselectorlabel.word": "바닥글 표시: 단어 수",
+	"wordcount.tooltip": "단어 수"
 };

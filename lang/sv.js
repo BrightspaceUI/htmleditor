@@ -1,6 +1,7 @@
 /* eslint quotes: 0 */
 
 export default {
+	"font.family.recommended": "Rekommenderat",
 	"equationeditor.chemistrytooltip": "Kemiekvation",
 	"equationeditor.graphicaltooltip": "Grafisk ekvation",
 	"equationeditor.latextooltip": "LaTeX-ekvation",
@@ -8,5 +9,26 @@ export default {
 	"image.tooltip": "Infoga bild",
 	"insertstuff.tooltip": "Infoga material",
 	"preview.tooltip": "Förhandsgranska",
-	"quicklink.tooltip": "Infoga snabblänk"
+	"quicklink.tooltip": "Infoga snabblänk",
+	"wordcount.dialog.characters": "tecken",
+	"wordcount.dialog.characterswithoutspaces": "Tecken (inga blanksteg)",
+	"wordcount.dialog.closebutton": "Stäng",
+	"wordcount.dialog.countlabel": "Antal",
+	"wordcount.dialog.documentlabel": "Dokument",
+	"wordcount.dialog.paragraphs": "Stycken",
+	"wordcount.dialog.selectionlabel": "Markering",
+	"wordcount.dialog.title": "Antal ord",
+	"wordcount.dialog.words": "ord",
+	"wordcount.footer.charactercount": "{count, plural, one { 1 Character } other { { count } Characters }}",
+	"wordcount.footer.selectioncharactercount": "{count, plural, one { 1 Character } other { { count } Characters }} i urval",
+	"wordcount.footer.selectionwordcount": "{count, plural, one { 1 Word } other { { count } Words }} i urval",
+	"wordcount.footer.wordcount": "{count, plural, one { 1 Word } other { { count } Words }}",
+	"wordcount.footerselector.charactercount": "Antal tecken",
+	"wordcount.footerselector.menulabel": "Ändra etikett för sidfot: ordräkning, antal tecken eller ingenting",
+	"wordcount.footerselector.nocount": "Ingenting",
+	"wordcount.footerselector.wordcount": "Antal ord",
+	"wordcount.footerselectorlabel.character": "Sidfoten visar: Antal tecken",
+	"wordcount.footerselectorlabel.nocount": "Sidfoten visar: Ingenting",
+	"wordcount.footerselectorlabel.word": "Sidfoten visar: Antal ord",
+	"wordcount.tooltip": "Antal ord"
 };
