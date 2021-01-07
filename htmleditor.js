@@ -433,7 +433,7 @@ class HtmlEditor extends ProviderMixin(Localizer(RtlMixin(LitElement))) {
 
 	get isDirty() {
 		const editor = tinymce.EditorManager.get(this._editorId);
-		return editor.isDirty();
+		return isShadowDOMSupported ? editor.isDirty() : false;
 	}
 
 	_getToolbarConfig() {
