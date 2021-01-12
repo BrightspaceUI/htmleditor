@@ -38,10 +38,10 @@ Types of editors (toolbar features):
 
 | Property | Type | Description |
 |--|--|--|
-| `attached-images-only` | Boolean | Whether or not to restrict image uploading to attachments only and prevent saving to course files. Defaults to `false`. |
+| `attached-images-only` | Boolean | Whether or not to restrict image uploads to attachments and prevent saving to course/shared files. Defaults to `false`. |
 | `auto-save` | Boolean | Whether or not to prompt the user when navigating away from the page while the editor has unsaved content. Defaults to `false`. |
 | `files` | Array | Read-only. An array of FileInfo objects for files added. |
-| `file-upload-for-all-users` | Boolean | Whether or not to enable file uploads to course files/shared files within the LMS. Defaults to `false`. |
+| `file-upload-for-all-users` | Boolean | Whether or not to enable file uploads to course or shared files. Defaults to `false`. |
 | `full-page` | Boolean | Whether an HTML document or fragment is being authored. Defaults to `false`. |
 | `full-page-font-color` | String | The `body` font color. Defaults to ferrite. Only applies when `full-page` is `true`. |
 | `full-page-font-family` | String | The `body` font. Defaults to the browser default. Only applies when `full-page` is `true`. |
@@ -51,7 +51,7 @@ Types of editors (toolbar features):
 | `mentions` | Boolean | Whether or not to enable [@mentions](https://www.tiny.cloud/docs/enterprise/mentions/). Defaults to `false`. |
 | `no-filter` | Boolean | Whether or not to disable filtering for the content. Defaults to `false`. |
 | `no-spellchecker` | Boolean | Whether or not to disable spell checking. Defaults to `false`. |
-| `paste-local-images` | Boolean | Whether or not to enable local image pasting and drag-and-drop). Defaults to `false`. |
+| `paste-local-images` | Boolean | Whether or not to enable local image pasting and drag-and-drop. Defaults to `false`. |
 | `title` | String | Accessible text that describes the editor content. Defaults to empty string. |
 | `type` | String | Whether to render the editor in `full`, `inline`, or `inline-limited` mode. Defaults to `full`. |
 | `width` | String | Initial width of the editor. Defaults to 100% of its bounding container. |
