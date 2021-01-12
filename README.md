@@ -2,7 +2,7 @@
 
 [![NPM version](https://img.shields.io/npm/v/@brightspace-ui/htmleditor.svg)](https://www.npmjs.org/package/@brightspace-ui/htmleditor)
 
-An HTML editor that integrates with Brightspace.  Coming soon!
+An HTML editor that integrates with Brightspace. Coming soon!
 
 ## Installation
 
@@ -14,12 +14,67 @@ npm install @brightspace-ui/htmleditor
 
 ## Usage
 
-```html
-<script type="module">
-    import '@brightspace-ui/htmleditor/htmleditor.js';
-</script>
-<d2l-htmleditor html="..."></d2l-htmleditor>
+Import the editor component:
+```javascript
+import '@brightspace-ui/htmleditor/htmleditor.js';
 ```
+
+HTML fragment:
+```html
+<d2l-htmleditor html="..." title="..."></d2l-htmleditor>
+```
+
+HTML document (including `head` & `body`):
+```html
+<d2l-htmleditor html="..." title="..." full-page></d2l-htmleditor>
+```
+
+Types of editors (toolbar features):
+```html
+<d2l-htmleditor html="..." title="..." type="full|inline|inline-limited"></d2l-htmleditor>
+```
+
+**Properties:**
+
+| Property | Type | Description |
+|--|--|--|
+| `attached-images-only` | Boolean | Need description. Defaults to `false`. |
+| `auto-save` | Boolean | Need description. Defaults to `false`. |
+| `files` | Array | Read-only. An array of FileInfo objects for files added. |
+| `file-upload-for-all-users` | Boolean | Need description. Defaults to `false`. |
+| `full-page` | Boolean | Whether an HTML document or fragment is being authored. Defaults to `false`. |
+| `full-page-font-color` | String | The `body` font color. Defaults to ferrite. Only applies when `full-page` is `true`. |
+| `full-page-font-family` | String | The `body` font. Defaults to the browser default. Only applies when `full-page` is `true`. |
+| `full-page-font-size` | String | The `body` font size. Defaults to browser default. Only applies when `full-page` is `true`. |
+| `height` | String | Initial height of the editor. Defaults to 355px; |
+| `html` | String | The HTML being authored. Defaults to empty string. |
+| `mentions` | Boolean | Need description. Defaults to `false`. |
+| `no-filter` | Boolean | Whether or not to disable filtering for the content. Defaults to `false`. |
+| `no-spellchecker` | Boolean | Whether or not to disable spell checking. Defaults to `false`. |
+| `paste-local-images` | Boolean | Need description. Defaults to `false`. |
+| `title` | String | Accessible text that describes the editor content. Defaults to empty string. |
+| `type` | String | Whether to render the editor in `full`, `inline`, or `inline-limited` mode. Defaults to `full`. |
+| `width` | String | Initial width of the editor. Defaults to 100% of its bounding container. |
+| `word-count-in-footer` | Boolean | Need description. Defaults to `false`.
+
+**Methods:**
+
+| Method | Returns | Description |
+|--|--|--|
+| `focus()` | | Places focus in the editor. |
+
+**Events:**
+
+None.
+
+## Integration
+
+Together, the feature flag and config variable specify whether the new editor should be rendered.
+
+* `F15913-html-editor-alignment` feature flag for the new editor
+* `d2l.Tools.WYSIWYG.NewEditor` config variable for the new editor
+
+The `IHtmlEditorAlignmentSwitch` (C#) and `D2L.LP.Web.UI.Desktop.Controls.HtmlEditor.IsNewEditorEnabled()` (JavaScript) can be used to check the net result of the feature flag and config variable for conditional rendering.
 
 ## Developing, Testing and Contributing
 
@@ -67,18 +122,24 @@ npm run test:headless:watch
 
 This repo uses the [@brightspace-ui/visual-diff utility](https://github.com/BrightspaceUI/visual-diff/) to compare current snapshots against a set of golden snapshots stored in source control.
 
+The golden snapshots in source control must be updated by Github Actions.  If your PR's code changes result in visual differences, a PR with the new goldens will be automatically opened for you against your branch.
+
+If you'd like to run the tests locally to help troubleshoot or develop new tests, you can use these commands:
+
 ```shell
+# Install dependencies locally
+npm i mocha -g
+npm i @brightspace-ui/visual-diff puppeteer --no-save
+
 # run visual-diff tests
-npm run test:diff
+mocha './**/*.visual-diff.js' -t 40000
 
 # subset of visual-diff tests:
-npm run test:diff -- -g some-pattern
+mocha './**/*.visual-diff.js' -t 40000 -g some-pattern
 
 # update visual-diff goldens
-npm run test:diff:golden
+mocha './**/*.visual-diff.js' -t 40000 --golden
 ```
-
-Golden snapshots in source control must be updated by Travis CI. To trigger an update, press the "Regenerate Goldens" button in the pull request `visual-difference` test run.
 
 ## Versioning & Releasing
 
