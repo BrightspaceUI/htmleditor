@@ -153,7 +153,7 @@ class HtmlEditor extends ProviderMixin(Localizer(RtlMixin(LitElement))) {
 			}
 			.tox-tinymce-aux,
 			.tox-tinymce.tox-fullscreen {
-				background-color: #fff;
+				background-color: #ffffff;
 				z-index: 1000;
 			}
 			:host([type="inline"]) .tox-tinymce .tox-toolbar-overlord > div:nth-child(2) {
