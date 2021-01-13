@@ -68,6 +68,8 @@ Types of editors (toolbar features):
 **Events:**
 
 * `d2l-htmleditor-blur` : Dispatched when TinyMCE fires a blur event on the editor. The event contains no details.
+* `d2l-htmleditor-image-upload-complete` : Dispatched when images finish uploading to the editor. If multiple images are being uploaded, the event will only be dispatched once all images are uploaded. The event contains no details.
+* `d2l-htmleditor-image-upload-start` : Dispatched when images start uploading to the editor. If multiple images are being uploaded, the event will only be dispatched for the first image. The event contains no details.
 
 ## Integration
 
