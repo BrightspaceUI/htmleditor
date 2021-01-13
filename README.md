@@ -46,8 +46,10 @@ Types of editors (toolbar features):
 | `full-page-font-color` | String | The `body` font color. Defaults to ferrite. Only applies when `full-page` is `true`. |
 | `full-page-font-family` | String | The `body` font. Defaults to the browser default. Only applies when `full-page` is `true`. |
 | `full-page-font-size` | String | The `body` font size. Defaults to browser default. Only applies when `full-page` is `true`. |
-| `height` | String | Initial height of the editor. Defaults to 355px; |
+| `height` | String | Initial height of the editor in `px`, `rem`, or `%`. Defaults to 355px. |
 | `html` | String | The HTML being authored. Defaults to empty string. |
+| `initializationComplete` | Promise | Read-only. Fulfilled when the editor has been fully initialized; pending otherwise. |
+| `isDirty` | Boolean | Read-only. Whether or not the editor is [dirty](https://www.tiny.cloud/docs/api/tinymce/tinymce.editor/#isdirty). |
 | `mentions` | Boolean | Whether or not to enable [@mentions](https://www.tiny.cloud/docs/enterprise/mentions/). Defaults to `false`. |
 | `no-filter` | Boolean | Whether or not to disable filtering for the content. Defaults to `false`. |
 | `no-spellchecker` | Boolean | Whether or not to disable spell checking. Defaults to `false`. |
@@ -65,7 +67,11 @@ Types of editors (toolbar features):
 
 **Events:**
 
-None.
+| Event | Properties | Description |
+|--|--|--|
+| `d2l-htmleditor-blur` | None | Dispatched when TinyMCE fires a blur event on the editor. |
+| `d2l-htmleditor-image-upload-complete` | None | Dispatched when images finish uploading to the editor. If multiple images are being uploaded, the event will only be dispatched once all images are uploaded. |
+| `d2l-htmleditor-image-upload-start` | None | Dispatched when images start uploading to the editor. If multiple images are being uploaded, the event will only be dispatched for the first image. |
 
 ## Integration
 
