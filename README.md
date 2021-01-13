@@ -48,6 +48,8 @@ Types of editors (toolbar features):
 | `full-page-font-size` | String | The `body` font size. Defaults to browser default. Only applies when `full-page` is `true`. |
 | `height` | String | Initial height of the editor. Defaults to 355px; |
 | `html` | String | The HTML being authored. Defaults to empty string. |
+| `initializationComplete` | Boolean | Read-only. Whether or not the editor has been fully initialized. |
+| `isDirty` | Boolean | Read-only. Whether or not the editor is [dirty](https://www.tiny.cloud/docs/api/tinymce/tinymce.editor/#isdirty). |
 | `mentions` | Boolean | Whether or not to enable [@mentions](https://www.tiny.cloud/docs/enterprise/mentions/). Defaults to `false`. |
 | `no-filter` | Boolean | Whether or not to disable filtering for the content. Defaults to `false`. |
 | `no-spellchecker` | Boolean | Whether or not to disable spell checking. Defaults to `false`. |
@@ -65,7 +67,7 @@ Types of editors (toolbar features):
 
 **Events:**
 
-None.
+* `d2l-htmleditor-blur` : Dispatched when TinyMCE fires a blur event on the editor. The event contains no details.
 
 ## Integration
 
