@@ -128,10 +128,7 @@ class HtmlEditor extends SkeletonMixin(ProviderMixin(Localizer(RtlMixin(LitEleme
 	static get styles() {
 		return [ super.styles, css`
 			:host {
-				border: 1px solid var(--d2l-color-mica); /* snow */
-				border-radius: 6px;
 				display: block;
-				padding: 4px; /* snow */
 			}
 			:host([hidden]) {
 				display: none;
@@ -139,8 +136,16 @@ class HtmlEditor extends SkeletonMixin(ProviderMixin(Localizer(RtlMixin(LitEleme
 			:host([skeleton]) {
 				border: none;
 			}
+			.d2l-htmleditor-container {
+				border: 1px solid var(--d2l-color-mica); /* snow */
+				border-radius: 6px;
+				padding: 4px; /* snow */
+			}
 			.d2l-htmleditor-no-tinymce {
 				display: none;
+			}
+			:host([skeleton]) .d2l-skeletize::before {
+				z-index: 2;
 			}
 			/* stylelint-disable selector-class-pattern */
 			.tox .tox-toolbar__group {
@@ -159,9 +164,6 @@ class HtmlEditor extends SkeletonMixin(ProviderMixin(Localizer(RtlMixin(LitEleme
 			.tox-tinymce.tox-fullscreen {
 				background-color: #ffffff;
 				z-index: 1000;
-			}
-			:host([skeleton]) .tox .tox-editor-header {
-				z-index: 0;
 			}
 			:host([type="inline"]) .tox-tinymce .tox-toolbar-overlord > div:nth-child(2) {
 				display: none;
@@ -423,7 +425,8 @@ class HtmlEditor extends SkeletonMixin(ProviderMixin(Localizer(RtlMixin(LitEleme
 			'd2l-htmleditor-no-tinymce': !isShadowDOMSupported
 		};
 
-		const skeletonClasses = {
+		const containerClasses = {
+			'd2l-htmleditor-container': true,
 			'd2l-skeletize': this.skeleton
 		};
 
@@ -431,7 +434,7 @@ class HtmlEditor extends SkeletonMixin(ProviderMixin(Localizer(RtlMixin(LitEleme
 		//	return html`<div id="${this._editorId}" .innerHTML="${this._html}"></div>`;
 		//} else {
 		return html`
-			<div class="${classMap(skeletonClasses)}">
+			<div class="${classMap(containerClasses)}">
 				<textarea id="${this._editorId}" class="${classMap(textAreaClasses)}" aria-hidden="true" tabindex="-1">${this._html}</textarea>
 			</div>
 		${!isShadowDOMSupported ? html`<d2l-alert>Web Components are not supported in this browser. Upgrade or switch to a newer browser to use the shiny new HtmlEditor.</d2l-alert>` : ''}`;
