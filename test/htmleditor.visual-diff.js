@@ -1,3 +1,4 @@
+const helper = require('./visual-diff-helpers');
 const puppeteer = require('puppeteer');
 const VisualDiff = require('@brightspace-ui/visual-diff');
 
@@ -22,6 +23,10 @@ describe('d2l-htmleditor', () => {
 
 	describe('full', () => {
 
+		afterEach(async() => {
+			await helper.reset(page, '#full');
+		});
+
 		it('normal', async function() {
 			const rect = await visualDiff.getRect(page, '#full');
 			await visualDiff.screenshotAndCompare(page, this.test.fullTitle(), { clip: rect });
@@ -33,6 +38,19 @@ describe('d2l-htmleditor', () => {
 			});
 			await page.hover('body');
 			await visualDiff.screenshotAndCompare(page, this.test.fullTitle());
+		});
+
+	});
+
+	describe('skeleton', () => {
+
+		afterEach(async() => {
+			await helper.reset(page, '#skeleton');
+		});
+
+		it('normal', async function() {
+			const rect = await visualDiff.getRect(page, '#skeleton');
+			await visualDiff.screenshotAndCompare(page, this.test.fullTitle(), { clip: rect });
 		});
 
 	});

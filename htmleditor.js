@@ -32,6 +32,7 @@ import { isfStyles } from './components/isf.js';
 import { Localizer } from './lang/localizer.js';
 import { ProviderMixin } from '@brightspace-ui/core/mixins/provider-mixin.js';
 import { RtlMixin } from '@brightspace-ui/core/mixins/rtl-mixin.js';
+import { SkeletonMixin } from '@brightspace-ui/core/components/skeleton/skeleton-mixin.js';
 import { tinymceLangs } from './generated/langs.js';
 import { uploadImage } from './components/image.js';
 
@@ -98,7 +99,7 @@ const contentFragmentStyles = css`
 	}
 `.cssText;
 
-class HtmlEditor extends ProviderMixin(Localizer(RtlMixin(LitElement))) {
+class HtmlEditor extends SkeletonMixin(ProviderMixin(Localizer(RtlMixin(LitElement)))) {
 
 	static get properties() {
 		return {
@@ -125,18 +126,23 @@ class HtmlEditor extends ProviderMixin(Localizer(RtlMixin(LitElement))) {
 	}
 
 	static get styles() {
-		return css`
+		return [ super.styles, css`
 			:host {
-				border: 1px solid var(--d2l-color-mica); /* snow */
-				border-radius: 6px;
 				display: block;
-				padding: 4px; /* snow */
 			}
 			:host([hidden]) {
 				display: none;
 			}
+			.d2l-htmleditor-container {
+				border: 1px solid var(--d2l-color-mica); /* snow */
+				border-radius: 6px;
+				padding: 4px; /* snow */
+			}
 			.d2l-htmleditor-no-tinymce {
 				display: none;
+			}
+			:host([skeleton]) .d2l-skeletize::before {
+				z-index: 2;
 			}
 			/* stylelint-disable selector-class-pattern */
 			.tox .tox-toolbar__group {
@@ -169,7 +175,7 @@ class HtmlEditor extends ProviderMixin(Localizer(RtlMixin(LitElement))) {
 				display: none;
 			}
 			/* stylelint-enable selector-class-pattern */
-		`;
+		`];
 	}
 
 	constructor() {
@@ -415,10 +421,19 @@ class HtmlEditor extends ProviderMixin(Localizer(RtlMixin(LitElement))) {
 		const textAreaClasses = {
 			'd2l-htmleditor-no-tinymce': !isShadowDOMSupported
 		};
+
+		const containerClasses = {
+			'd2l-htmleditor-container': true,
+			'd2l-skeletize': this.skeleton
+		};
+
 		//if (this.type === editorTypes.INLINE || this.type === editorTypes.INLINE_LIMITED) {
 		//	return html`<div id="${this._editorId}" .innerHTML="${this._html}"></div>`;
 		//} else {
-		return html`<textarea id="${this._editorId}" class="${classMap(textAreaClasses)}" aria-hidden="true" tabindex="-1">${this._html}</textarea>
+		return html`
+			<div class="${classMap(containerClasses)}">
+				<textarea id="${this._editorId}" class="${classMap(textAreaClasses)}" aria-hidden="true" tabindex="-1">${this._html}</textarea>
+			</div>
 		${!isShadowDOMSupported ? html`<d2l-alert>Web Components are not supported in this browser. Upgrade or switch to a newer browser to use the shiny new HtmlEditor.</d2l-alert>` : ''}`;
 		//}
 	}
