@@ -25,6 +25,7 @@ describe('d2l-htmleditor', () => {
 
 		afterEach(async() => {
 			await helper.reset(page, '#full');
+			await helper.reset(page, '#skeleton');
 		});
 
 		it('normal', async function() {
@@ -40,15 +41,7 @@ describe('d2l-htmleditor', () => {
 			await visualDiff.screenshotAndCompare(page, this.test.fullTitle());
 		});
 
-	});
-
-	describe('skeleton', () => {
-
-		afterEach(async() => {
-			await helper.reset(page, '#skeleton');
-		});
-
-		it('normal', async function() {
+		it('skeleton', async function() {
 			const rect = await visualDiff.getRect(page, '#skeleton');
 			await visualDiff.screenshotAndCompare(page, this.test.fullTitle(), { clip: rect });
 		});
