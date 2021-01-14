@@ -446,11 +446,13 @@ class HtmlEditor extends ProviderMixin(Localizer(RtlMixin(LitElement))) {
 		const heightValue = heightParts[0];
 		const heightUnits = heightParts[1];
 
+		const fontSizeValue = rootFontSize.replace('px','');
+
 		switch (heightUnits) {
 			case 'px':
 				return heightValue < defaultMinHeight ? heightValue : defaultMinHeight;
 			case 'rem':
-				return (heightValue * 20) < defaultMinHeight ? (heightValue * 20) : defaultMinHeight;
+				return (heightValue * fontSizeValue) < defaultMinHeight ? (heightValue * fontSizeValue) : defaultMinHeight;
 			default:
 				return defaultMinHeight;
 		}
