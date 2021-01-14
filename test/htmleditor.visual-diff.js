@@ -37,4 +37,13 @@ describe('d2l-htmleditor', () => {
 
 	});
 
+	describe('skeleton', () => {
+
+		it('normal', async function() {
+			const rect = await visualDiff.getRect(page, '#skeleton');
+			await visualDiff.screenshotAndCompare(page, this.test.fullTitle(), { clip: rect });
+		});
+
+	});
+
 });
