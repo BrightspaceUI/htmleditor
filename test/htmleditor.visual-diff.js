@@ -8,7 +8,7 @@ describe('d2l-htmleditor', () => {
 	let browser, page;
 
 	before(async() => {
-		browser = await puppeteer.launch();
+		browser = await puppeteer.launch({ args: ['--no-sandbox'] });
 		page = await visualDiff.createPage(browser);
 		await page.goto(`${visualDiff.getBaseUrl()}/test/htmleditor.visual-diff.html`, { waitUntil: ['networkidle0', 'load'] });
 		await page.bringToFront();
@@ -19,6 +19,15 @@ describe('d2l-htmleditor', () => {
 	});
 
 	after(async() => await browser.close());
+
+	describe('skeleton', () => {
+
+		it('normal', async function() {
+			const rect = await visualDiff.getRect(page, '#skeleton');
+			await visualDiff.screenshotAndCompare(page, this.test.fullTitle(), { clip: rect });
+		});
+
+	});
 
 	describe('full', () => {
 
@@ -33,15 +42,6 @@ describe('d2l-htmleditor', () => {
 			});
 			await page.hover('body');
 			await visualDiff.screenshotAndCompare(page, this.test.fullTitle());
-		});
-
-	});
-
-	describe('skeleton', () => {
-
-		it('normal', async function() {
-			const rect = await visualDiff.getRect(page, '#skeleton');
-			await visualDiff.screenshotAndCompare(page, this.test.fullTitle(), { clip: rect });
 		});
 
 	});
