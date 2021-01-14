@@ -311,7 +311,7 @@ class HtmlEditor extends ProviderMixin(Localizer(RtlMixin(LitElement))) {
 				link_context_toolbar: true,
 				link_default_protocol: 'https',
 				menubar: false,
-				min_height: this.height < 300 ? this.height : 300,
+				min_height: this._getMinHeight(),
 				mentions_fetch: (query, success) => {
 					setTimeout(() => D2L.LP.Web.UI.Rpc.Connect(
 						D2L.LP.Web.UI.Rpc.Verbs.GET,
@@ -435,6 +435,27 @@ class HtmlEditor extends ProviderMixin(Localizer(RtlMixin(LitElement))) {
 	get isDirty() {
 		const editor = tinymce.EditorManager.get(this._editorId);
 		return (editor && editor.isDirty());
+	}
+
+	_getMinHeight() {
+		const defaultMinHeight = 300;
+		const heightParts = this.height.split(/(?<=\d)(?=\D)/);
+
+		if (heightParts.length !== 2) return defaultMinHeight;
+
+		const heightValue = heightParts[0];
+		const heightUnits = heightParts[1];
+
+		const fontSizeValue = rootFontSize.replace('px', '');
+
+		switch (heightUnits) {
+			case 'px':
+				return heightValue < defaultMinHeight ? heightValue : defaultMinHeight;
+			case 'rem':
+				return (heightValue * fontSizeValue) < defaultMinHeight ? (heightValue * fontSizeValue) : defaultMinHeight;
+			default:
+				return defaultMinHeight;
+		}
 	}
 
 	_getToolbarConfig() {
