@@ -133,9 +133,6 @@ class HtmlEditor extends SkeletonMixin(ProviderMixin(Localizer(RtlMixin(LitEleme
 			:host([hidden]) {
 				display: none;
 			}
-			:host([skeleton]) {
-				border: none;
-			}
 			.d2l-htmleditor-container {
 				border: 1px solid var(--d2l-color-mica); /* snow */
 				border-radius: 6px;
