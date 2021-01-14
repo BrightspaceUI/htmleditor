@@ -446,7 +446,7 @@ class HtmlEditor extends ProviderMixin(Localizer(RtlMixin(LitElement))) {
 		const heightValue = heightParts[0];
 		const heightUnits = heightParts[1];
 
-		const fontSizeValue = rootFontSize.replace('px','');
+		const fontSizeValue = rootFontSize.replace('px', '');
 
 		switch (heightUnits) {
 			case 'px':
