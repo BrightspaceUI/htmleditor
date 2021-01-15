@@ -1,4 +1,5 @@
 import '@brightspace-ui/core/components/alert/alert.js';
+import '@brightspace-ui/core/components/html-block/html-block.js';
 import './components/quicklink.js';
 import './components/equation.js';
 import './components/preview.js';
@@ -34,6 +35,7 @@ import { ProviderMixin } from '@brightspace-ui/core/mixins/provider-mixin.js';
 import { RtlMixin } from '@brightspace-ui/core/mixins/rtl-mixin.js';
 import { SkeletonMixin } from '@brightspace-ui/core/components/skeleton/skeleton-mixin.js';
 import { tinymceLangs } from './generated/langs.js';
+import { unsafeHTML } from 'lit-html/directives/unsafe-html.js';
 import { uploadImage } from './components/image.js';
 
 // To update from new tinyMCE install
@@ -105,6 +107,7 @@ class HtmlEditor extends SkeletonMixin(ProviderMixin(Localizer(RtlMixin(LitEleme
 		return {
 			attachedImagesOnly: { type: Boolean, attribute: 'attached-images-only' },
 			autoSave: { type: Boolean, attribute: 'auto-save' },
+			disabled: { type: Boolean },
 			files: { type: Array },
 			fileUploadForAllUsers: { type: Boolean, attribute: 'file-upload-for-all-users' },
 			fullPage: { type: Boolean, attribute: 'full-page' },
@@ -182,6 +185,7 @@ class HtmlEditor extends SkeletonMixin(ProviderMixin(Localizer(RtlMixin(LitEleme
 		super();
 		this.attachedImagesOnly = false;
 		this.autoSave = false;
+		this.disabled = false;
 		this.files = [];
 		this.fileUploadForAllUsers = false;
 		this.fullPage = false;
@@ -418,10 +422,20 @@ class HtmlEditor extends SkeletonMixin(ProviderMixin(Localizer(RtlMixin(LitEleme
 	}
 
 	render() {
+
+		if (this.disabled) {
+			const htmlBlockClasses = {
+				'd2l-skeletize': this.skeleton
+			};
+			return html`
+				<d2l-html-block class="${classMap(htmlBlockClasses)}">
+					<template>${unsafeHTML(this._html)}</template>
+				</d2l-html-block>`;
+		}
+
 		const textAreaClasses = {
 			'd2l-htmleditor-no-tinymce': !isShadowDOMSupported
 		};
-
 		const containerClasses = {
 			'd2l-htmleditor-container': true,
 			'd2l-skeletize': this.skeleton
@@ -436,6 +450,7 @@ class HtmlEditor extends SkeletonMixin(ProviderMixin(Localizer(RtlMixin(LitEleme
 			</div>
 		${!isShadowDOMSupported ? html`<d2l-alert>Web Components are not supported in this browser. Upgrade or switch to a newer browser to use the shiny new HtmlEditor.</d2l-alert>` : ''}`;
 		//}
+
 	}
 
 	focus() {
