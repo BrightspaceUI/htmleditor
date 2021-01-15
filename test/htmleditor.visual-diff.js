@@ -8,7 +8,7 @@ describe('d2l-htmleditor', () => {
 
 	let browser, page;
 
-	const viewport = { width: 800, height: 1500, deviceScaleFactor: 2 };
+	const viewport = { width: 800, height: 2000, deviceScaleFactor: 2 };
 
 	before(async() => {
 		browser = await puppeteer.launch();
@@ -36,16 +36,6 @@ describe('d2l-htmleditor', () => {
 			await visualDiff.screenshotAndCompare(page, this.test.fullTitle(), { clip: rect });
 		});
 
-		it('fullscreen', async function() {
-			await page.setViewport({ width: 1000, height: 800, deviceScaleFactor: 2 });
-			await page.$eval('#full', (elem) => {
-				tinymce.EditorManager.get(elem._editorId).execCommand('mceFullScreen');
-			});
-			await page.hover('body');
-			await visualDiff.screenshotAndCompare(page, this.test.fullTitle());
-			await page.setViewport(viewport);
-		});
-
 		it('disabled', async function() {
 			const rect = await visualDiff.getRect(page, '#disabled');
 			await visualDiff.screenshotAndCompare(page, this.test.fullTitle(), { clip: rect });
@@ -54,6 +44,16 @@ describe('d2l-htmleditor', () => {
 		it('skeleton', async function() {
 			const rect = await visualDiff.getRect(page, '#skeleton');
 			await visualDiff.screenshotAndCompare(page, this.test.fullTitle(), { clip: rect });
+		});
+
+		it('fullscreen', async function() {
+			await page.setViewport({ width: 1000, height: 800, deviceScaleFactor: 2 });
+			await page.$eval('#full', (elem) => {
+				tinymce.EditorManager.get(elem._editorId).execCommand('mceFullScreen');
+			});
+			await page.hover('body');
+			await visualDiff.screenshotAndCompare(page, this.test.fullTitle());
+			await page.setViewport(viewport);
 		});
 
 	});
