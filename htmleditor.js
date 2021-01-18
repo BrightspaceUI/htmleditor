@@ -29,6 +29,7 @@ import { css, html, LitElement, unsafeCSS } from 'lit-element/lit-element.js';
 import { addIcons } from './generated/icons.js';
 import { classMap } from 'lit-html/directives/class-map.js';
 import { getUniqueId } from '@brightspace-ui/core/helpers/uniqueId.js';
+import { inputLabelStyles } from '@brightspace-ui/core/components/inputs/input-label-styles.js';
 import { isfStyles } from './components/isf.js';
 import { Localizer } from './lang/localizer.js';
 import { ProviderMixin } from '@brightspace-ui/core/mixins/provider-mixin.js';
@@ -116,11 +117,12 @@ class HtmlEditor extends SkeletonMixin(ProviderMixin(Localizer(RtlMixin(LitEleme
 			fullPageFontSize: { type: String, attribute: 'full-page-font-size' },
 			height: { type: String },
 			html: { type: String },
+			label: { type: String },
+			labelHidden: { type: Boolean, attribute: 'label-hidden' },
 			mentions: { type: Boolean },
 			noFilter: { type: Boolean, attribute: 'no-filter' },
 			noSpellchecker: { type: Boolean, attribute: 'no-spellchecker' },
 			pasteLocalImages: { type: Boolean, attribute: 'paste-local-images' },
-			title: { type: String },
 			type: { type: String },
 			width: { type: String },
 			wordCountInFooter: { type: Boolean, attribute: 'word-count-in-footer' },
@@ -129,7 +131,7 @@ class HtmlEditor extends SkeletonMixin(ProviderMixin(Localizer(RtlMixin(LitEleme
 	}
 
 	static get styles() {
-		return [ super.styles, css`
+		return [ super.styles, inputLabelStyles, css`
 			:host {
 				display: block;
 			}
@@ -191,11 +193,12 @@ class HtmlEditor extends SkeletonMixin(ProviderMixin(Localizer(RtlMixin(LitEleme
 		this.fullPage = false;
 		this.fullPageFontColor = '#494c4e';
 		this.height = '355px';
+		this.label = '';
+		this.labelHidden = false;
 		this.mentions = false;
 		this.noFilter = false;
 		this.noSpellchecker = false;
 		this.pasteLocalImages = false;
-		this.title = '';
 		this.type = editorTypes.FULL;
 		this.width = '100%';
 		this.wordCountInFooter = false;
@@ -311,7 +314,7 @@ class HtmlEditor extends SkeletonMixin(ProviderMixin(Localizer(RtlMixin(LitEleme
 					}
 
 					const iframe = editor.getContentAreaContainer().firstElementChild;
-					if (iframe) iframe.title = this.title;
+					if (iframe) iframe.title = this.label;
 
 					this._initializationResolve();
 				},
@@ -424,11 +427,8 @@ class HtmlEditor extends SkeletonMixin(ProviderMixin(Localizer(RtlMixin(LitEleme
 	render() {
 
 		if (this.disabled) {
-			const htmlBlockClasses = {
-				'd2l-skeletize': this.skeleton
-			};
 			return html`
-				<d2l-html-block class="${classMap(htmlBlockClasses)}">
+				<d2l-html-block class="d2l-skeletize">
 					<template>${unsafeHTML(this._html)}</template>
 				</d2l-html-block>`;
 		}
@@ -436,16 +436,13 @@ class HtmlEditor extends SkeletonMixin(ProviderMixin(Localizer(RtlMixin(LitEleme
 		const textAreaClasses = {
 			'd2l-htmleditor-no-tinymce': !isShadowDOMSupported
 		};
-		const containerClasses = {
-			'd2l-htmleditor-container': true,
-			'd2l-skeletize': this.skeleton
-		};
 
 		//if (this.type === editorTypes.INLINE || this.type === editorTypes.INLINE_LIMITED) {
 		//	return html`<div id="${this._editorId}" .innerHTML="${this._html}"></div>`;
 		//} else {
 		return html`
-			<div class="${classMap(containerClasses)}">
+		${this.label && !this.labelHidden ? html`<span class="d2l-input-label d2l-skeletize" aria-hidden="true">${this.label}</span>` : ''}
+			<div class="d2l-htmleditor-container d2l-skeletize">
 				<textarea id="${this._editorId}" class="${classMap(textAreaClasses)}" aria-hidden="true" tabindex="-1">${this._html}</textarea>
 			</div>
 		${!isShadowDOMSupported ? html`<d2l-alert>Web Components are not supported in this browser. Upgrade or switch to a newer browser to use the shiny new HtmlEditor.</d2l-alert>` : ''}`;
