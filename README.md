@@ -14,6 +14,8 @@ npm install @brightspace-ui/htmleditor
 
 ## Usage
 
+**Important**: user-authored HTML must be trusted or properly sanitized!
+
 Import the editor component:
 ```javascript
 import '@brightspace-ui/htmleditor/htmleditor.js';
@@ -40,6 +42,7 @@ Types of editors (toolbar features):
 |--|--|--|
 | `attached-images-only` | Boolean | Whether or not to restrict image uploads to attachments and prevent saving to course/shared files. Defaults to `false`. |
 | `auto-save` | Boolean | Whether or not to prompt the user when navigating away from the page while the editor has unsaved content. Defaults to `false`. |
+| `disabled` | Boolean | Whether the content is read-only. Defaults to `false`. |
 | `files` | Array | Read-only. An array of FileInfo objects for files added. |
 | `file-upload-for-all-users` | Boolean | Whether or not to enable file uploads to course or shared files. Defaults to `false`. |
 | `full-page` | Boolean | Whether an HTML document or fragment is being authored. Defaults to `false`. |
