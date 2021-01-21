@@ -38,29 +38,30 @@ Types of editors (toolbar features):
 
 **Properties:**
 
-| Property | Type | Description |
+| Property | &nbsp; &nbsp; &nbsp; Type &nbsp; &nbsp; &nbsp; | Description |
 |--|--|--|
-| `attached-images-only` | Boolean | Whether or not to restrict image uploads to attachments and prevent saving to course/shared files. Defaults to `false`. |
-| `auto-save` | Boolean | Whether or not to prompt the user when navigating away from the page while the editor has unsaved content. Defaults to `false`. |
-| `disabled` | Boolean | Whether the content is read-only. Defaults to `false`. |
+| `attached-images-only` | Boolean | Whether or not to restrict image uploads to attachments and prevent saving to course/shared files. |
+| `auto-save` | Boolean | Whether or not to prompt the user when navigating away from the page while the editor has unsaved content. |
+| `disabled` | Boolean | Whether the content is read-only. |
 | `files` | Array | Read-only. An array of FileInfo objects for files added. |
-| `file-upload-for-all-users` | Boolean | Whether or not to enable file uploads to course or shared files. Defaults to `false`. |
-| `full-page` | Boolean | Whether an HTML document or fragment is being authored. Defaults to `false`. |
-| `full-page-font-color` | String | The `body` font color. Defaults to ferrite. Only applies when `full-page` is `true`. |
-| `full-page-font-family` | String | The `body` font. Defaults to the browser default. Only applies when `full-page` is `true`. |
-| `full-page-font-size` | String | The `body` font size. Defaults to browser default. Only applies when `full-page` is `true`. |
-| `height` | String | Initial height of the editor in `px`, `rem`, or `%`. Defaults to 355px. |
-| `html` | String | The HTML being authored. Defaults to empty string. |
+| `file-upload-for-all-users` | Boolean | Whether or not to enable file uploads to course or shared files. |
+| `full-page` | Boolean | Whether an HTML document or fragment is being authored. |
+| `full-page-font-color` | String, default: `'#494c4e'` (ferrite) | The `body` font color. Only applies when `full-page` is `true`. |
+| `full-page-font-family` | String, default: Browser default | The `body` font. Only applies when `full-page` is `true`. |
+| `full-page-font-size` | String, default: Browser default | The `body` font size. Only applies when `full-page` is `true`. |
+| `height` | String, default: `'355px'` | Initial height of the editor in `px`, `rem`, or `%`. |
+| `html` | String, default: `''` | The HTML being authored. |
 | `initializationComplete` | Promise | Read-only. Fulfilled when the editor has been fully initialized; pending otherwise. |
 | `isDirty` | Boolean | Read-only. Whether or not the editor is [dirty](https://www.tiny.cloud/docs/api/tinymce/tinymce.editor/#isdirty). |
-| `mentions` | Boolean | Whether or not to enable [@mentions](https://www.tiny.cloud/docs/enterprise/mentions/). Defaults to `false`. |
-| `no-filter` | Boolean | Whether or not to disable filtering for the content. Defaults to `false`. |
-| `no-spellchecker` | Boolean | Whether or not to disable spell checking. Defaults to `false`. |
-| `paste-local-images` | Boolean | Whether or not to enable local image pasting and drag-and-drop. Defaults to `false`. |
-| `title` | String | Accessible text that describes the editor content. Defaults to empty string. |
-| `type` | String | Whether to render the editor in `full`, `inline`, or `inline-limited` mode. Defaults to `full`. |
-| `width` | String | Initial width of the editor. Defaults to 100% of its bounding container. |
-| `word-count-in-footer` | Boolean | Whether or not to display the current word/character counts in the editor footer. Defaults to `false`.
+| `label` | String, required | Label for the editor. |
+| `label-hidden` | Boolean | Hides the label visually. |
+| `mentions` | Boolean | Whether or not to enable [@mentions](https://www.tiny.cloud/docs/enterprise/mentions/). |
+| `no-filter` | Boolean | Whether or not to disable filtering for the content. |
+| `no-spellchecker` | Boolean | Whether or not to disable spell checking. |
+| `paste-local-images` | Boolean | Whether or not to enable local image pasting and drag-and-drop. |
+| `type` | String, default: `'full'` | Whether to render the editor in `full`, `inline`, or `inline-limited` mode. |
+| `width` | String, default: 100% of bounding container | Initial width of the editor. |
+| `word-count-in-footer` | Boolean | Whether or not to display the current word/character counts in the editor footer.
 
 **Methods:**
 
@@ -70,7 +71,7 @@ Types of editors (toolbar features):
 
 **Events:**
 
-| Event | Properties | Description |
+| &nbsp; &nbsp; &nbsp; Event &nbsp; &nbsp; &nbsp; | Properties | Description |
 |--|--|--|
 | `d2l-htmleditor-blur` | None | Dispatched when TinyMCE fires a blur event on the editor. |
 | `d2l-htmleditor-image-upload-complete` | None | Dispatched when images finish uploading to the editor. If multiple images are being uploaded, the event will only be dispatched once all images are uploaded. |
