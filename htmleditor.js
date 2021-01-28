@@ -163,7 +163,7 @@ class HtmlEditor extends SkeletonMixin(ProviderMixin(Localizer(RtlMixin(LitEleme
 				background: none; /* snow */
 			}
 			.tox-tinymce-aux,
-			.tox-tinymce.tox-fullscreen {
+			.tox.tox-tinymce.tox-fullscreen {
 				background-color: #ffffff;
 				z-index: 1000;
 			}
