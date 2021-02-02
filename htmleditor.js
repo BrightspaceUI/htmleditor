@@ -466,12 +466,12 @@ class HtmlEditor extends SkeletonMixin(ProviderMixin(Localizer(RtlMixin(LitEleme
 
 	_getMinHeight() {
 		const defaultMinHeight = 300;
-		const heightParts = this.height.split(/(?<=\d)(?=\D)/);
+		const splitPosition = this.height.search(/\D/);
 
-		if (heightParts.length !== 2) return defaultMinHeight;
+		if (splitPosition === -1) return defaultMinHeight;
 
-		const heightValue = heightParts[0];
-		const heightUnits = heightParts[1];
+		const heightValue = this.height.slice(0, splitPosition);
+		const heightUnits = this.height.replace(heightValue, '');
 
 		const fontSizeValue = rootFontSize.replace('px', '');
 
