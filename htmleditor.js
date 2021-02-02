@@ -58,7 +58,20 @@ const editorTypes = {
 
 const isShadowDOMSupported = !(window.ShadyDOM && window.ShadyDOM.inUse);
 
-const context = JSON.parse(document.documentElement.getAttribute('data-he-context'));
+let context;
+const getContext = () => {
+	if (context) return context;
+	context = new Promise(async (resolve) => {
+		if (window.ifrauclient) {
+			const ifrauClient = await window.ifrauclient().connect();
+			const ifrauEditorService = await ifrauClient.getService('htmleditor', '0.1');
+			resolve(JSON.parse(await ifrauEditorService.getContext()));
+		} else {
+			resolve(JSON.parse(document.documentElement.getAttribute('data-he-context')));
+		}
+	});
+	return context;
+};
 
 const rootFontSize = window.getComputedStyle(document.documentElement, null).getPropertyValue('font-size');
 
@@ -126,7 +139,8 @@ class HtmlEditor extends SkeletonMixin(ProviderMixin(Localizer(RtlMixin(LitEleme
 			type: { type: String },
 			width: { type: String },
 			wordCountInFooter: { type: Boolean, attribute: 'word-count-in-footer' },
-			_editorId: { type: String }
+			_editorId: { type: String },
+			_fraContext: { type: Boolean, attribute: 'fra-context', reflect: true }
 		};
 	}
 
@@ -179,6 +193,15 @@ class HtmlEditor extends SkeletonMixin(ProviderMixin(Localizer(RtlMixin(LitEleme
 			.tox-tinymce.tox-fullscreen .tox-statusbar__resize-handle {
 				display: none;
 			}
+			:host([fra-context]:not(.tox-fullscreen)) {
+				transform: scale(1); /* css black magic to work around tinymce dialog fixed/flex positioning in large frames */
+			}
+			:host([fra-context].tox-fullscreen) .tox-dialog-wrap {
+				bottom: auto;
+			}
+			:host([fra-context]) .tox-dialog {
+				max-height: 100vh;
+			}
 			/* stylelint-enable selector-class-pattern */
 		`];
 	}
@@ -203,27 +226,12 @@ class HtmlEditor extends SkeletonMixin(ProviderMixin(Localizer(RtlMixin(LitEleme
 		this.width = '100%';
 		this.wordCountInFooter = false;
 		this._editorId = getUniqueId();
+		this._fraContext = !!window.ifrauclient;
 		this._html = '';
 		this._initializationComplete = new Promise((resolve) => {
 			this._initializationResolve = resolve;
 		});
 		this._uploadImageCount = 0;
-		if (context) {
-			this.provideInstance('maxFileSize', context.maxFileSize);
-			this.provideInstance('orgUnitId', context.orgUnitId);
-			this.provideInstance('orgUnitPath', context.orgUnitPath);
-			this.provideInstance('uploadFiles', context.uploadFiles);
-			this.provideInstance('viewFiles', context.viewFiles);
-			this.provideInstance('wmodeOpaque', context.wmodeOpaque);
-		}
-		setTimeout(() => {
-			this.provideInstance('attachedImagesOnly', this.attachedImagesOnly);
-			this.provideInstance('fileUploadForAllUsers', this.fileUploadForAllUsers);
-			this.provideInstance('fullPage', this.fullPage);
-			this.provideInstance('noFilter', this.noFilter);
-			this.provideInstance('wordCountInFooter', this.wordCountInFooter);
-		}, 0);
-		this.provideInstance('localize', this.localize.bind(this));
 	}
 
 	get html() {
@@ -247,10 +255,26 @@ class HtmlEditor extends SkeletonMixin(ProviderMixin(Localizer(RtlMixin(LitEleme
 		}
 	}
 
-	firstUpdated(changedProperties) {
+	async firstUpdated(changedProperties) {
 		super.firstUpdated(changedProperties);
 
 		if (!isShadowDOMSupported) return;
+
+		this._context = await getContext();
+		if (context) {
+			this.provideInstance('maxFileSize', context.maxFileSize);
+			this.provideInstance('orgUnitId', context.orgUnitId);
+			this.provideInstance('orgUnitPath', context.orgUnitPath);
+			this.provideInstance('uploadFiles', context.uploadFiles);
+			this.provideInstance('viewFiles', context.viewFiles);
+			this.provideInstance('wmodeOpaque', context.wmodeOpaque);
+		}
+		this.provideInstance('attachedImagesOnly', this.attachedImagesOnly);
+		this.provideInstance('fileUploadForAllUsers', this.fileUploadForAllUsers);
+		this.provideInstance('fullPage', this.fullPage);
+		this.provideInstance('noFilter', this.noFilter);
+		this.provideInstance('wordCountInFooter', this.wordCountInFooter);
+		this.provideInstance('localize', this.localize.bind(this));
 
 		requestAnimationFrame(() => {
 
@@ -441,11 +465,11 @@ class HtmlEditor extends SkeletonMixin(ProviderMixin(Localizer(RtlMixin(LitEleme
 		//	return html`<div id="${this._editorId}" .innerHTML="${this._html}"></div>`;
 		//} else {
 		return html`
-		${this.label && !this.labelHidden ? html`<span class="d2l-input-label d2l-skeletize" aria-hidden="true">${this.label}</span>` : ''}
+			${this.label && !this.labelHidden ? html`<span class="d2l-input-label d2l-skeletize" aria-hidden="true">${this.label}</span>` : ''}
 			<div class="d2l-htmleditor-container d2l-skeletize">
 				<textarea id="${this._editorId}" class="${classMap(textAreaClasses)}" aria-hidden="true" tabindex="-1">${this._html}</textarea>
 			</div>
-		${!isShadowDOMSupported ? html`<d2l-alert>Web Components are not supported in this browser. Upgrade or switch to a newer browser to use the shiny new HtmlEditor.</d2l-alert>` : ''}`;
+			${!isShadowDOMSupported ? html`<d2l-alert>Web Components are not supported in this browser. Upgrade or switch to a newer browser to use the shiny new HtmlEditor.</d2l-alert>` : ''}`;
 		//}
 
 	}
