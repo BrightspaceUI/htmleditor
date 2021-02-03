@@ -305,6 +305,29 @@ class HtmlEditor extends SkeletonMixin(ProviderMixin(Localizer(RtlMixin(LitEleme
 
 			tinymce.init({
 				a11ychecker_allow_decorative_images: true,
+				a11ychecker_issue_url_callback: ruleId => {
+					const ruleUrlMap = {
+						'D1': 'https://www.w3.org/WAI/WCAG21/Techniques/html/H42.html',
+						'D2': 'https://www.w3.org/WAI/WCAG21/Techniques/general/G141.html',
+						'D3': 'https://www.w3.org/WAI/WCAG21/Techniques/html/H2.html',
+						'D40': 'https://www.w3.org/WAI/WCAG21/Techniques/html/H48.html',
+						'D4U': 'https://www.w3.org/WAI/WCAG21/Techniques/html/H48.html',
+						'D5A': 'https://www.w3.org/WAI/WCAG21/Techniques/general/G145.html',
+						'D5B': 'https://www.w3.org/WAI/WCAG21/Techniques/general/G18.html',
+						'D5C': 'https://www.w3.org/WAI/WCAG21/Techniques/general/G17.html',
+						'H93': 'https://www.w3.org/WAI/WCAG21/Techniques/html/H93.html',
+						'I1': 'https://www.w3.org/WAI/WCAG21/Techniques/general/G95.html',
+						'I2': 'https://www.w3.org/WAI/WCAG21/Techniques/general/G95.html',
+						'T1': 'https://www.w3.org/WAI/WCAG21/Techniques/html/H39.html',
+						'T2': 'https://www.w3.org/WAI/WCAG21/Techniques/html/H73.html',
+						'T3': 'https://www.w3.org/WAI/WCAG21/Techniques/html/H73.html',
+						'T4A': 'https://www.w3.org/WAI/WCAG21/Techniques/html/H51.html',
+						'T4B': 'https://www.w3.org/WAI/WCAG21/Techniques/html/H51.html',
+						'T4C': 'https://www.w3.org/WAI/WCAG21/Techniques/html/H63.html'
+					};
+
+					return ruleUrlMap[ruleId];
+				},
 				allow_html_in_named_anchor: true,
 				allow_script_urls: true,
 				branding: false,
