@@ -82,17 +82,14 @@ if (!tinymceLangs.includes(documentLang)) {
 	const cultureIndex = tinymceLang.indexOf('_');
 	if (cultureIndex !== -1) tinymceLang = tinymceLang.substring(0, cultureIndex);
 	if (!tinymceLangs.includes(tinymceLang)) {
-		tinymceLang = tinymceLangs.find((lang) => {
+		tinymceLang = tinymceLangs.find(lang => {
 			return lang.startsWith(tinymceLang);
 		});
 		if (!tinymceLang) tinymceLang = 'en';
 	}
 }
 
-const pathFromUrl = (url) => {
-	return url.substring(0, url.lastIndexOf('/'));
-};
-
+const pathFromUrl = url => url.substring(0, url.lastIndexOf('/'));
 const baseImportPath = pathFromUrl(import.meta.url);
 
 const contentFragmentStyles = css`
@@ -228,7 +225,7 @@ class HtmlEditor extends SkeletonMixin(ProviderMixin(Localizer(RtlMixin(LitEleme
 		this._editorId = getUniqueId();
 		this._fraContext = !!window.ifrauclient;
 		this._html = '';
-		this._initializationComplete = new Promise((resolve) => {
+		this._initializationComplete = new Promise(resolve => {
 			this._initializationResolve = resolve;
 		});
 		this._uploadImageCount = 0;
@@ -369,7 +366,7 @@ class HtmlEditor extends SkeletonMixin(ProviderMixin(Localizer(RtlMixin(LitEleme
 				quickbars_insert_toolbar: false,
 				relative_urls: false,
 				resize: true,
-				setup: (editor) => {
+				setup: editor => {
 					addIcons(editor);
 
 					editor.on('blur', () => {
