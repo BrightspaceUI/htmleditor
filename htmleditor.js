@@ -61,7 +61,7 @@ const isShadowDOMSupported = !(window.ShadyDOM && window.ShadyDOM.inUse);
 let context;
 const getContext = () => {
 	if (context) return context;
-	context = new Promise(async (resolve) => {
+	context = new Promise(async resolve => { // eslint-disable-line no-async-promise-executor
 		if (window.ifrauclient) {
 			const ifrauClient = await window.ifrauclient().connect();
 			const ifrauEditorService = await ifrauClient.getService('htmleditor', '0.1');
