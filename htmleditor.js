@@ -191,7 +191,7 @@ class HtmlEditor extends SkeletonMixin(ProviderMixin(Localizer(RtlMixin(LitEleme
 				display: none;
 			}
 			:host([fra-context]:not(.tox-fullscreen)) {
-				transform: scale(1); /* css black magic to work around tinymce dialog fixed/flex positioning in large frames */
+				transform: scale(1); /* css magic to work around tinymce dialog fixed/flex positioning in large frames */
 			}
 			:host([fra-context].tox-fullscreen) .tox-dialog-wrap {
 				bottom: auto;
