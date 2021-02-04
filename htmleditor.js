@@ -58,10 +58,10 @@ const editorTypes = {
 
 const isShadowDOMSupported = !(window.ShadyDOM && window.ShadyDOM.inUse);
 
-let context;
+let contextPromise;
 const getContext = () => {
-	if (context) return context;
-	context = new Promise(async resolve => { // eslint-disable-line no-async-promise-executor
+	if (contextPromise) return contextPromise;
+	contextPromise = new Promise(async resolve => { // eslint-disable-line no-async-promise-executor
 		if (window.ifrauclient) {
 			const ifrauClient = await window.ifrauclient().connect();
 			const ifrauEditorService = await ifrauClient.getService('htmleditor', '0.1');
@@ -70,7 +70,7 @@ const getContext = () => {
 			resolve(JSON.parse(document.documentElement.getAttribute('data-he-context')));
 		}
 	});
-	return context;
+	return contextPromise;
 };
 
 const rootFontSize = window.getComputedStyle(document.documentElement, null).getPropertyValue('font-size');
@@ -258,13 +258,13 @@ class HtmlEditor extends SkeletonMixin(ProviderMixin(Localizer(RtlMixin(LitEleme
 		if (!isShadowDOMSupported) return;
 
 		this._context = await getContext();
-		if (context) {
-			this.provideInstance('maxFileSize', context.maxFileSize);
-			this.provideInstance('orgUnitId', context.orgUnitId);
-			this.provideInstance('orgUnitPath', context.orgUnitPath);
-			this.provideInstance('uploadFiles', context.uploadFiles);
-			this.provideInstance('viewFiles', context.viewFiles);
-			this.provideInstance('wmodeOpaque', context.wmodeOpaque);
+		if (this._context) {
+			this.provideInstance('maxFileSize', this._context.maxFileSize);
+			this.provideInstance('orgUnitId', this._context.orgUnitId);
+			this.provideInstance('orgUnitPath', this._context.orgUnitPath);
+			this.provideInstance('uploadFiles', this._context.uploadFiles);
+			this.provideInstance('viewFiles', this._context.viewFiles);
+			this.provideInstance('wmodeOpaque', this._context.wmodeOpaque);
 		}
 		this.provideInstance('attachedImagesOnly', this.attachedImagesOnly);
 		this.provideInstance('fileUploadForAllUsers', this.fileUploadForAllUsers);
@@ -287,7 +287,7 @@ class HtmlEditor extends SkeletonMixin(ProviderMixin(Localizer(RtlMixin(LitEleme
 			const powerPasteConfig = {
 				powerpaste_allow_local_images: this.pasteLocalImages,
 				powerpaste_block_drop: !this.pasteLocalImages,
-				powerpaste_word_import: context ? context.pasteFormatting : 'merge'
+				powerpaste_word_import: this._context ? this._context.pasteFormatting : 'merge'
 			};
 
 			const autoSaveConfig = {
@@ -373,7 +373,7 @@ class HtmlEditor extends SkeletonMixin(ProviderMixin(Localizer(RtlMixin(LitEleme
 					setTimeout(() => D2L.LP.Web.UI.Rpc.Connect(
 						D2L.LP.Web.UI.Rpc.Verbs.GET,
 						new D2L.LP.Web.Http.UrlLocation('/d2l/lp/htmleditor/tinymce/mentionsSearchQuery'),
-						{ searchTerm: query.term, orgUnitId: context.orgUnitId },
+						{ searchTerm: query.term, orgUnitId: this._context.orgUnitId },
 						{ success: success }
 					), 0);
 				},
