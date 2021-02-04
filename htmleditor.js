@@ -28,6 +28,7 @@ import 'tinymce/themes/silver/theme.js';
 import { css, html, LitElement, unsafeCSS } from 'lit-element/lit-element.js';
 import { addIcons } from './generated/icons.js';
 import { classMap } from 'lit-html/directives/class-map.js';
+import { getContext } from './components/lms-adapter.js';
 import { getUniqueId } from '@brightspace-ui/core/helpers/uniqueId.js';
 import { inputLabelStyles } from '@brightspace-ui/core/components/inputs/input-label-styles.js';
 import { isfStyles } from './components/isf.js';
@@ -57,21 +58,6 @@ const editorTypes = {
 };
 
 const isShadowDOMSupported = !(window.ShadyDOM && window.ShadyDOM.inUse);
-
-let contextPromise;
-const getContext = () => {
-	if (contextPromise) return contextPromise;
-	contextPromise = new Promise(async resolve => { // eslint-disable-line no-async-promise-executor
-		if (window.ifrauclient) {
-			const ifrauClient = await window.ifrauclient().connect();
-			const ifrauEditorService = await ifrauClient.getService('htmleditor', '0.1');
-			resolve(JSON.parse(await ifrauEditorService.getContext()));
-		} else {
-			resolve(JSON.parse(document.documentElement.getAttribute('data-he-context')));
-		}
-	});
-	return contextPromise;
-};
 
 const rootFontSize = window.getComputedStyle(document.documentElement, null).getPropertyValue('font-size');
 

@@ -1,5 +1,6 @@
 import 'tinymce/tinymce.js';
 import { css, LitElement } from 'lit-element/lit-element.js';
+import { hasLmsContext, openLegacyDialog } from './lms-adapter.js';
 import { RequesterMixin, requestInstance } from '@brightspace-ui/core/mixins/provider-mixin.js';
 import { getComposedActiveElement } from '@brightspace-ui/core/helpers/focus.js';
 
@@ -25,7 +26,7 @@ export const isfStyles = css`
 tinymce.PluginManager.add('d2l-isf', function(editor) {
 
 	// bail if no LMS context
-	if (!D2L.LP) return;
+	if (!hasLmsContext()) return;
 
 	const localize = requestInstance(editor.getElement(), 'localize');
 	const wmodeOpaque = requestInstance(editor.getElement(), 'wmodeOpaque');
@@ -424,30 +425,18 @@ class IsfDialog extends RequesterMixin(LitElement) {
 		if (!changedProperties.has('opened')) return;
 
 		if (this.opened) {
-			const result = await (new Promise((resolve) => {
 
-				const selectResult = D2L.LP.Web.UI.Legacy.MasterPages.Dialog.Open(
-					getComposedActiveElement(),
-					new D2L.LP.Web.Http.UrlLocation(`/d2l/common/dialogs/isf/selectItem.d2l
-						?ou=${this._orgUnitId}
-						&extensionPoint=${this._isfContextId ? this._isfContextId : ''}
-						&filterMode=${this._noFilter ? 'None' : 'Strict'}
-					`),
-					'GetSelectedItem',
-					null,
-					'itemSource',
-					975,
-					650,
-					null,
-					[{ IsEnabled: true, IsPrimary: true, Key: 'BTN_next', ResponseType: 1, Param: 'next', Text: 'Insert' }],
-					false,
-					null
-				);
-
-				selectResult.AddReleaseListener(resolve);
-				selectResult.AddListener(stuff => resolve(stuff));
-
-			}));
+			const result = await openLegacyDialog(
+				`/d2l/common/dialogs/isf/selectItem.d2l?ou=${this._orgUnitId}&extensionPoint=${this._isfContextId ? this._isfContextId : ''}&filterMode=${this._noFilter ? 'None' : 'Strict'}`,
+				{
+					opener: getComposedActiveElement(),
+					srcCallback: 'GetSelectedItem',
+					responseDataKey: 'itemSource',
+					width: 975,
+					height: 650,
+					buttons: [{ IsEnabled: true, IsPrimary: true, Key: 'BTN_next', ResponseType: 1, Param: 'next', Text: 'Insert' }]
+				}
+			);
 
 			this.opened = false;
 
