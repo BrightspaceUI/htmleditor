@@ -11,12 +11,17 @@ export function getContext() {
 			const editorService = await ifrauClient.getService('htmleditor', '0.1');
 			context = JSON.parse(await editorService.getContext());
 			context.host = await ifrauClient.request('valenceHost');
+			resolve(context);
 		} else {
 			context = JSON.parse(document.documentElement.getAttribute('data-he-context'));
-			if (!context) context = {};
-			context.host = '';
+			if (context) {
+				context.host = '';
+				resolve(context);
+			} else {
+				resolve();
+			}
 		}
-		resolve(context);
+
 	});
 
 	return contextPromise;
