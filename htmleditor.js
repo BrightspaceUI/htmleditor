@@ -321,6 +321,7 @@ class HtmlEditor extends SkeletonMixin(ProviderMixin(Localizer(RtlMixin(LitEleme
 				convert_urls: false,
 				content_css: `${baseImportPath}/tinymce/skins/content/default/content.css`,
 				content_style: this.fullPage ? isfStyles : `${contentFragmentStyles} ${isfStyles}`,
+				contextmenu: 'image imagetools table',
 				directionality: this.dir ? this.dir : 'ltr',
 				elementpath: false,
 				extended_valid_elements: 'span[*]',
