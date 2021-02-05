@@ -1,11 +1,13 @@
 import 'tinymce/tinymce.js';
 import { css, LitElement } from 'lit-element/lit-element.js';
+import { hasLmsContext, openDialogWithParam } from './lms-adapter.js';
 import { RequesterMixin, requestInstance } from '@brightspace-ui/core/mixins/provider-mixin.js';
+import { getComposedActiveElement } from '@brightspace-ui/core/helpers/focus.js';
 
 tinymce.PluginManager.add('d2l-preview', function(editor) {
 
 	// bail if no LMS context
-	if (!D2L.LP) return;
+	if (!hasLmsContext()) return;
 
 	const localize = requestInstance(editor.getElement(), 'localize');
 	const orgUnitId = requestInstance(editor.getElement(), 'orgUnitId');
@@ -76,21 +78,11 @@ class PreviewDialog extends RequesterMixin(LitElement) {
 
 		if (this.opened) {
 
-			await (new Promise((resolve) => {
-
-				const previewResult = D2L.LP.Web.UI.Desktop.MasterPages.Dialog.OpenWithParam(
-					this.opener,
-					new D2L.LP.Web.Http.UrlLocation(`/d2l/lp/htmleditor/${this._fullPage ? 'fullpagepreview' : 'inlinepreview'}?ou=${this._orgUnitId}`),
-					{
-						editor: this.htmlInfo,
-						filter: this._noFilter ? 0 : 1
-					}
-				);
-
-				previewResult.AddReleaseListener(resolve);
-				previewResult.AddListener(resolve);
-
-			}));
+			await openDialogWithParam(
+				getComposedActiveElement(),
+				`/d2l/lp/htmleditor/${this._fullPage ? 'fullpagepreview' : 'inlinepreview'}?ou=${this._orgUnitId}`,
+				{ editor: this.htmlInfo, filter: this._noFilter ? 0 : 1 }
+			);
 
 			this.opened = false;
 

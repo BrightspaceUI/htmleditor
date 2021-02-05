@@ -373,7 +373,7 @@ class HtmlEditor extends SkeletonMixin(ProviderMixin(Localizer(RtlMixin(LitEleme
 				},
 				mentions_selector: 'span[data-mentions-id]',
 				object_resizing : true,
-				plugins: `a11ychecker ${this.autoSave ? 'autosave' : ''} advtable autolink charmap advcode directionality emoticons ${this.fullPage ? 'fullpage' : ''} fullscreen hr image ${this.pasteLocalImages ? 'imagetools' : ''} lists link ${(this.mentions && D2L.LP) ? 'mentions' : ''} powerpaste ${D2L.LP ? 'd2l-preview' : 'preview'} quickbars table textpattern d2l-equation d2l-image d2l-isf d2l-quicklink d2l-wordcount`,
+				plugins: `a11ychecker ${this.autoSave ? 'autosave' : ''} advtable autolink charmap advcode directionality emoticons ${this.fullPage ? 'fullpage' : ''} fullscreen hr image ${this.pasteLocalImages ? 'imagetools' : ''} lists link ${(this.mentions && D2L.LP) ? 'mentions' : ''} powerpaste ${this._context ? 'd2l-preview' : 'preview'} quickbars table textpattern d2l-equation d2l-image d2l-isf d2l-quicklink d2l-wordcount`,
 				quickbars_insert_toolbar: false,
 				relative_urls: false,
 				resize: true,
@@ -526,7 +526,7 @@ class HtmlEditor extends SkeletonMixin(ProviderMixin(Localizer(RtlMixin(LitEleme
 				`styleselect | bold italic underline d2l-inline | d2l-align d2l-list | d2l-isf d2l-quicklink d2l-image | table d2l-equation charmap emoticons hr | a11ycheck | fontselect | fontsizeselect | forecolor | ${ D2L.LP ? 'd2l-preview' : 'preview'} code | undo redo | fullscreen`
 			];
 		} else {
-			return `styleselect | bold italic underline d2l-inline | d2l-align d2l-list | d2l-isf d2l-quicklink d2l-image | table d2l-equation charmap emoticons hr | a11ycheck | fontselect | fontsizeselect | forecolor | ${ D2L.LP ? 'd2l-preview' : 'preview'} code d2l-wordcount | undo redo | fullscreen`;
+			return `styleselect | bold italic underline d2l-inline | d2l-align d2l-list | d2l-isf d2l-quicklink d2l-image | table d2l-equation charmap emoticons hr | a11ycheck | fontselect | fontsizeselect | forecolor | ${ this._context ? 'd2l-preview' : 'preview'} code d2l-wordcount | undo redo | fullscreen`;
 		}
 	}
 
