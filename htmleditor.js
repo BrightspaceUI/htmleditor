@@ -394,7 +394,7 @@ class HtmlEditor extends SkeletonMixin(ProviderMixin(Localizer(RtlMixin(LitEleme
 							tooltip: tooltip,
 							onAction: () => editor.execCommand(cmd),
 							onItemAction: (api, value) => editor.execCommand(value),
-							select: value => editor.queryCommandState(value),
+							select: value => value !== 'outdent' && editor.queryCommandState(value),
 							fetch: callback => callback(items)
 						});
 					};
