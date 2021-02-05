@@ -427,9 +427,9 @@ class IsfDialog extends RequesterMixin(LitElement) {
 		if (this.opened) {
 
 			const result = await openLegacyDialog(
+				getComposedActiveElement(),
 				`/d2l/common/dialogs/isf/selectItem.d2l?ou=${this._orgUnitId}&extensionPoint=${this._isfContextId ? this._isfContextId : ''}&filterMode=${this._noFilter ? 'None' : 'Strict'}`,
 				{
-					opener: getComposedActiveElement(),
 					srcCallback: 'GetSelectedItem',
 					responseDataKey: 'itemSource',
 					width: 975,

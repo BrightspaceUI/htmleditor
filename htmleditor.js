@@ -245,6 +245,7 @@ class HtmlEditor extends SkeletonMixin(ProviderMixin(Localizer(RtlMixin(LitEleme
 
 		this._context = await getContext();
 		if (this._context) {
+			this.provideInstance('host', this._context.host);
 			this.provideInstance('maxFileSize', this._context.maxFileSize);
 			this.provideInstance('orgUnitId', this._context.orgUnitId);
 			this.provideInstance('orgUnitPath', this._context.orgUnitPath);

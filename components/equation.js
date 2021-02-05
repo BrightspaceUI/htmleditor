@@ -1,6 +1,7 @@
 /* eslint no-useless-escape: 0 */
 
 import { css, LitElement } from 'lit-element/lit-element.js';
+import { hasLmsContext, openDialogWithParam } from './lms-adapter.js';
 import { getComposedActiveElement } from '@brightspace-ui/core/helpers/focus.js';
 import { requestInstance } from '@brightspace-ui/core/mixins/provider-mixin.js';
 
@@ -14,8 +15,9 @@ const editorTypes = {
 tinymce.PluginManager.add('d2l-equation', function(editor) {
 
 	// bail if no LMS context
-	if (!D2L.LP) return;
+	if (!hasLmsContext()) return;
 
+	const host = requestInstance(editor.getElement(), 'host');
 	const localize = requestInstance(editor.getElement(), 'localize');
 
 	const getSelectedMathImage = () => {
@@ -137,8 +139,8 @@ tinymce.PluginManager.add('d2l-equation', function(editor) {
 			}
 			const encodedMml = encodeURIComponent(trimmedMml);
 
-			const previewImageSrc = `/wiris/editorservice.aspx/render.png?mml=${encodedMml}`;
-			const placeholderImageSrc = "'/d2l/img/LP/htmlEditor/equation_unavailable.png'";
+			const previewImageSrc = `${host}/wiris/editorservice.aspx/render.png?mml=${encodedMml}`;
+			const placeholderImageSrc = `'${host}/d2l/img/LP/htmlEditor/equation_unavailable.png'`;
 			const placeholderImageTitle = "'Preview image not available for this equation'";
 
 			// if there's an error loading preview image, placeholder image will be shown instead
@@ -231,27 +233,11 @@ class EditorDialog extends LitElement {
 
 		if (this.opened) {
 
-			const result = await (new Promise((resolve) => {
-
-				const createResult = D2L.LP.Web.UI.Desktop.MasterPages.Dialog.OpenWithParam(
-					getComposedActiveElement(),
-					new D2L.LP.Web.Http.UrlLocation('/d2l/lp/math/createeditor'),
-					{
-						mathml: this.mathML,
-						editorType: this.type
-					}
-				);
-
-				createResult.AddReleaseListener(resolve);
-				createResult.AddListener(mathML => {
-					if (!mathML || mathML.length === 0) {
-						resolve();
-						return;
-					}
-					resolve(mathML);
-				});
-
-			}));
+			const result = await openDialogWithParam(
+				getComposedActiveElement(),
+				'/d2l/lp/math/createeditor',
+				{ mathml: this.mathML, editorType: this.type }
+			);
 
 			this.opened = false;
 
