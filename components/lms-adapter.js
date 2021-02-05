@@ -5,13 +5,18 @@ export function getContext() {
 	if (contextPromise) return contextPromise;
 
 	contextPromise = new Promise(async resolve => { // eslint-disable-line no-async-promise-executor
+		let context;
 		if (window.ifrauclient) {
 			const ifrauClient = await window.ifrauclient().connect();
 			const editorService = await ifrauClient.getService('htmleditor', '0.1');
-			resolve(JSON.parse(await editorService.getContext()));
+			context = JSON.parse(await editorService.getContext());
+			context.host = await ifrauClient.request('valenceHost');
 		} else {
-			resolve(JSON.parse(document.documentElement.getAttribute('data-he-context')));
+			context = JSON.parse(document.documentElement.getAttribute('data-he-context'));
+			if (!context) context = {};
+			context.host = '';
 		}
+		resolve(context);
 	});
 
 	return contextPromise;
@@ -23,7 +28,45 @@ export function hasLmsContext() {
 
 let dialogService;
 
-export async function openLegacyDialog(location, settings) {
+export async function openDialogWithParam(opener, location, params, settings) {
+	if (window.ifrauclient) {
+
+		if (!dialogService) {
+			const ifrauClient = await window.ifrauclient().connect();
+			dialogService = await ifrauClient.getService('dialog', '0.1');
+		}
+
+		try {
+			const result = await dialogService.openWithParam(
+				location,
+				params,
+				settings
+			);
+			return result;
+		} catch (e) {
+			// aborting the dialog rejects the promise so we swallow exception here
+			return '';
+		}
+
+	} else {
+
+		const result = await (new Promise(resolve => {
+			const dialogResult = D2L.LP.Web.UI.Desktop.MasterPages.Dialog.OpenWithParam(
+				opener,
+				new D2L.LP.Web.Http.UrlLocation(location),
+				params,
+				settings
+			);
+
+			dialogResult.AddReleaseListener(resolve);
+			dialogResult.AddListener(stuff => resolve(stuff));
+		}));
+
+		return result;
+	}
+}
+
+export async function openLegacyDialog(opener, location, settings) {
 	if (window.ifrauclient) {
 
 		if (!dialogService) {
@@ -54,7 +97,7 @@ export async function openLegacyDialog(location, settings) {
 
 		const result = await (new Promise(resolve => {
 			const dialogResult = D2L.LP.Web.UI.Legacy.MasterPages.Dialog.Open(
-				settings.opener,
+				opener,
 				new D2L.LP.Web.Http.UrlLocation(location),
 				settings.srcCallback,
 				null,
