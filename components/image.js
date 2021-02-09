@@ -1,5 +1,6 @@
 import 'tinymce/tinymce.js';
 import { css, LitElement } from 'lit-element/lit-element.js';
+import { hasLmsContext, openLegacyDialog, uploadFile } from './lms-adapter.js';
 import { RequesterMixin, requestInstance } from '@brightspace-ui/core/mixins/provider-mixin.js';
 import { getComposedActiveElement } from '@brightspace-ui/core/helpers/focus.js';
 
@@ -21,7 +22,7 @@ class FileData {
 export function uploadImage(editor, blobInfo, success, failure) {
 
 	// bail if no LMS context (local file upload relies on LMS context for now)
-	if (!D2L.LP) return;
+	if (!hasLmsContext()) return;
 
 	const orgUnitId = requestInstance(editor, 'orgUnitId');
 	const maxFileSize = requestInstance(editor, 'maxFileSize');
@@ -37,50 +38,39 @@ export function uploadImage(editor, blobInfo, success, failure) {
 
 	const fileName = blobInfo.filename().replace('blobid', 'pic');
 	const blob = blobInfo.blob();
-	blob.name = fileName;
 
-	D2L.LP.Web.UI.Html.Files.FileUpload.XmlHttpRequest.UploadFiles(
-		[blob],
-		{
-			UploadLocation: new D2L.LP.Web.Http.UrlLocation(
-				`/d2l/lp/fileupload/${orgUnitId}?maxFileSize=${maxFileSize}`
-			),
-			OnFileComplete: uploadedFile => {
-				const location = `/d2l/lp/files/temp/${uploadedFile.FileId}/View`;
+	uploadFile(orgUnitId, fileName, blob, maxFileSize).then(uploadedFile => {
+		const location = `/d2l/lp/files/temp/${uploadedFile.FileId}/View`;
 
-				editor.files.push(
-					new FileData(
-						uploadedFile.FileSystemType,
-						uploadedFile.FileId,
-						uploadedFile.FileName,
-						uploadedFile.Size,
-						location
-					)
-				);
+		editor.files.push(
+			new FileData(
+				uploadedFile.FileSystemType,
+				uploadedFile.FileId,
+				uploadedFile.FileName,
+				uploadedFile.Size,
+				location
+			)
+		);
 
-				success(location);
+		success(location);
 
-				editor._uploadImageCount--;
-				if (editor._uploadImageCount <= 0) {
-					editor.dispatchEvent(new CustomEvent(
-						'd2l-htmleditor-image-upload-complete', {
-							bubbles: true
-						}
-					));
+		editor._uploadImageCount--;
+		if (editor._uploadImageCount <= 0) {
+			editor.dispatchEvent(new CustomEvent(
+				'd2l-htmleditor-image-upload-complete', {
+					bubbles: true
 				}
-			},
-			OnAbort: (errorResponse) => failure(errorResponse),
-			OnError: (errorResponse) => failure(errorResponse),
-			OnProgress: () => { }
+			));
 		}
-	);
+
+	}).catch(errorResponse => failure(errorResponse));
 
 }
 
 tinymce.PluginManager.add('d2l-image', function(editor) {
 
 	// bail if no LMS context
-	if (!D2L.LP) return;
+	if (!hasLmsContext()) return;
 
 	const localize = requestInstance(editor.getElement(), 'localize');
 
@@ -217,40 +207,31 @@ class FileSelectorDialog extends RequesterMixin(LitElement) {
 		if (!changedProperties.has('opened')) return;
 
 		if (this.opened) {
-			const tempResult = await (new Promise((resolve) => {
 
-				const selectResult = D2L.LP.Web.UI.Legacy.MasterPages.Dialog.Open(
-					getComposedActiveElement(),
-					new D2L.LP.Web.Http.UrlLocation(`/d2l/common/dialogs/file/main.d2l
-						?ou=${this._orgUnitId}
-						&af=${this.areaFilters}
-						&am=0
-						&fsc=${this.forceSaveToCourseFiles ? '1' : '0'}
-						&asc=${this.allowSaveToCourseFiles ? '1' : '0'}
-						&mfs=0
-						&afid=1
-						&uih=${this.uploadHelp}
-						&f=${this.fileType}`
-					),
-					'DialogCallback',
-					null,
-					this.responseKeys,
-					700,
-					520,
-					null,
-					[
+			const tempResult = await openLegacyDialog(
+				getComposedActiveElement(),
+				`/d2l/common/dialogs/file/main.d2l
+					?ou=${this._orgUnitId}
+					&af=${this.areaFilters}
+					&am=0
+					&fsc=${this.forceSaveToCourseFiles ? '1' : '0'}
+					&asc=${this.allowSaveToCourseFiles ? '1' : '0'}
+					&mfs=0
+					&afid=1
+					&uih=${this.uploadHelp}
+					&f=${this.fileType}`,
+				{
+					srcCallback: 'DialogCallback',
+					responseDataKey: this.responseKeys,
+					width: 700,
+					height: 520,
+					buttons: [
 						{ IsEnabled: true, IsPrimary: true, Key: 'BTN_next', ResponseType: 1, Param: 'next', Text: 'Insert' },
 						{ IsEnabled: true, IsPrimary: false, Key: 'BTN_back', ResponseType: 1, Param: 'back', Text: 'Back' },
 						{ IsEnabled: true, IsPrimary: false, ResponseType: 0, Text: 'Cancel' }
-					],
-					false,
-					null
-				);
-
-				selectResult.AddReleaseListener(resolve);
-				selectResult.AddListener(files => resolve(files));
-
-			}));
+					]
+				}
+			);
 
 			this.opened = false;
 
