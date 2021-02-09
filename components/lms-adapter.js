@@ -55,7 +55,7 @@ export async function openDialogWithParam(opener, location, params, settings) {
 
 	} else {
 
-		const result = await (new Promise(resolve => {
+		return new Promise(resolve => {
 			const dialogResult = D2L.LP.Web.UI.Desktop.MasterPages.Dialog.OpenWithParam(
 				opener,
 				new D2L.LP.Web.Http.UrlLocation(location),
@@ -65,9 +65,8 @@ export async function openDialogWithParam(opener, location, params, settings) {
 
 			dialogResult.AddReleaseListener(resolve);
 			dialogResult.AddListener(stuff => resolve(stuff));
-		}));
+		});
 
-		return result;
 	}
 }
 
@@ -100,7 +99,7 @@ export async function openLegacyDialog(opener, location, settings) {
 
 	} else {
 
-		const result = await (new Promise(resolve => {
+		return new Promise(resolve => {
 			const dialogResult = D2L.LP.Web.UI.Legacy.MasterPages.Dialog.Open(
 				opener,
 				new D2L.LP.Web.Http.UrlLocation(location),
@@ -117,9 +116,8 @@ export async function openLegacyDialog(opener, location, settings) {
 
 			dialogResult.AddReleaseListener(resolve);
 			dialogResult.AddListener(stuff => resolve(stuff));
-		}));
+		});
 
-		return result;
 	}
 }
 
