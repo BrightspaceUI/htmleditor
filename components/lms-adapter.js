@@ -122,3 +122,39 @@ export async function openLegacyDialog(opener, location, settings) {
 		return result;
 	}
 }
+
+let fileUploadService;
+
+export async function uploadFile(orgUnitId, fileName, file, maxFileSize) {
+	if (window.ifrauclient) {
+
+		if (!fileUploadService) {
+			const ifrauClient = await window.ifrauclient().connect();
+			fileUploadService = await ifrauClient.getService('file-upload', '0.1');
+		}
+
+		return fileUploadService.uploadFile(fileName, file, maxFileSize);
+
+	} else {
+
+		return new Promise((resolve, reject) => {
+
+			file.name = fileName;
+
+			D2L.LP.Web.UI.Html.Files.FileUpload.XmlHttpRequest.UploadFiles(
+				[file],
+				{
+					UploadLocation: new D2L.LP.Web.Http.UrlLocation(
+						`/d2l/lp/fileupload/${orgUnitId}?maxFileSize=${maxFileSize}`
+					),
+					OnFileComplete: uploadedFile => resolve(uploadedFile),
+					OnAbort: errorResponse => reject(errorResponse),
+					OnError: errorResponse => reject(errorResponse),
+					OnProgress: () => { }
+				}
+			);
+
+		});
+
+	}
+}
