@@ -135,6 +135,13 @@ class HtmlEditor extends SkeletonMixin(ProviderMixin(Localizer(RtlMixin(LitEleme
 			:host([hidden]) {
 				display: none;
 			}
+			/* stylelint-disable selector-class-pattern */
+			:host(.tox-fullscreen) {
+				position: fixed;
+			}
+			:host(.tox-shadowhost.tox-fullscreen) {
+				z-index: 1000;
+			}
 			.d2l-htmleditor-container {
 				border: 1px solid var(--d2l-color-mica); /* snow */
 				border-radius: 6px;
@@ -146,7 +153,6 @@ class HtmlEditor extends SkeletonMixin(ProviderMixin(Localizer(RtlMixin(LitEleme
 			:host([skeleton]) .d2l-skeletize::before {
 				z-index: 2;
 			}
-			/* stylelint-disable selector-class-pattern */
 			.tox .tox-toolbar__group {
 				padding: 0 4px 0 8px; /* snow */
 			}
