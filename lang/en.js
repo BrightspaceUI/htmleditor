@@ -7,6 +7,7 @@ export default {
 	"equationeditor.latextooltip": "LaTeX Equation",
 	"equationeditor.mathmltooltip": "MathML Equation",
 	"image.tooltip": "Insert Image",
+	"inline.button": "Edit {name}",
 	"insertstuff.tooltip": "Insert Stuff",
 	"preview.tooltip": "Preview",
 	"quicklink.tooltip": "Insert Quicklink",

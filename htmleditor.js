@@ -31,8 +31,10 @@ import { classMap } from 'lit-html/directives/class-map.js';
 import { getContext } from './components/lms-adapter.js';
 import { getUniqueId } from '@brightspace-ui/core/helpers/uniqueId.js';
 import { inputLabelStyles } from '@brightspace-ui/core/components/inputs/input-label-styles.js';
+import { inputStyles } from '@brightspace-ui/core/components/inputs/input-styles.js';
 import { isfStyles } from './components/isf.js';
 import { Localizer } from './lang/localizer.js';
+import { offscreenStyles } from '@brightspace-ui/core/components/offscreen/offscreen.js';
 import { ProviderMixin } from '@brightspace-ui/core/mixins/provider-mixin.js';
 import { RtlMixin } from '@brightspace-ui/core/mixins/rtl-mixin.js';
 import { SkeletonMixin } from '@brightspace-ui/core/components/skeleton/skeleton-mixin.js';
@@ -123,12 +125,14 @@ class HtmlEditor extends SkeletonMixin(ProviderMixin(Localizer(RtlMixin(LitEleme
 			width: { type: String },
 			wordCountInFooter: { type: Boolean, attribute: 'word-count-in-footer' },
 			_editorId: { type: String },
-			_fraContext: { type: Boolean, attribute: 'fra-context', reflect: true }
+			_fraContext: { type: Boolean, attribute: 'fra-context', reflect: true },
+			_isEditing: { type: Boolean, attribute: 'is-editing' },
+			_isHtmlBlockButtonFocusing: { type: Boolean, attribute: 'is-html-block-button-focusing' }
 		};
 	}
 
 	static get styles() {
-		return [ super.styles, inputLabelStyles, css`
+		return [ super.styles, inputLabelStyles, inputStyles, offscreenStyles, css`
 			:host {
 				display: block;
 			}
@@ -141,6 +145,16 @@ class HtmlEditor extends SkeletonMixin(ProviderMixin(Localizer(RtlMixin(LitEleme
 				padding: 4px; /* snow */
 			}
 			.d2l-htmleditor-no-tinymce {
+				display: none;
+			}
+			.d2l-htmleditor-inline-container .d2l-htmleditor-container {
+				display: none;
+			}
+			.d2l-htmleditor-inline-container.d2l-is-editing .d2l-htmleditor-container {
+				display: block;
+			}
+			.d2l-htmleditor-inline-container.d2l-is-editing .d2l-htmleditor-inline-html-block,
+			.d2l-htmleditor-inline-container.d2l-is-editing .d2l-htmleditor-inline-button {
 				display: none;
 			}
 			:host([skeleton]) .d2l-skeletize::before {
@@ -214,6 +228,8 @@ class HtmlEditor extends SkeletonMixin(ProviderMixin(Localizer(RtlMixin(LitEleme
 		this._initializationComplete = new Promise(resolve => {
 			this._initializationResolve = resolve;
 		});
+		this._isEditing = false;
+		this._isHtmlBlockButtonFocusing = false;
 		this._uploadImageCount = 0;
 	}
 
@@ -261,7 +277,6 @@ class HtmlEditor extends SkeletonMixin(ProviderMixin(Localizer(RtlMixin(LitEleme
 		this.provideInstance('localize', this.localize.bind(this));
 
 		requestAnimationFrame(() => {
-
 			const textarea = this.shadowRoot.querySelector(`#${this._editorId}`);
 
 			const fullPageConfig = {};
@@ -388,6 +403,11 @@ class HtmlEditor extends SkeletonMixin(ProviderMixin(Localizer(RtlMixin(LitEleme
 								bubbles: true
 							}
 						));
+
+						if (this.type === editorTypes.INLINE || this.type === editorTypes.INLINE_LIMITED) {
+							this._isEditing = false;
+							this._html = editor.getContent();
+						}
 					});
 
 					const createSplitButton = (name, icon, tooltip, cmd, items) => {
@@ -457,7 +477,6 @@ class HtmlEditor extends SkeletonMixin(ProviderMixin(Localizer(RtlMixin(LitEleme
 	}
 
 	render() {
-
 		if (this.disabled) {
 			return html`
 				<d2l-html-block class="d2l-skeletize">
@@ -465,26 +484,46 @@ class HtmlEditor extends SkeletonMixin(ProviderMixin(Localizer(RtlMixin(LitEleme
 				</d2l-html-block>`;
 		}
 
-		const textAreaClasses = {
-			'd2l-htmleditor-no-tinymce': !isShadowDOMSupported
+		if (this.type === editorTypes.FULL) {
+			return this._generateEditorHtml();
+		}
+
+		const containerClasses = {
+			'd2l-htmleditor-inline-container': true,
+			'd2l-is-editing': this._isEditing
 		};
 
-		//if (this.type === editorTypes.INLINE || this.type === editorTypes.INLINE_LIMITED) {
-		//	return html`<div id="${this._editorId}" .innerHTML="${this._html}"></div>`;
-		//} else {
-		return html`
-			${this.label && !this.labelHidden ? html`<span class="d2l-input-label d2l-skeletize" aria-hidden="true">${this.label}</span>` : ''}
-			<div class="d2l-htmleditor-container d2l-skeletize">
-				<textarea id="${this._editorId}" class="${classMap(textAreaClasses)}" aria-hidden="true" tabindex="-1">${this._html}</textarea>
-			</div>
-			${!isShadowDOMSupported ? html`<d2l-alert>Web Components are not supported in this browser. Upgrade or switch to a newer browser to use the shiny new HtmlEditor.</d2l-alert>` : ''}`;
-		//}
+		const htmlBlockClasses = {
+			'd2l-htmleditor-inline-html-block': true,
+			'd2l-input': true,
+			'd2l-input-focus': this._isHtmlBlockButtonFocusing
+		};
 
+		return html`
+			<div class="${classMap(containerClasses)}">
+				<button @blur="${this._onHtmlBlockButtonBlur}"
+					class="d2l-offscreen d2l-htmleditor-inline-button"
+					@click="${this._onHtmlBlockClick}"
+					@focus="${this._onHtmlBlockButtonFocus}">
+					${this.localize('inline.button', { name: this.label })}
+				</button>
+				<div class="${classMap(htmlBlockClasses)}" @click="${this._onHtmlBlockClick}">
+					<d2l-html-block class="d2l-skeletize">
+						<template>${unsafeHTML(this._html)}</template>
+					</d2l-html-block>
+				</div>
+				${this._generateEditorHtml()}
+			</div>`;
 	}
 
 	focus() {
-		const editor = tinymce.EditorManager.get(this._editorId);
-		if (editor) editor.focus();
+		if ((this.type === editorTypes.INLINE || this.type === editorTypes.INLINE_LIMITED) && !this._isEditing) {
+			const inlineButton = this.shadowRoot.querySelector('.d2l-htmleditor-inline-button');
+			inlineButton.focus();
+		} else {
+			const editor = tinymce.EditorManager.get(this._editorId);
+			if (editor) editor.focus();
+		}
 	}
 
 	get initializationComplete() {
@@ -494,6 +533,19 @@ class HtmlEditor extends SkeletonMixin(ProviderMixin(Localizer(RtlMixin(LitEleme
 	get isDirty() {
 		const editor = tinymce.EditorManager.get(this._editorId);
 		return (editor && editor.isDirty());
+	}
+
+	_generateEditorHtml() {
+		const textAreaClasses = {
+			'd2l-htmleditor-no-tinymce': !isShadowDOMSupported
+		};
+
+		return html`
+			${this.label && !this.labelHidden ? html`<span class="d2l-input-label d2l-skeletize" aria-hidden="true">${this.label}</span>` : ''}
+			<div class="d2l-htmleditor-container d2l-skeletize">
+				<textarea id="${this._editorId}" class="${classMap(textAreaClasses)}" aria-hidden="true" tabindex="-1">${this._html}</textarea>
+			</div>
+			${!isShadowDOMSupported ? html`<d2l-alert>Web Components are not supported in this browser. Upgrade or switch to a newer browser to use the shiny new HtmlEditor.</d2l-alert>` : ''}`;
 	}
 
 	_getMinHeight() {
@@ -523,11 +575,28 @@ class HtmlEditor extends SkeletonMixin(ProviderMixin(Localizer(RtlMixin(LitEleme
 		} else if (this.type === editorTypes.INLINE) {
 			return [
 				'bold italic underline | d2l-align d2l-list d2l-isf | fullscreen',
-				`styleselect | bold italic underline d2l-inline | d2l-align d2l-list | d2l-isf d2l-quicklink d2l-image | table d2l-equation charmap emoticons hr | a11ycheck | fontselect | fontsizeselect | forecolor | ${ D2L.LP ? 'd2l-preview' : 'preview'} code | undo redo | fullscreen`
+				`styleselect | bold italic underline d2l-inline | d2l-align d2l-list | d2l-isf d2l-quicklink d2l-image | table d2l-equation charmap emoticons hr | a11ycheck | fontselect | fontsizeselect | forecolor | ${ this._context ? 'd2l-preview' : 'preview'} code | undo redo | fullscreen`
 			];
 		} else {
 			return `styleselect | bold italic underline d2l-inline | d2l-align d2l-list | d2l-isf d2l-quicklink d2l-image | table d2l-equation charmap emoticons hr | a11ycheck | fontselect | fontsizeselect | forecolor | ${ this._context ? 'd2l-preview' : 'preview'} code d2l-wordcount | undo redo | fullscreen`;
 		}
+	}
+
+	_onHtmlBlockButtonBlur() {
+		this._isHtmlBlockButtonFocusing = false;
+	}
+
+	_onHtmlBlockButtonFocus() {
+		this._isHtmlBlockButtonFocusing = true;
+	}
+
+	async _onHtmlBlockClick() {
+		this._isEditing = true;
+		await this.updateComplete;
+
+		requestAnimationFrame(() => {
+			this.focus();
+		});
 	}
 
 }
