@@ -593,10 +593,7 @@ class HtmlEditor extends SkeletonMixin(ProviderMixin(Localizer(RtlMixin(LitEleme
 	async _onHtmlBlockClick() {
 		this._isEditing = true;
 		await this.updateComplete;
-
-		requestAnimationFrame(() => {
-			this.focus();
-		});
+		requestAnimationFrame(() => this.focus());
 	}
 
 }
