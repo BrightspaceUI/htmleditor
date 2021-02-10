@@ -140,7 +140,7 @@ class HtmlEditor extends SkeletonMixin(ProviderMixin(Localizer(RtlMixin(LitEleme
 				position: fixed;
 			}
 			:host(.tox-shadowhost.tox-fullscreen) {
-				z-index: 1200;
+				z-index: 1000;
 			}
 			.d2l-htmleditor-container {
 				border: 1px solid var(--d2l-color-mica); /* snow */
