@@ -142,28 +142,11 @@ class HtmlEditor extends SkeletonMixin(ProviderMixin(Localizer(RtlMixin(LitEleme
 			:host(.tox-shadowhost.tox-fullscreen) {
 				z-index: 1000;
 			}
-			.d2l-htmleditor-container {
-				border: 1px solid var(--d2l-color-mica); /* snow */
-				border-radius: 6px;
-				padding: 4px; /* snow */
-			}
 			.d2l-htmleditor-no-tinymce {
 				display: none;
 			}
 			:host([skeleton]) .d2l-skeletize::before {
 				z-index: 2;
-			}
-			.tox .tox-toolbar__group {
-				padding: 0 4px 0 8px; /* snow */
-			}
-			.tox .tox-pop__dialog .tox-toolbar-nav-js {
-				margin-bottom: 0; /* snow */
-				margin-top: 0; /* snow */
-				min-height: auto; /* snow */
-				padding: 0; /* snow */
-			}
-			.tox .tox-pop__dialog .tox-toolbar {
-				background: none; /* snow */
 			}
 			.tox-tinymce-aux,
 			.tox.tox-tinymce.tox-fullscreen {
@@ -446,7 +429,7 @@ class HtmlEditor extends SkeletonMixin(ProviderMixin(Localizer(RtlMixin(LitEleme
 					]);
 
 				},
-				skin_url: `${baseImportPath}/tinymce/skins/ui/snow`,
+				skin_url: `${baseImportPath}/tinymce/skins/ui/d2l`,
 				statusbar: true,
 				target: textarea,
 				toolbar: this._getToolbarConfig(),
@@ -480,7 +463,7 @@ class HtmlEditor extends SkeletonMixin(ProviderMixin(Localizer(RtlMixin(LitEleme
 		//} else {
 		return html`
 			${this.label && !this.labelHidden ? html`<span class="d2l-input-label d2l-skeletize" aria-hidden="true">${this.label}</span>` : ''}
-			<div class="d2l-htmleditor-container d2l-skeletize">
+			<div class="d2l-skeletize">
 				<textarea id="${this._editorId}" class="${classMap(textAreaClasses)}" aria-hidden="true" tabindex="-1">${this._html}</textarea>
 			</div>
 			${!isShadowDOMSupported ? html`<d2l-alert>Web Components are not supported in this browser. Upgrade or switch to a newer browser to use the shiny new HtmlEditor.</d2l-alert>` : ''}`;
