@@ -98,6 +98,10 @@ To start an [es-dev-server](https://open-wc.org/developing/es-dev-server.html) t
 npm start
 ```
 
+### Skinning
+
+We use a custom skin for the HTML editor generated from [TinyMCE's skinning tool](http://skin.tiny.cloud/t5/). To modify the skin, upload `/tinymce/skin-params.json` from this repo into the skinning tool, make any necessary changes, download/unzip the skin, and place the contained `skins/ui`folder in `/tinymce/skins/ui`. The skinning tool does not generate `skin.shadowdom.css` or `skin.shadowdom.min.css`, so these files will need to be edited directly if changes are necessary. If adding a new skin, these files will need to be copied from an existing skin.
+
 ### Linting
 
 ```shell

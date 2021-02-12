@@ -12,7 +12,8 @@
     "/generated",
     "/lang",
     "/tinymce",
-    "/wordcount/wordcount.js"
+    "/wordcount/wordcount.js",
+    "!/tinymce/skin-params.json"
   ],
   "scripts": {
     "build:icons": "node ./cli/icon-generator.js",
