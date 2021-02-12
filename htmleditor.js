@@ -171,7 +171,7 @@ class HtmlEditor extends SkeletonMixin(ProviderMixin(Localizer(RtlMixin(LitEleme
 				z-index: 1000;
 			}
 			.tox.tox-silver-sink.tox-tinymce-aux {
-				position: fixed!important; /* Safari fix */
+				position: fixed !important; /* Safari fix */
 			}
 			:host([type="inline"]) .tox-tinymce .tox-toolbar-overlord > div:nth-child(2) {
 				display: none;
