@@ -452,6 +452,15 @@ class HtmlEditor extends SkeletonMixin(ProviderMixin(Localizer(RtlMixin(LitEleme
 				},
 				skin_url: `${baseImportPath}/tinymce/skins/ui/snow`,
 				statusbar: true,
+				style_formats: [
+					{ title: 'Paragraph', format: 'p' },
+					{ title: 'Heading 1', format: 'h1' },
+					{ title: 'Heading 2', format: 'h2' },
+					{ title: 'Heading 3', format: 'h3' },
+					{ title: 'Heading 4', format: 'h4' },
+					{ title: 'Blockquote', format: 'blockquote' },
+					{ title: 'Code', format: 'code' }
+				],
 				target: textarea,
 				toolbar: this._getToolbarConfig(),
 				toolbar_mode: 'sliding',
