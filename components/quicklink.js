@@ -2,11 +2,12 @@ import 'tinymce/tinymce.js';
 import { css, LitElement } from 'lit-element/lit-element.js';
 import { RequesterMixin, requestInstance } from '@brightspace-ui/core/mixins/provider-mixin.js';
 import { getComposedActiveElement } from '@brightspace-ui/core/helpers/focus.js';
+import { hasLmsContext } from './lms-adapter.js';
 
 tinymce.PluginManager.add('d2l-quicklink', function(editor) {
 
 	// bail if no LMS context
-	if (!D2L.LP) return;
+	if (!hasLmsContext()) return;
 
 	const localize = requestInstance(editor.getElement(), 'localize');
 
@@ -96,58 +97,86 @@ class QuicklinkDialog extends RequesterMixin(LitElement) {
 		if (!changedProperties.has('opened')) return;
 
 		if (this.opened) {
-			const result = await (new Promise((resolve) => {
 
-				let selectUrl = new D2L.LP.Web.Http.UrlLocation(`/d2l/lp/quicklinks/manage/${this._orgUnitId}/createdialog
-					?typeKey=
-					&initialViewType=Default
-					&outputFormat=html
-					&selectedText=${this.text}
-					&parentModuleId=0
-					&canChangeType=true
-					&showCancelButton=true
-					&urlShowTarget=true
-					&urlShowCancelButtonInline=false
-					&contextId=
-				`);
+			let resultPromise;
 
-				if (this.quicklink) selectUrl = selectUrl.WithQueryString(
-					'itemData',
-					new D2L.LP.QuickLinks.Web.Desktop.Controls.QuickLinkSelector.ItemData(
-						'',
-						null,
-						this.quicklink.href,
-						this.quicklink.text,
-						[{ name: 'target', value: (this.quicklink.target === '_top' ? 'WholeWindow' : (this.quicklink.target === '_blank' ? 'NewWindow' : 'SameFrame')) }],
-						'html'
-					)
-				);
+			if (window.ifrauclient) {
 
-				const selectResult = D2L.LP.Web.UI.Desktop.MasterPages.Dialog.Open(
-					getComposedActiveElement(),
-					selectUrl
-				);
+				const ifrauClient = await window.ifrauclient().connect();
+				const quicklinksService = await ifrauClient.getService('quicklinks', '0.1');
 
-				selectResult.AddReleaseListener(resolve);
-				selectResult.AddListener(quicklinks => {
+				resultPromise = quicklinksService.create({
+					canChangeType: true,
+					outputFormat: 'html',
+					selectedText: this.text,
+					showCancelButton: true,
+					urlShowTarget: true,
+					urlShowCancelButtonInline: false
+				}, this.quicklink ? {
+					href: this.quicklink.href,
+					text: this.quicklink.text,
+					target: this.quicklink.target,
+					outputFormat: 'html'
+				} : undefined);
 
-					if (!quicklinks || quicklinks.length === 0) {
-						resolve();
-						return;
-					}
+			} else {
 
-					const createResult = D2L.LP.Web.UI.Rpc.ConnectObject(
-						'POST',
-						new D2L.LP.Web.Http.UrlLocation(`/d2l/lp/quicklinks/manage/${this._orgUnitId}/createmultiple`),
-						{ 'items': quicklinks }
+				resultPromise = new Promise(resolve => {
+
+					let selectUrl = new D2L.LP.Web.Http.UrlLocation(`/d2l/lp/quicklinks/manage/${this._orgUnitId}/createdialog
+						?typeKey=
+						&initialViewType=Default
+						&outputFormat=html
+						&selectedText=${this.text}
+						&parentModuleId=0
+						&canChangeType=true
+						&showCancelButton=true
+						&urlShowTarget=true
+						&urlShowCancelButtonInline=false
+						&contextId=
+					`);
+
+					if (this.quicklink) selectUrl = selectUrl.WithQueryString(
+						'itemData',
+						new D2L.LP.QuickLinks.Web.Desktop.Controls.QuickLinkSelector.ItemData(
+							'',
+							null,
+							this.quicklink.href,
+							this.quicklink.text,
+							[{ name: 'target', value: (this.quicklink.target === '_top' ? 'WholeWindow' : (this.quicklink.target === '_blank' ? 'NewWindow' : 'SameFrame')) }],
+							'html'
+						)
 					);
 
-					createResult.AddReleaseListener(resolve);
-					createResult.AddListener(quicklinks => resolve(quicklinks));
+					const selectResult = D2L.LP.Web.UI.Desktop.MasterPages.Dialog.Open(
+						getComposedActiveElement(),
+						selectUrl
+					);
+
+					selectResult.AddReleaseListener(resolve);
+					selectResult.AddListener(quicklinks => {
+
+						if (!quicklinks || quicklinks.length === 0) {
+							resolve();
+							return;
+						}
+
+						const createResult = D2L.LP.Web.UI.Rpc.ConnectObject(
+							'POST',
+							new D2L.LP.Web.Http.UrlLocation(`/d2l/lp/quicklinks/manage/${this._orgUnitId}/createmultiple`),
+							{ 'items': quicklinks }
+						);
+
+						createResult.AddReleaseListener(resolve);
+						createResult.AddListener(quicklinks => resolve(quicklinks));
+
+					});
 
 				});
 
-			}));
+			}
+
+			const result = await resultPromise;
 
 			this.opened = false;
 
