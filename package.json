@@ -57,6 +57,6 @@
     "@brightspace-ui/intl": "^3",
     "@webcomponents/webcomponentsjs": "^2",
     "lit-element": "^2",
-    "tinymce": "5.6.2"
+    "tinymce": "5.7.0"
   }
 }
