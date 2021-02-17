@@ -150,7 +150,6 @@ class HtmlEditor extends SkeletonMixin(ProviderMixin(Localizer(RtlMixin(LitEleme
 			}
 			.tox-tinymce-aux,
 			.tox.tox-tinymce.tox-fullscreen {
-				background-color: #ffffff;
 				z-index: 1000 !important;
 			}
 			.tox.tox-silver-sink.tox-tinymce-aux {
