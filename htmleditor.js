@@ -34,6 +34,7 @@ import { inputLabelStyles } from '@brightspace-ui/core/components/inputs/input-l
 import { isfStyles } from './components/isf.js';
 import { Localizer } from './lang/localizer.js';
 import { ProviderMixin } from '@brightspace-ui/core/mixins/provider-mixin.js';
+import { queryMentions } from './components/mentions.js';
 import { RtlMixin } from '@brightspace-ui/core/mixins/rtl-mixin.js';
 import { SkeletonMixin } from '@brightspace-ui/core/components/skeleton/skeleton-mixin.js';
 import { tinymceLangs } from './generated/langs.js';
@@ -351,12 +352,7 @@ class HtmlEditor extends SkeletonMixin(ProviderMixin(Localizer(RtlMixin(LitEleme
 				menubar: false,
 				min_height: this._getMinHeight(),
 				mentions_fetch: (query, success) => {
-					setTimeout(() => D2L.LP.Web.UI.Rpc.Connect(
-						D2L.LP.Web.UI.Rpc.Verbs.GET,
-						new D2L.LP.Web.Http.UrlLocation('/d2l/lp/htmleditor/tinymce/mentionsSearchQuery'),
-						{ searchTerm: query.term, orgUnitId: this._context.orgUnitId },
-						{ success: success }
-					), 0);
+					setTimeout(async() => success(await queryMentions(this, query.term)), 0);
 				},
 				mentions_menu_complete: (editor, userinfo) => {
 					const span = editor.getDoc().createElement('span');
