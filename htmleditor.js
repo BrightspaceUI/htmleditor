@@ -1,8 +1,9 @@
 import '@brightspace-ui/core/components/alert/alert.js';
 import '@brightspace-ui/core/components/html-block/html-block.js';
-import './components/quicklink.js';
 import './components/equation.js';
+import './components/fullpage.js';
 import './components/preview.js';
+import './components/quicklink.js';
 import './components/wordcount.js';
 import 'tinymce/tinymce.js';
 import 'tinymce/icons/default/icons.js';
@@ -361,7 +362,7 @@ class HtmlEditor extends SkeletonMixin(ProviderMixin(Localizer(RtlMixin(LitEleme
 				},
 				mentions_selector: 'span[data-mentions-id]',
 				object_resizing : true,
-				plugins: `a11ychecker ${this.autoSave ? 'autosave' : ''} advtable autolink charmap advcode directionality emoticons ${this.fullPage ? 'fullpage' : ''} fullscreen hr image ${this.pasteLocalImages ? 'imagetools' : ''} lists link ${(this.mentions && D2L.LP) ? 'mentions' : ''} powerpaste ${this._context ? 'd2l-preview' : 'preview'} quickbars table textpattern d2l-equation d2l-image d2l-isf d2l-quicklink d2l-wordcount`,
+				plugins: `a11ychecker ${this.autoSave ? 'autosave' : ''} advtable autolink charmap advcode directionality emoticons ${this.fullPage ? 'fullpage d2l-fullpage' : ''} fullscreen hr image ${this.pasteLocalImages ? 'imagetools' : ''} lists link ${(this.mentions && D2L.LP) ? 'mentions' : ''} powerpaste ${this._context ? 'd2l-preview' : 'preview'} quickbars table textpattern d2l-equation d2l-image d2l-isf d2l-quicklink d2l-wordcount`,
 				quickbars_insert_toolbar: false,
 				relative_urls: false,
 				resize: true,
