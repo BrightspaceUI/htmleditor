@@ -80,6 +80,10 @@ if (!tinymceLangs.includes(documentLang)) {
 const pathFromUrl = url => url.substring(0, url.lastIndexOf('/'));
 const baseImportPath = pathFromUrl(import.meta.url);
 
+const fullPageStyles = css`
+	@import url("https://s.brightspace.com/lib/fonts/0.5.0/fonts.css");
+`.cssText;
+
 const contentFragmentStyles = css`
 	@import url("https://s.brightspace.com/lib/fonts/0.5.0/fonts.css");
 	html {
@@ -315,7 +319,7 @@ class HtmlEditor extends SkeletonMixin(ProviderMixin(Localizer(RtlMixin(LitEleme
 				browser_spellcheck: !this.noSpellchecker,
 				convert_urls: false,
 				content_css: `${baseImportPath}/tinymce/skins/content/default/content.css`,
-				content_style: this.fullPage ? isfStyles : `${contentFragmentStyles} ${isfStyles}`,
+				content_style: this.fullPage ? `${fullPageStyles} ${isfStyles}` : `${contentFragmentStyles} ${isfStyles}`,
 				contextmenu: 'image imagetools table',
 				directionality: this.dir ? this.dir : 'ltr',
 				elementpath: false,
