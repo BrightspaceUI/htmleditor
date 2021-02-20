@@ -4,7 +4,10 @@ const latoRegEx = /font-family: lato/i;
 
 tinymce.PluginManager.add('d2l-fullpage', function(editor) {
 
-	// specifically pull in 0.5.0 containing Lato font
+	/* caution: do not remove the specific check for lato or this URL, because user
+	authored content may require it as long as we support Lato in the editor, and
+	removing Lato from the editor means disruptive change when editing existing content */
+
 	const fontsUrl = 'https://s.brightspace.com/lib/fonts/0.5.0/fonts.css';
 
 	editor.on('GetContent', (e) => {
