@@ -1,6 +1,6 @@
 import 'tinymce/tinymce.js';
 import { css, LitElement } from 'lit-element/lit-element.js';
-import { hasLmsContext, openLegacyDialog, uploadFile } from './lms-adapter.js';
+import { getFile, hasLmsContext, openLegacyDialog, uploadFile } from './lms-adapter.js';
 import { RequesterMixin, requestInstance } from '@brightspace-ui/core/mixins/provider-mixin.js';
 import { getComposedActiveElement } from '@brightspace-ui/core/helpers/focus.js';
 
@@ -17,6 +17,14 @@ class FileData {
 		this.Size = size;
 		this.Location = location;
 	}
+}
+
+export async function getImage(src) {
+
+	// bail if no LMS context (local image fetching relies on LMS context for now)
+	if (!hasLmsContext()) return;
+
+	return await getFile(src);
 }
 
 export function uploadImage(editor, blobInfo, success, failure) {

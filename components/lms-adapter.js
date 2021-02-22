@@ -156,3 +156,25 @@ export async function uploadFile(orgUnitId, fileName, file, maxFileSize) {
 
 	}
 }
+
+let fetchFilesService;
+
+export async function getFile(src) {
+	if (window.ifrauclient) {
+
+		if (!fetchFilesService) {
+			const ifrauClient = await window.ifrauclient().connect();
+			fetchFilesService = await ifrauClient.getService('fetch-files', '0.1');
+		}
+
+		return fetchFilesService.fetchFile(src);
+
+	} else {
+
+		return window.fetch(src).then((response) => {
+			if (!response.ok) return new Blob();
+			return response.blob();
+		});
+
+	}
+}
