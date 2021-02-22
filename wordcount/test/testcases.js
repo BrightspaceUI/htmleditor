@@ -29,12 +29,12 @@ export const testCases = [
 	{
 		name: 'Text with extra whitespace',
 		text: textWithExtraWhiteSpace,
-		expectedCounts: new Counts(4, 34, 16)
+		expectedCounts: new Counts(4, 28, 16)
 	},
 	{
 		name: 'Text with leading and trailing whitespace',
 		text: textWithLeadingAndTrailingWhiteSpace,
-		expectedCounts: new Counts(4, 33, 16)
+		expectedCounts: new Counts(4, 29, 16)
 	},
 	{
 		name: 'Text with no characters',
