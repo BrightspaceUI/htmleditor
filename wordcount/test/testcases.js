@@ -1,10 +1,10 @@
 const simpleText = 'Some test text here';
-const textWithExtraWhiteSpace = `Some  
-	  test  
-	  text  
+const textWithExtraWhiteSpace = `Some
+	  test
+	  text
 	  here`;
-const textWithLeadingAndTrailingWhiteSpace = `  
-	   Some test text here  
+const textWithLeadingAndTrailingWhiteSpace = `
+	   Some test text here
 	   `;
 const textWithNoCharacters = '';
 const textWithOnlyMultipleWhiteSpaceCharacters = `
