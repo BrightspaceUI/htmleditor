@@ -1,5 +1,5 @@
 /* eslint no-useless-escape: 0 */
-
+import 'tinymce/tinymce.js';
 import { css, LitElement } from 'lit-element/lit-element.js';
 import { hasLmsContext, openDialogWithParam } from './lms-adapter.js';
 import { getComposedActiveElement } from '@brightspace-ui/core/helpers/focus.js';
