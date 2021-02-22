@@ -26,6 +26,7 @@ import 'tinymce/plugins/table/plugin.js';
 import 'tinymce/plugins/textpattern/plugin.js';
 import 'tinymce/themes/silver/theme.js';
 import { css, html, LitElement, unsafeCSS } from 'lit-element/lit-element.js';
+import { getImage, uploadImage } from './components/image.js';
 import { addIcons } from './generated/icons.js';
 import { classMap } from 'lit-html/directives/class-map.js';
 import { getContext } from './components/lms-adapter.js';
@@ -39,7 +40,6 @@ import { RtlMixin } from '@brightspace-ui/core/mixins/rtl-mixin.js';
 import { SkeletonMixin } from '@brightspace-ui/core/components/skeleton/skeleton-mixin.js';
 import { tinymceLangs } from './generated/langs.js';
 import { unsafeHTML } from 'lit-html/directives/unsafe-html.js';
-import { getImage, uploadImage } from './components/image.js';
 
 // To update from new tinyMCE install
 // 1. copy skins from installed node_modules/tinymce into tinymce/skins
@@ -277,9 +277,7 @@ class HtmlEditor extends SkeletonMixin(ProviderMixin(Localizer(RtlMixin(LitEleme
 			};
 
 			const imageToolsConfig = {};
-			//if (this._fraContext) {
-				imageToolsConfig.imagetools_fetch_image = async (img) => await getImage(img.src);
-			//};
+			if (this._fraContext) imageToolsConfig.imagetools_fetch_image = async(img) => await getImage(img.src);
 
 			/*
 			paste_preprocess: function(plugin, data) {
