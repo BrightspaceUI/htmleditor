@@ -159,7 +159,7 @@ export async function uploadFile(orgUnitId, fileName, file, maxFileSize) {
 
 let fetchFilesService;
 
-export async function getFile(src) {
+export async function getContentFile(src, orgUnitPath, fileName) {
 	if (window.ifrauclient) {
 
 		if (!fetchFilesService) {
@@ -167,7 +167,47 @@ export async function getFile(src) {
 			fetchFilesService = await ifrauClient.getService('fetch-files', '0.1');
 		}
 
-		return fetchFilesService.fetchFile(src);
+		return fetchFilesService.getContentFile(orgUnitPath, fileName);
+
+	} else {
+
+		return window.fetch(src).then((response) => {
+			if (!response.ok) return new Blob();
+			return response.blob();
+		});
+
+	}
+}
+
+export async function getSharedFile(src, fileName) {
+	if (window.ifrauclient) {
+
+		if (!fetchFilesService) {
+			const ifrauClient = await window.ifrauclient().connect();
+			fetchFilesService = await ifrauClient.getService('fetch-files', '0.1');
+		}
+
+		return fetchFilesService.getSharedFile(fileName);
+
+	} else {
+
+		return window.fetch(src).then((response) => {
+			if (!response.ok) return new Blob();
+			return response.blob();
+		});
+
+	}
+}
+
+export async function getTempFile(src, fileId) {
+	if (window.ifrauclient) {
+
+		if (!fetchFilesService) {
+			const ifrauClient = await window.ifrauclient().connect();
+			fetchFilesService = await ifrauClient.getService('fetch-files', '0.1');
+		}
+
+		return fetchFilesService.getTempFile(fileId);
 
 	} else {
 
