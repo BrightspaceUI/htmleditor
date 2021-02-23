@@ -1,8 +1,9 @@
 import '@brightspace-ui/core/components/alert/alert.js';
 import '@brightspace-ui/core/components/html-block/html-block.js';
-import './components/quicklink.js';
 import './components/equation.js';
+import './components/fullpage.js';
 import './components/preview.js';
+import './components/quicklink.js';
 import './components/wordcount.js';
 import 'tinymce/tinymce.js';
 import 'tinymce/icons/default/icons.js';
@@ -78,6 +79,10 @@ if (!tinymceLangs.includes(documentLang)) {
 
 const pathFromUrl = url => url.substring(0, url.lastIndexOf('/'));
 const baseImportPath = pathFromUrl(import.meta.url);
+
+const fullPageStyles = css`
+	@import url("https://s.brightspace.com/lib/fonts/0.5.0/fonts.css");
+`.cssText;
 
 const contentFragmentStyles = css`
 	@import url("https://s.brightspace.com/lib/fonts/0.5.0/fonts.css");
@@ -317,7 +322,7 @@ class HtmlEditor extends SkeletonMixin(ProviderMixin(Localizer(RtlMixin(LitEleme
 				browser_spellcheck: !this.noSpellchecker,
 				convert_urls: false,
 				content_css: `${baseImportPath}/tinymce/skins/content/default/content.css`,
-				content_style: this.fullPage ? isfStyles : `${contentFragmentStyles} ${isfStyles}`,
+				content_style: this.fullPage ? `${fullPageStyles} ${isfStyles}` : `${contentFragmentStyles} ${isfStyles}`,
 				contextmenu: 'image imagetools table',
 				directionality: this.dir ? this.dir : 'ltr',
 				elementpath: false,
@@ -364,7 +369,7 @@ class HtmlEditor extends SkeletonMixin(ProviderMixin(Localizer(RtlMixin(LitEleme
 				},
 				mentions_selector: 'span[data-mentions-id]',
 				object_resizing : true,
-				plugins: `a11ychecker ${this.autoSave ? 'autosave' : ''} advtable autolink charmap advcode directionality emoticons ${this.fullPage ? 'fullpage' : ''} fullscreen hr image ${this.pasteLocalImages ? 'imagetools' : ''} lists link ${(this.mentions && this._context) ? 'mentions' : ''} powerpaste ${this._context ? 'd2l-preview' : 'preview'} quickbars table textpattern d2l-equation d2l-image d2l-isf d2l-quicklink d2l-wordcount`,
+				plugins: `a11ychecker ${this.autoSave ? 'autosave' : ''} advtable autolink charmap advcode directionality emoticons ${this.fullPage ? 'fullpage d2l-fullpage' : ''} fullscreen hr image ${this.pasteLocalImages ? 'imagetools' : ''} lists link ${(this.mentions && this._context) ? 'mentions' : ''} powerpaste ${this._context ? 'd2l-preview' : 'preview'} quickbars table textpattern d2l-equation d2l-image d2l-isf d2l-quicklink d2l-wordcount`,
 				quickbars_insert_toolbar: false,
 				relative_urls: false,
 				resize: true,
