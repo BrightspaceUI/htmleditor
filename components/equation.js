@@ -50,7 +50,6 @@ tinymce.PluginManager.add('d2l-equation', function(editor) {
 			dialog.mathML = decodeURIComponent(contextNode.attributes.getNamedItem('data-d2l-mathml').value);
 		}
 
-		if (editor.selection) dialog.bookmark = editor.selection.getBookmark();
 		dialog.type = editorType;
 		dialog.opened = true;
 		dialog.addEventListener('d2l-htmleditor-equation-dialog-close', (e) => {
