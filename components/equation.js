@@ -50,11 +50,13 @@ tinymce.PluginManager.add('d2l-equation', function(editor) {
 			dialog.mathML = decodeURIComponent(contextNode.attributes.getNamedItem('data-d2l-mathml').value);
 		}
 
+		if (editor.selection) dialog.bookmark = editor.selection.getBookmark();
 		dialog.type = editorType;
 		dialog.opened = true;
 		dialog.addEventListener('d2l-htmleditor-equation-dialog-close', (e) => {
 			const html = e.detail.html;
 			if (html) editor.execCommand('mceInsertContent', false, html);
+			root.host.focus();
 		}, { once: true });
 
 	};
@@ -236,7 +238,8 @@ class EditorDialog extends LitElement {
 			const result = await openDialogWithParam(
 				getComposedActiveElement(),
 				'/d2l/lp/math/createeditor',
-				{ mathml: this.mathML, editorType: this.type }
+				{ mathml: this.mathML, editorType: this.type },
+				{ byPassOpenerFocus: true }
 			);
 
 			this.opened = false;
