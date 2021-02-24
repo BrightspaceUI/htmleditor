@@ -51,7 +51,7 @@ tinymce.PluginManager.add('d2l-quicklink', function(editor) {
 				}
 
 				root.host.focus();
-				
+
 			}, { once: true });
 
 		}
