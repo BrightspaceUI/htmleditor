@@ -44,6 +44,7 @@ tinymce.PluginManager.add('d2l-isf', function(editor) {
 			dialog.addEventListener('d2l-htmleditor-isf-dialog-close', (e) => {
 				const html = e.detail.html;
 				if (html) editor.execCommand('mceInsertContent', false, html);
+				root.host.focus();
 			}, { once: true });
 
 		}
@@ -434,7 +435,8 @@ class IsfDialog extends RequesterMixin(LitElement) {
 					responseDataKey: 'itemSource',
 					width: 975,
 					height: 650,
-					buttons: [{ IsEnabled: true, IsPrimary: true, Key: 'BTN_next', ResponseType: 1, Param: 'next', Text: 'Insert' }]
+					buttons: [{ IsEnabled: true, IsPrimary: true, Key: 'BTN_next', ResponseType: 1, Param: 'next', Text: 'Insert' }],
+					byPassOpenerFocus: true
 				}
 			);
 

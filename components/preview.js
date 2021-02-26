@@ -30,6 +30,9 @@ tinymce.PluginManager.add('d2l-preview', function(editor) {
 			dialog.opener = root.host;
 			dialog.opened = true;
 
+			dialog.addEventListener('d2l-htmleditor-preview-dialog-close', () => {
+				root.host.focus();
+			}, { once: true });
 		}
 	});
 
@@ -81,10 +84,17 @@ class PreviewDialog extends RequesterMixin(LitElement) {
 			await openDialogWithParam(
 				getComposedActiveElement(),
 				`/d2l/lp/htmleditor/${this._fullPage ? 'fullpagepreview' : 'inlinepreview'}?ou=${this._orgUnitId}`,
-				{ editor: this.htmlInfo, filter: this._noFilter ? 0 : 1 }
+				{ editor: this.htmlInfo, filter: this._noFilter ? 0 : 1 },
+				{ byPassOpenerFocus: true }
 			);
 
 			this.opened = false;
+
+			this.dispatchEvent(new CustomEvent(
+				'd2l-htmleditor-preview-dialog-close', {
+					bubbles: true
+				}
+			));
 
 		}
 
