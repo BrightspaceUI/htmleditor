@@ -133,7 +133,7 @@ class HtmlEditor extends SkeletonMixin(ProviderMixin(Localizer(RtlMixin(LitEleme
 			_editorId: { type: String },
 			_fraContext: { type: Boolean, attribute: 'fra-context', reflect: true },
 			_isEditing: { type: Boolean, attribute: 'is-editing' },
-			_isHtmlBlockButtonFocusing: { type: Boolean, attribute: 'is-html-block-button-focusing' }
+			_isInlineEditButtonFocusing: { type: Boolean }
 		};
 	}
 
@@ -227,7 +227,7 @@ class HtmlEditor extends SkeletonMixin(ProviderMixin(Localizer(RtlMixin(LitEleme
 			this._initializationResolve = resolve;
 		});
 		this._isEditing = false;
-		this._isHtmlBlockButtonFocusing = false;
+		this._isInlineEditButtonFocusing = false;
 		this._uploadImageCount = 0;
 	}
 
@@ -498,18 +498,18 @@ class HtmlEditor extends SkeletonMixin(ProviderMixin(Localizer(RtlMixin(LitEleme
 		const htmlBlockClasses = {
 			'd2l-htmleditor-inline-html-block': true,
 			'd2l-input': true,
-			'd2l-input-focus': this._isHtmlBlockButtonFocusing
+			'd2l-input-focus': this._isInlineEditButtonFocusing
 		};
 
 		return html`
 			<div class="${classMap(containerClasses)}">
-				<button @blur="${this._onHtmlBlockButtonBlur}"
+				<button @blur="${this._onInlineEditButtonBlur}"
 					class="d2l-offscreen d2l-htmleditor-inline-button"
-					@click="${this._onHtmlBlockClick}"
-					@focus="${this._onHtmlBlockButtonFocus}">
+					@click="${this._onInlineEditClick}"
+					@focus="${this._onInlineEditButtonFocus}">
 					${this.localize('inline.button', { name: this.label })}
 				</button>
-				<div class="${classMap(htmlBlockClasses)}" @click="${this._onHtmlBlockClick}">
+				<div class="${classMap(htmlBlockClasses)}" @click="${this._onInlineEditClick}">
 					<d2l-html-block class="d2l-skeletize">
 						<template>${unsafeHTML(this._html)}</template>
 					</d2l-html-block>
@@ -584,15 +584,15 @@ class HtmlEditor extends SkeletonMixin(ProviderMixin(Localizer(RtlMixin(LitEleme
 		}
 	}
 
-	_onHtmlBlockButtonBlur() {
-		this._isHtmlBlockButtonFocusing = false;
+	_onInlineEditButtonBlur() {
+		this._isInlineEditButtonFocusing = false;
 	}
 
-	_onHtmlBlockButtonFocus() {
-		this._isHtmlBlockButtonFocusing = true;
+	_onInlineEditButtonFocus() {
+		this._isInlineEditButtonFocusing = true;
 	}
 
-	async _onHtmlBlockClick() {
+	async _onInlineEditClick() {
 		this._isEditing = true;
 		await this.updateComplete;
 		requestAnimationFrame(() => this.focus());
