@@ -49,6 +49,9 @@ tinymce.PluginManager.add('d2l-quicklink', function(editor) {
 					}
 					editor.execCommand('mceInsertContent', false, html);
 				}
+
+				root.host.focus();
+
 			}, { once: true });
 
 		}
@@ -150,7 +153,8 @@ class QuicklinkDialog extends RequesterMixin(LitElement) {
 
 					const selectResult = D2L.LP.Web.UI.Desktop.MasterPages.Dialog.Open(
 						getComposedActiveElement(),
-						selectUrl
+						selectUrl,
+						{ byPassOpenerFocus: true }
 					);
 
 					selectResult.AddReleaseListener(resolve);

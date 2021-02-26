@@ -82,6 +82,7 @@ export async function openLegacyDialog(opener, location, settings) {
 			const result = await dialogService.openLegacy(
 				location,
 				{
+					byPassOpenerFocus: settings.byPassOpenerFocus,
 					PreferredSize: {
 						PreferredHeight: settings.height,
 						PreferredWidth: settings.width
@@ -111,7 +112,8 @@ export async function openLegacyDialog(opener, location, settings) {
 				null,
 				settings.buttons,
 				false,
-				null
+				null,
+				settings.byPassOpenerFocus
 			);
 
 			dialogResult.AddReleaseListener(resolve);

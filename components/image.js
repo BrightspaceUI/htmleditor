@@ -174,6 +174,7 @@ tinymce.PluginManager.add('d2l-image', function(editor) {
 				tempImg.style.maxWidth = '100%';
 
 				editor.execCommand('mceInsertContent', false, tempImg.outerHTML);
+				root.host.focus();
 
 			}, { once: true });
 
@@ -254,7 +255,8 @@ class FileSelectorDialog extends RequesterMixin(LitElement) {
 						{ IsEnabled: true, IsPrimary: true, Key: 'BTN_next', ResponseType: 1, Param: 'next', Text: 'Insert' },
 						{ IsEnabled: true, IsPrimary: false, Key: 'BTN_back', ResponseType: 1, Param: 'back', Text: 'Back' },
 						{ IsEnabled: true, IsPrimary: false, ResponseType: 0, Text: 'Cancel' }
-					]
+					],
+					byPassOpenerFocus: true
 				}
 			);
 
