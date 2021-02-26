@@ -1,11 +1,11 @@
 /* eslint quotes: 0 */
 
 export default {
-	"font.family.recommended": "Recommended",
 	"equationeditor.chemistrytooltip": "Chemistry Equation",
 	"equationeditor.graphicaltooltip": "Graphical Equation",
 	"equationeditor.latextooltip": "LaTeX Equation",
 	"equationeditor.mathmltooltip": "MathML Equation",
+	"font.family.recommended": "Recommended",
 	"image.tooltip": "Insert Image",
 	"inline.button": "Edit {name}",
 	"insertstuff.tooltip": "Insert Stuff",

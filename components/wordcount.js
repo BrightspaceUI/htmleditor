@@ -113,6 +113,15 @@ tinymce.PluginManager.add('d2l-wordcount', function(editor) {
 				countButton.textContent = localize(getButtonLangTerm(countType, isSelection), { count: count });
 			}
 		});
+
+		dialog.addEventListener('d2l-dialog-close', () => {
+			dialog.counts = {};
+			dialog.opened = false;
+			dialog.selectedCounts = {};
+
+			root.host.focus();
+
+		}, { once: true });
 	};
 
 	editor.ui.registry.addButton('d2l-wordcount', {
@@ -225,7 +234,7 @@ class WordCountDialog extends RequesterMixin(RtlMixin(LitElement)) {
 
 	render() {
 		return html`
-			<d2l-dialog width="500" title-text="${this._localize('wordcount.dialog.title')}" ?opened="${this.opened}" @d2l-dialog-close=${(this._handleDialogClosed)}>
+			<d2l-dialog width="500" title-text="${this._localize('wordcount.dialog.title')}" ?opened="${this.opened}">
 				${this._renderWordCountInfo()}
 				<div slot="footer">
 					<d2l-button primary data-dialog-action>${this._localize('wordcount.dialog.closebutton')}</d2l-button>
@@ -244,12 +253,6 @@ class WordCountDialog extends RequesterMixin(RtlMixin(LitElement)) {
 			default:
 				return this._localize('wordcount.footerselectorlabel.nocount');
 		}
-	}
-
-	_handleDialogClosed() {
-		this.counts = {};
-		this.opened = false;
-		this.selectedCounts = {};
 	}
 
 	_handleSelectCharacterCountOption() {

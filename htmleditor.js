@@ -1,8 +1,9 @@
 import '@brightspace-ui/core/components/alert/alert.js';
 import '@brightspace-ui/core/components/html-block/html-block.js';
-import './components/quicklink.js';
 import './components/equation.js';
+import './components/fullpage.js';
 import './components/preview.js';
+import './components/quicklink.js';
 import './components/wordcount.js';
 import 'tinymce/tinymce.js';
 import 'tinymce/icons/default/icons.js';
@@ -36,6 +37,7 @@ import { isfStyles } from './components/isf.js';
 import { Localizer } from './lang/localizer.js';
 import { offscreenStyles } from '@brightspace-ui/core/components/offscreen/offscreen.js';
 import { ProviderMixin } from '@brightspace-ui/core/mixins/provider-mixin.js';
+import { queryMentions } from './components/mentions.js';
 import { RtlMixin } from '@brightspace-ui/core/mixins/rtl-mixin.js';
 import { SkeletonMixin } from '@brightspace-ui/core/components/skeleton/skeleton-mixin.js';
 import { tinymceLangs } from './generated/langs.js';
@@ -79,6 +81,10 @@ if (!tinymceLangs.includes(documentLang)) {
 
 const pathFromUrl = url => url.substring(0, url.lastIndexOf('/'));
 const baseImportPath = pathFromUrl(import.meta.url);
+
+const fullPageStyles = css`
+	@import url("https://s.brightspace.com/lib/fonts/0.5.0/fonts.css");
+`.cssText;
 
 const contentFragmentStyles = css`
 	@import url("https://s.brightspace.com/lib/fonts/0.5.0/fonts.css");
@@ -139,10 +145,12 @@ class HtmlEditor extends SkeletonMixin(ProviderMixin(Localizer(RtlMixin(LitEleme
 			:host([hidden]) {
 				display: none;
 			}
-			.d2l-htmleditor-container {
-				border: 1px solid var(--d2l-color-mica); /* snow */
-				border-radius: 6px;
-				padding: 4px; /* snow */
+			/* stylelint-disable selector-class-pattern */
+			:host(.tox-fullscreen) {
+				position: fixed;
+			}
+			:host(.tox-shadowhost.tox-fullscreen) {
+				z-index: 1000 !important;
 			}
 			.d2l-htmleditor-no-tinymce {
 				display: none;
@@ -160,23 +168,13 @@ class HtmlEditor extends SkeletonMixin(ProviderMixin(Localizer(RtlMixin(LitEleme
 			:host([skeleton]) .d2l-skeletize::before {
 				z-index: 2;
 			}
-			/* stylelint-disable selector-class-pattern */
-			.tox .tox-toolbar__group {
-				padding: 0 4px 0 8px; /* snow */
-			}
-			.tox .tox-pop__dialog .tox-toolbar-nav-js {
-				margin-bottom: 0; /* snow */
-				margin-top: 0; /* snow */
-				min-height: auto; /* snow */
-				padding: 0; /* snow */
-			}
-			.tox .tox-pop__dialog .tox-toolbar {
-				background: none; /* snow */
-			}
 			.tox-tinymce-aux,
 			.tox.tox-tinymce.tox-fullscreen {
-				background-color: #ffffff;
-				z-index: 1000;
+				z-index: 1000 !important;
+			}
+			.tox.tox-silver-sink.tox-tinymce-aux {
+				position: fixed !important; /* Safari fix */
+				width: 100%;
 			}
 			:host([type="inline"]) .tox-tinymce .tox-toolbar-overlord > div:nth-child(2) {
 				display: none;
@@ -336,7 +334,7 @@ class HtmlEditor extends SkeletonMixin(ProviderMixin(Localizer(RtlMixin(LitEleme
 				browser_spellcheck: !this.noSpellchecker,
 				convert_urls: false,
 				content_css: `${baseImportPath}/tinymce/skins/content/default/content.css`,
-				content_style: this.fullPage ? isfStyles : `${contentFragmentStyles} ${isfStyles}`,
+				content_style: this.fullPage ? `${fullPageStyles} ${isfStyles}` : `${contentFragmentStyles} ${isfStyles}`,
 				contextmenu: 'image imagetools table',
 				directionality: this.dir ? this.dir : 'ltr',
 				elementpath: false,
@@ -373,12 +371,7 @@ class HtmlEditor extends SkeletonMixin(ProviderMixin(Localizer(RtlMixin(LitEleme
 				menubar: false,
 				min_height: this._getMinHeight(),
 				mentions_fetch: (query, success) => {
-					setTimeout(() => D2L.LP.Web.UI.Rpc.Connect(
-						D2L.LP.Web.UI.Rpc.Verbs.GET,
-						new D2L.LP.Web.Http.UrlLocation('/d2l/lp/htmleditor/tinymce/mentionsSearchQuery'),
-						{ searchTerm: query.term, orgUnitId: this._context.orgUnitId },
-						{ success: success }
-					), 0);
+					setTimeout(async() => success(await queryMentions(this, query.term)), 0);
 				},
 				mentions_menu_complete: (editor, userinfo) => {
 					const span = editor.getDoc().createElement('span');
@@ -388,7 +381,7 @@ class HtmlEditor extends SkeletonMixin(ProviderMixin(Localizer(RtlMixin(LitEleme
 				},
 				mentions_selector: 'span[data-mentions-id]',
 				object_resizing : true,
-				plugins: `a11ychecker ${this.autoSave ? 'autosave' : ''} advtable autolink charmap advcode directionality emoticons ${this.fullPage ? 'fullpage' : ''} fullscreen hr image ${this.pasteLocalImages ? 'imagetools' : ''} lists link ${(this.mentions && D2L.LP) ? 'mentions' : ''} powerpaste ${this._context ? 'd2l-preview' : 'preview'} quickbars table textpattern d2l-equation d2l-image d2l-isf d2l-quicklink d2l-wordcount`,
+				plugins: `a11ychecker ${this.autoSave ? 'autosave' : ''} advtable autolink charmap advcode directionality emoticons ${this.fullPage ? 'fullpage d2l-fullpage' : ''} fullscreen hr image ${this.pasteLocalImages ? 'imagetools' : ''} lists link ${(this.mentions && D2L.LP) ? 'mentions' : ''} powerpaste ${this._context ? 'd2l-preview' : 'preview'} quickbars table textpattern d2l-equation d2l-image d2l-isf d2l-quicklink d2l-wordcount`,
 				quickbars_insert_toolbar: false,
 				relative_urls: false,
 				resize: true,
@@ -460,8 +453,17 @@ class HtmlEditor extends SkeletonMixin(ProviderMixin(Localizer(RtlMixin(LitEleme
 					]);
 
 				},
-				skin_url: `${baseImportPath}/tinymce/skins/ui/snow`,
+				skin_url: `${baseImportPath}/tinymce/skins/ui/d2l`,
 				statusbar: true,
+				style_formats: [
+					{ title: 'Paragraph', format: 'p' },
+					{ title: 'Heading 1', format: 'h1' },
+					{ title: 'Heading 2', format: 'h2' },
+					{ title: 'Heading 3', format: 'h3' },
+					{ title: 'Heading 4', format: 'h4' },
+					{ title: 'Blockquote', format: 'blockquote' },
+					{ title: 'Code', format: 'code' }
+				],
 				target: textarea,
 				toolbar: this._getToolbarConfig(),
 				toolbar_mode: 'sliding',

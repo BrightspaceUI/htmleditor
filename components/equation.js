@@ -1,5 +1,5 @@
 /* eslint no-useless-escape: 0 */
-
+import 'tinymce/tinymce.js';
 import { css, LitElement } from 'lit-element/lit-element.js';
 import { hasLmsContext, openDialogWithParam } from './lms-adapter.js';
 import { getComposedActiveElement } from '@brightspace-ui/core/helpers/focus.js';
@@ -55,6 +55,7 @@ tinymce.PluginManager.add('d2l-equation', function(editor) {
 		dialog.addEventListener('d2l-htmleditor-equation-dialog-close', (e) => {
 			const html = e.detail.html;
 			if (html) editor.execCommand('mceInsertContent', false, html);
+			root.host.focus();
 		}, { once: true });
 
 	};
@@ -236,7 +237,8 @@ class EditorDialog extends LitElement {
 			const result = await openDialogWithParam(
 				getComposedActiveElement(),
 				'/d2l/lp/math/createeditor',
-				{ mathml: this.mathML, editorType: this.type }
+				{ mathml: this.mathML, editorType: this.type },
+				{ byPassOpenerFocus: true }
 			);
 
 			this.opened = false;

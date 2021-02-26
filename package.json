@@ -1,7 +1,7 @@
 {
   "name": "@brightspace-ui/htmleditor",
   "description": "An HTML editor that integrates with Brightspace",
-  "version": "1.1.6",
+  "version": "1.2.2",
   "repository": "https://github.com/BrightspaceUI/htmleditor.git",
   "publishConfig": {
     "access": "public"
@@ -12,7 +12,8 @@
     "/generated",
     "/lang",
     "/tinymce",
-    "/wordcount/wordcount.js"
+    "/wordcount/wordcount.js",
+    "!/tinymce/skin-params.json"
   ],
   "scripts": {
     "build:icons": "node ./cli/icon-generator.js",
@@ -42,13 +43,13 @@
     "deepmerge": "^4.2.2",
     "es-dev-server": "^2",
     "eslint": "^7",
-    "eslint-config-brightspace": "^0.11.0",
+    "eslint-config-brightspace": "^0.12.0",
     "eslint-plugin-html": "^6",
     "eslint-plugin-lit": "^1",
     "eslint-plugin-sort-class-members": "^1",
     "karma-sauce-launcher": "^4.1.4",
     "lit-analyzer": "^1",
-    "mocha": "~8.2.0",
+    "mocha": "~8.3.0",
     "stylelint": "^13"
   },
   "dependencies": {
@@ -56,6 +57,6 @@
     "@brightspace-ui/intl": "^3",
     "@webcomponents/webcomponentsjs": "^2",
     "lit-element": "^2",
-    "tinymce": "5.6.2"
+    "tinymce": "5.7.0"
   }
 }
