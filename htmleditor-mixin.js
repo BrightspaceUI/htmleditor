@@ -21,6 +21,7 @@ import 'tinymce/plugins/table/plugin.js';
 import 'tinymce/plugins/textpattern/plugin.js';
 import 'tinymce/themes/silver/theme.js';
 import { css, html, unsafeCSS } from 'lit-element/lit-element.js';
+import { getImage, uploadImage } from './components/image.js';
 import { addIcons } from './generated/icons.js';
 import { classMap } from 'lit-html/directives/class-map.js';
 import { getContext } from './components/lms-adapter.js';
@@ -31,7 +32,6 @@ import { ProviderMixin } from '@brightspace-ui/core/mixins/provider-mixin.js';
 import { queryMentions } from './components/mentions.js';
 import { RtlMixin } from '@brightspace-ui/core/mixins/rtl-mixin.js';
 import { tinymceLangs } from './generated/langs.js';
-import { uploadImage } from './components/image.js';
 
 const isShadowDOMSupported = !(window.ShadyDOM && window.ShadyDOM.inUse);
 const rootFontSize = window.getComputedStyle(document.documentElement, null).getPropertyValue('font-size');
@@ -312,7 +312,11 @@ export const HtmlEditorMixin = superclass => class extends Localizer(RtlMixin(Pr
 		}
 
 		const imageToolsConfig = {};
-		if (this._fraContext) imageToolsConfig.imagetools_fetch_image = async(img) => await getImage(img.src);
+		if (this._fraContext) {
+			imageToolsConfig.imagetools_fetch_image = img => new Promise(resolve =>
+				resolve(getImage(this, img.src))
+			);
+		}
 
 		/*
 		paste_preprocess: function(plugin, data) {

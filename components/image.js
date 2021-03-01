@@ -24,8 +24,10 @@ export async function getImage(editor, src) {
 	// bail if no LMS context (local image fetching relies on LMS context for now)
 	if (!hasLmsContext()) return;
 
-	const path = new URL(src).pathname;
 	const orgUnitPath = requestInstance(editor, 'orgUnitPath');
+	const host = requestInstance(editor, 'host');
+
+	const path = host ? new URL(src, host).pathname : new URL(src).pathname;
 
 	if (path.startsWith(orgUnitPath)) {
 		const fileName = path.replace(orgUnitPath, '');

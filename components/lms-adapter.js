@@ -169,7 +169,7 @@ export async function getContentFile(src, orgUnitPath, fileName) {
 			fetchFilesService = await ifrauClient.getService('fetch-files', '0.1');
 		}
 
-		return fetchFilesService.getContentFile(orgUnitPath, fileName);
+		return await fetchFilesService.getContentFile(orgUnitPath, fileName);
 
 	} else {
 
@@ -189,7 +189,7 @@ export async function getSharedFile(src, fileName) {
 			fetchFilesService = await ifrauClient.getService('fetch-files', '0.1');
 		}
 
-		return fetchFilesService.getSharedFile(fileName);
+		return await fetchFilesService.getSharedFile(fileName);
 
 	} else {
 
@@ -209,7 +209,7 @@ export async function getTempFile(src, fileId) {
 			fetchFilesService = await ifrauClient.getService('fetch-files', '0.1');
 		}
 
-		return fetchFilesService.getTempFile(fileId);
+		return await fetchFilesService.getTempFile(fileId);
 
 	} else {
 

@@ -4,34 +4,7 @@ import './components/fullpage.js';
 import './components/preview.js';
 import './components/quicklink.js';
 import './components/wordcount.js';
-<<<<<<< HEAD
-import 'tinymce/tinymce.js';
-import 'tinymce/icons/default/icons.js';
-import 'tinymce/plugins/autosave/plugin.js';
-import 'tinymce/plugins/autolink/plugin.js';
-import 'tinymce/plugins/charmap/plugin.js';
-import 'tinymce/plugins/code/plugin.js';
-import 'tinymce/plugins/directionality/plugin.js';
-import 'tinymce/plugins/emoticons/plugin.js';
-import 'tinymce/plugins/emoticons/js/emojis.js';
-import 'tinymce/plugins/fullpage/plugin.js';
-import 'tinymce/plugins/fullscreen/plugin.js';
-import 'tinymce/plugins/hr/plugin.js';
-import 'tinymce/plugins/image/plugin.js';
-import 'tinymce/plugins/imagetools/plugin.js';
-import 'tinymce/plugins/link/plugin.js';
-import 'tinymce/plugins/lists/plugin.js';
-import 'tinymce/plugins/preview/plugin.js';
-import 'tinymce/plugins/quickbars/plugin.js';
-import 'tinymce/plugins/table/plugin.js';
-import 'tinymce/plugins/textpattern/plugin.js';
-import 'tinymce/themes/silver/theme.js';
-import { css, html, LitElement, unsafeCSS } from 'lit-element/lit-element.js';
-import { getImage, uploadImage } from './components/image.js';
-import { addIcons } from './generated/icons.js';
-=======
 import { css, html, LitElement } from 'lit-element/lit-element.js';
->>>>>>> master
 import { classMap } from 'lit-html/directives/class-map.js';
 import { HtmlEditorMixin } from './htmleditor-mixin.js';
 import { inputLabelStyles } from '@brightspace-ui/core/components/inputs/input-label-styles.js';
