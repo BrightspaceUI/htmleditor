@@ -141,14 +141,10 @@ tinymce.PluginManager.add('d2l-image', function(editor) {
 					)
 				);
 
-				const tempImg = document.createElement('img');
-				tempImg.setAttribute('src', src);
-				tempImg.setAttribute('alt', e.detail.IsDecorative ? '' : e.detail.ImageAlt);
-				tempImg.setAttribute('title', e.detail.IsDecorative ? '' : e.detail.ImageAlt);
-				tempImg.setAttribute('data-d2l-editor-default-img-style', 'true');
-				tempImg.style.maxWidth = '100%';
+				const altText = e.detail.IsDecorative ? '' : e.detail.ImageAlt;
+				const imgHtml = `<img src="${src}" alt="${altText}" title="${altText}" data-d2l-editor-default-img-style>`;
 
-				editor.execCommand('mceInsertContent', false, tempImg.outerHTML);
+				editor.execCommand('mceInsertContent', false, imgHtml/*tempImg.outerHTML*/);
 				root.host.focus();
 
 			}, { once: true });
