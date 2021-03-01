@@ -142,9 +142,9 @@ tinymce.PluginManager.add('d2l-image', function(editor) {
 				);
 
 				const altText = e.detail.IsDecorative ? '' : e.detail.ImageAlt;
-				const imgHtml = `<img src="${src}" alt="${altText}" title="${altText}" data-d2l-editor-default-img-style>`;
+				const imgHtml = `<img src="${src}" alt="${altText}" title="${altText}" data-d2l-editor-default-img-style style="max-width: 100%;">`;
 
-				editor.execCommand('mceInsertContent', false, imgHtml/*tempImg.outerHTML*/);
+				editor.execCommand('mceInsertContent', false, imgHtml);
 				root.host.focus();
 
 			}, { once: true });
