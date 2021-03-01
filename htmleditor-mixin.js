@@ -307,7 +307,7 @@ export const HtmlEditorMixin = superclass => class extends Localizer(RtlMixin(Pr
 		};
 
 		const documentConfig = {};
-		if (this._fraContext && this._context && this._context.host) {
+		if (this._context && this._context.host) {
 			documentConfig.document_base_url = this._context.host;
 		}
 
