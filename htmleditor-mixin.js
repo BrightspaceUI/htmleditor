@@ -306,6 +306,11 @@ export const HtmlEditorMixin = superclass => class extends Localizer(RtlMixin(Pr
 			autosave_retention: '0s'
 		};
 
+		const documentConfig = {};
+		if (this._context && this._context.host) {
+			documentConfig.document_base_url = this._context.host;
+		}
+
 		/*
 		paste_preprocess: function(plugin, data) {
 			// Stops Paste plugin from converting pasted image links to image
@@ -456,6 +461,7 @@ export const HtmlEditorMixin = superclass => class extends Localizer(RtlMixin(Pr
 			valid_elements: '*[*]',
 			width: this.width,
 			...autoSaveConfig,
+			...documentConfig,
 			...fullPageConfig,
 			...powerPasteConfig
 		});
