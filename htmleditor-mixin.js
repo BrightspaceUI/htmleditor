@@ -215,14 +215,6 @@ export const HtmlEditorMixin = superclass => class extends Localizer(RtlMixin(Pr
 		}
 	}
 
-	async connectedCallback() {
-		super.connectedCallback();
-	}
-
-	disconnectedCallback() {
-		super.disconnectedCallback();
-	}
-
 	async firstUpdated(changedProperties) {
 		super.firstUpdated(changedProperties);
 
@@ -246,9 +238,8 @@ export const HtmlEditorMixin = superclass => class extends Localizer(RtlMixin(Pr
 		this.provideInstance('localize', this.localize.bind(this));
 
 		requestAnimationFrame(() => {
-
+			// eventually we can lazy load, but not until the plugins have been updated for toolbar refactoring
 			this._initializeTinymce();
-
 		});
 
 	}
