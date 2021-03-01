@@ -8,6 +8,7 @@
   },
   "files": [
     "htmleditor.js",
+    "htmleditor-mixin.js",
     "/components",
     "/generated",
     "/lang",
