@@ -33,8 +33,8 @@ export function getImage(editor, src) {
 		const fileSubPath = path.replace(orgUnitPath, '');
 		return getContentFile(src, orgUnitPath, fileSubPath);
 	} else if (path.startsWith('/shared/')) {
-		const fileName = path.replace('/shared/', '');
-		return getSharedFile(src, fileName);
+		const fileSubPath = path.replace('/shared/', '');
+		return getSharedFile(src, fileSubPath);
 	} else if (path.startsWith('/d2l/lp/files/temp/')) {
 		const fileId = path.replace('/d2l/lp/files/temp/', '').replace('/View', '');
 		return getTempFile(src, fileId);

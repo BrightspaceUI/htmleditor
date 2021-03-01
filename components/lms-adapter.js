@@ -181,7 +181,7 @@ export async function getContentFile(src, orgUnitPath, fileSubPath) {
 	}
 }
 
-export async function getSharedFile(src, fileName) {
+export async function getSharedFile(src, fileSubPath) {
 	if (window.ifrauclient) {
 
 		if (!fetchFilesService) {
@@ -189,7 +189,7 @@ export async function getSharedFile(src, fileName) {
 			fetchFilesService = await ifrauClient.getService('fetch-files', '0.1');
 		}
 
-		return fetchFilesService.getSharedFile(fileName);
+		return fetchFilesService.getSharedFile(fileSubPath);
 
 	} else {
 
