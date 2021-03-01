@@ -312,11 +312,7 @@ export const HtmlEditorMixin = superclass => class extends Localizer(RtlMixin(Pr
 		}
 
 		const imageToolsConfig = {};
-		if (this._fraContext) {
-			imageToolsConfig.imagetools_fetch_image = img => new Promise(resolve =>
-				resolve(getImage(this, img.src))
-			);
-		}
+		if (this._fraContext) imageToolsConfig.imagetools_fetch_image = img => getImage(this, img.src);
 
 		/*
 		paste_preprocess: function(plugin, data) {

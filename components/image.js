@@ -19,7 +19,7 @@ class FileData {
 	}
 }
 
-export async function getImage(editor, src) {
+export function getImage(editor, src) {
 
 	// bail if no LMS context (local image fetching relies on LMS context for now)
 	if (!hasLmsContext()) return;
