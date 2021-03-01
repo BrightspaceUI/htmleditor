@@ -161,7 +161,7 @@ export async function uploadFile(orgUnitId, fileName, file, maxFileSize) {
 
 let fetchFilesService;
 
-export async function getContentFile(src, orgUnitPath, fileName) {
+export async function getContentFile(src, orgUnitPath, fileSubPath) {
 	if (window.ifrauclient) {
 
 		if (!fetchFilesService) {
@@ -169,7 +169,7 @@ export async function getContentFile(src, orgUnitPath, fileName) {
 			fetchFilesService = await ifrauClient.getService('fetch-files', '0.1');
 		}
 
-		return await fetchFilesService.getContentFile(orgUnitPath, fileName);
+		return fetchFilesService.getContentFile(orgUnitPath, fileSubPath);
 
 	} else {
 
@@ -189,7 +189,7 @@ export async function getSharedFile(src, fileName) {
 			fetchFilesService = await ifrauClient.getService('fetch-files', '0.1');
 		}
 
-		return await fetchFilesService.getSharedFile(fileName);
+		return fetchFilesService.getSharedFile(fileName);
 
 	} else {
 
@@ -209,7 +209,7 @@ export async function getTempFile(src, fileId) {
 			fetchFilesService = await ifrauClient.getService('fetch-files', '0.1');
 		}
 
-		return await fetchFilesService.getTempFile(fileId);
+		return fetchFilesService.getTempFile(fileId);
 
 	} else {
 

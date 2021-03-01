@@ -30,14 +30,14 @@ export async function getImage(editor, src) {
 	const path = host ? new URL(src, host).pathname : new URL(src).pathname;
 
 	if (path.startsWith(orgUnitPath)) {
-		const fileName = path.replace(orgUnitPath, '');
-		return await getContentFile(src, orgUnitPath, fileName);
+		const fileSubPath = path.replace(orgUnitPath, '');
+		return getContentFile(src, orgUnitPath, fileSubPath);
 	} else if (path.startsWith('/shared/')) {
 		const fileName = path.replace('/shared/', '');
-		return await getSharedFile(src, fileName);
+		return getSharedFile(src, fileName);
 	} else if (path.startsWith('/d2l/lp/files/temp/')) {
 		const fileId = path.replace('/d2l/lp/files/temp/', '').replace('/View', '');
-		return await getTempFile(src, fileId);
+		return getTempFile(src, fileId);
 	} else {
 		return window.fetch(src).then((response) => {
 			if (!response.ok) return new Blob();
