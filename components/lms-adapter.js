@@ -158,3 +158,65 @@ export async function uploadFile(orgUnitId, fileName, file, maxFileSize) {
 
 	}
 }
+
+let fetchFilesService;
+
+export async function getContentFile(src, orgUnitPath, fileSubPath) {
+	if (window.ifrauclient) {
+
+		if (!fetchFilesService) {
+			const ifrauClient = await window.ifrauclient().connect();
+			fetchFilesService = await ifrauClient.getService('fetch-files', '0.1');
+		}
+
+		return fetchFilesService.getContentFile(orgUnitPath, fileSubPath);
+
+	} else {
+
+		return window.fetch(src).then((response) => {
+			if (!response.ok) return new Blob();
+			return response.blob();
+		});
+
+	}
+}
+
+export async function getSharedFile(src, fileSubPath) {
+	if (window.ifrauclient) {
+
+		if (!fetchFilesService) {
+			const ifrauClient = await window.ifrauclient().connect();
+			fetchFilesService = await ifrauClient.getService('fetch-files', '0.1');
+		}
+
+		return fetchFilesService.getSharedFile(fileSubPath);
+
+	} else {
+
+		return window.fetch(src).then((response) => {
+			if (!response.ok) return new Blob();
+			return response.blob();
+		});
+
+	}
+}
+
+export async function getTempFile(src, fileId) {
+	if (window.ifrauclient) {
+
+		if (!fetchFilesService) {
+			const ifrauClient = await window.ifrauclient().connect();
+			fetchFilesService = await ifrauClient.getService('fetch-files', '0.1');
+		}
+
+		return fetchFilesService.getTempFile(fileId);
+
+	} else {
+
+		return window.fetch(src).then((response) => {
+			if (!response.ok) return new Blob();
+			return response.blob();
+		});
+
+	}
+}

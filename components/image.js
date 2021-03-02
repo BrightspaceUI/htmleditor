@@ -1,6 +1,6 @@
 import 'tinymce/tinymce.js';
 import { css, LitElement } from 'lit-element/lit-element.js';
-import { hasLmsContext, openLegacyDialog, uploadFile } from './lms-adapter.js';
+import { getContentFile, getSharedFile, getTempFile, hasLmsContext, openLegacyDialog, uploadFile } from './lms-adapter.js';
 import { RequesterMixin, requestInstance } from '@brightspace-ui/core/mixins/provider-mixin.js';
 import { getComposedActiveElement } from '@brightspace-ui/core/helpers/focus.js';
 
@@ -16,6 +16,33 @@ class FileData {
 		this.FileName = fileName;
 		this.Size = size;
 		this.Location = location;
+	}
+}
+
+export function getImage(editor, src) {
+
+	// bail if no LMS context (local image fetching relies on LMS context for now)
+	if (!hasLmsContext()) return;
+
+	const orgUnitPath = requestInstance(editor, 'orgUnitPath');
+	const host = requestInstance(editor, 'host');
+
+	const path = host ? new URL(src, host).pathname : new URL(src).pathname;
+
+	if (path.startsWith(orgUnitPath)) {
+		const fileSubPath = path.replace(orgUnitPath, '');
+		return getContentFile(src, orgUnitPath, fileSubPath);
+	} else if (path.startsWith('/shared/')) {
+		const fileSubPath = path.replace('/shared/', '');
+		return getSharedFile(src, fileSubPath);
+	} else if (path.startsWith('/d2l/lp/files/temp/')) {
+		const fileId = path.replace('/d2l/lp/files/temp/', '').replace('/View', '');
+		return getTempFile(src, fileId);
+	} else {
+		return window.fetch(src).then((response) => {
+			if (!response.ok) return new Blob();
+			return response.blob();
+		});
 	}
 }
 
