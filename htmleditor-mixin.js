@@ -128,7 +128,9 @@ export const HtmlEditorMixin = superclass => class extends Localizer(RtlMixin(Pr
 			.d2l-htmleditor-no-tinymce {
 				display: none;
 			}
-
+			.d2l-htmleditor-tinymce-percentage-height {
+				height: inherit;
+			}
 			/* stylelint-disable selector-class-pattern */
 			:host(.tox-fullscreen) {
 				position: fixed;
@@ -473,12 +475,17 @@ export const HtmlEditorMixin = superclass => class extends Localizer(RtlMixin(Pr
 	}
 
 	_render() {
+		const containerClasses = {
+			'd2l-htmleditor-tinymce': true,
+			'd2l-htmleditor-tinymce-percentage-height': this.height.includes('%')
+		};
+		
 		const textAreaClasses = {
 			'd2l-htmleditor-no-tinymce': !isShadowDOMSupported
 		};
 
 		return html`
-			<div class="d2l-htmleditor-tinymce">
+			<div class="${classMap(containerClasses)}">
 				<textarea id="${this._editorId}" class="${classMap(textAreaClasses)}" aria-hidden="true" tabindex="-1">${this._html}</textarea>
 			</div>
 			${!isShadowDOMSupported ? html`<d2l-alert>Web Components are not supported in this browser. Upgrade or switch to a newer browser to use the shiny new HtmlEditor.</d2l-alert>` : ''}

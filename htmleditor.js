@@ -50,6 +50,9 @@ class HtmlEditor extends HtmlEditorMixin(SkeletonMixin(LitElement)) {
 			:host([hidden]) {
 				display: none;
 			}
+			.d2l-htmleditor-percentage-height {
+				height: inherit;
+			}
 			.d2l-htmleditor-inline-container .d2l-htmleditor-container {
 				display: none;
 			}
@@ -139,9 +142,15 @@ class HtmlEditor extends HtmlEditorMixin(SkeletonMixin(LitElement)) {
 
 	_renderEditor() {
 
+		const containerClasses = {
+			'd2l-htmleditor-container': true,
+			'd2l-skeletize': true,
+			'd2l-htmleditor-percentage-height': super.height.includes('%')
+		};
+
 		return html`
 			${this.label && !this.labelHidden ? html`<span class="d2l-input-label d2l-skeletize" aria-hidden="true">${this.label}</span>` : ''}
-			<div class="d2l-htmleditor-container d2l-skeletize">
+			<div class="${classMap(containerClasses)}">
 				${this._render()}
 			</div>
 		`;
@@ -150,13 +159,17 @@ class HtmlEditor extends HtmlEditorMixin(SkeletonMixin(LitElement)) {
 
 	_renderInlineEditor() {
 
+		const hasPercentageHeight = this.height.includes('%');
+
 		const containerClasses = {
 			'd2l-htmleditor-inline-container': true,
+			'd2l-htmleditor-percentage-height': hasPercentageHeight,
 			'd2l-is-editing': this._isEditing
 		};
 
 		const htmlBlockClasses = {
 			'd2l-htmleditor-inline-html-block': true,
+			'd2l-htmleditor-percentage-height': hasPercentageHeight,
 			'd2l-input': true,
 			'd2l-input-focus': this._isInlineEditButtonFocusing
 		};
