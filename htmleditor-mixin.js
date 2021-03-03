@@ -479,7 +479,7 @@ export const HtmlEditorMixin = superclass => class extends Localizer(RtlMixin(Pr
 			'd2l-htmleditor-tinymce': true,
 			'd2l-htmleditor-tinymce-percentage-height': this.height.includes('%')
 		};
-		
+
 		const textAreaClasses = {
 			'd2l-htmleditor-no-tinymce': !isShadowDOMSupported
 		};
