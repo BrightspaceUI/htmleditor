@@ -1,7 +1,7 @@
 /* eslint no-useless-escape: 0 */
 import 'tinymce/tinymce.js';
 import { css, LitElement } from 'lit-element/lit-element.js';
-import { hasLmsContext, openDialogWithParam } from './lms-adapter.js';
+import { hasLmsContext, openDialogWithParam } from '../lms-adapter.js';
 import { getComposedActiveElement } from '@brightspace-ui/core/helpers/focus.js';
 import { requestInstance } from '@brightspace-ui/core/mixins/provider-mixin.js';
 
@@ -39,6 +39,12 @@ tinymce.PluginManager.add('d2l-equation', function(editor) {
 		}
 	};
 
+	const isEquationSelected = (editorType) => {
+		const contextNode = getSelectedMathImage();
+		if (!contextNode) return false;
+		return getEditorTypeForImage(contextNode) === editorType;
+	};
+
 	const launchEditor = (editorType) => {
 		const root = editor.getElement().getRootNode();
 
@@ -59,6 +65,16 @@ tinymce.PluginManager.add('d2l-equation', function(editor) {
 		}, { once: true });
 
 	};
+
+	editor.addCommand('d2l-equation-graphical', () => launchEditor(editorTypes.Graphical));
+	editor.addCommand('d2l-equation-latex', () => launchEditor(editorTypes.Latex));
+	editor.addCommand('d2l-equation-mathml', () => launchEditor(editorTypes.MathML));
+	editor.addCommand('d2l-equation-chemistry', () => launchEditor(editorTypes.Chemistry));
+
+	editor.addQueryStateHandler('d2l-equation-graphical', () => isEquationSelected(editorTypes.Graphical));
+	editor.addQueryStateHandler('d2l-equation-latex', () => isEquationSelected(editorTypes.Latex));
+	editor.addQueryStateHandler('d2l-equation-mathml', () => isEquationSelected(editorTypes.MathML));
+	editor.addQueryStateHandler('d2l-equation-chemistry', () => isEquationSelected(editorTypes.Chemistry));
 
 	editor.ui.registry.addSplitButton('d2l-equation', {
 		icon: 'equation-graphical',

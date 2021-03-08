@@ -2,7 +2,7 @@ import 'tinymce/tinymce.js';
 import { css, LitElement } from 'lit-element/lit-element.js';
 import { RequesterMixin, requestInstance } from '@brightspace-ui/core/mixins/provider-mixin.js';
 import { getComposedActiveElement } from '@brightspace-ui/core/helpers/focus.js';
-import { hasLmsContext } from './lms-adapter.js';
+import { hasLmsContext } from '../lms-adapter.js';
 
 tinymce.PluginManager.add('d2l-quicklink', function(editor) {
 
@@ -11,50 +11,53 @@ tinymce.PluginManager.add('d2l-quicklink', function(editor) {
 
 	const localize = requestInstance(editor.getElement(), 'localize');
 
+	const action = () => {
+		const root = editor.getElement().getRootNode();
+
+		let dialog = root.querySelector('d2l-htmleditor-quicklink-dialog');
+		if (!dialog) dialog = root.appendChild(document.createElement('d2l-htmleditor-quicklink-dialog'));
+
+		const contextNode = (editor.selection ? editor.selection.getNode() : null);
+
+		if (contextNode && contextNode.tagName === 'A') {
+			dialog.quicklink = {
+				href: contextNode.getAttribute('href'),
+				target: contextNode.getAttribute('target'),
+				text: contextNode.innerText
+			};
+		} else {
+			dialog.text = tinymce.DOM.decode(editor.selection.getContent());
+		}
+
+		dialog.opened = true;
+		dialog.addEventListener('d2l-htmleditor-quicklink-dialog-close', (e) => {
+
+			const quicklinks = e.detail.quicklinks;
+			if (!quicklinks || quicklinks.length === 0) return;
+
+			const html = quicklinks.reduce((acc, cur) => {
+				return acc += cur.html;
+			}, '');
+
+			if (html) {
+				if (contextNode && contextNode.tagName === 'A') {
+					// expand selection if necessary to replace current link
+					editor.selection.select(contextNode);
+				}
+				editor.execCommand('mceInsertContent', false, html);
+			}
+
+			root.host.focus();
+
+		}, { once: true });
+	};
+
+	editor.addCommand('d2l-quicklink', action);
+
 	editor.ui.registry.addButton('d2l-quicklink', {
 		tooltip: localize('quicklink.tooltip'),
 		icon: 'link',
-		onAction: () => {
-			const root = editor.getElement().getRootNode();
-
-			let dialog = root.querySelector('d2l-htmleditor-quicklink-dialog');
-			if (!dialog) dialog = root.appendChild(document.createElement('d2l-htmleditor-quicklink-dialog'));
-
-			const contextNode = (editor.selection ? editor.selection.getNode() : null);
-
-			if (contextNode && contextNode.tagName === 'A') {
-				dialog.quicklink = {
-					href: contextNode.getAttribute('href'),
-					target: contextNode.getAttribute('target'),
-					text: contextNode.innerText
-				};
-			} else {
-				dialog.text = tinymce.DOM.decode(editor.selection.getContent());
-			}
-
-			dialog.opened = true;
-			dialog.addEventListener('d2l-htmleditor-quicklink-dialog-close', (e) => {
-
-				const quicklinks = e.detail.quicklinks;
-				if (!quicklinks || quicklinks.length === 0) return;
-
-				const html = quicklinks.reduce((acc, cur) => {
-					return acc += cur.html;
-				}, '');
-
-				if (html) {
-					if (contextNode && contextNode.tagName === 'A') {
-						// expand selection if necessary to replace current link
-						editor.selection.select(contextNode);
-					}
-					editor.execCommand('mceInsertContent', false, html);
-				}
-
-				root.host.focus();
-
-			}, { once: true });
-
-		}
+		onAction: action
 	});
 
 });

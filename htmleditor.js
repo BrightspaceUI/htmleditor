@@ -1,9 +1,5 @@
+import '@brightspace-ui/core/components/colors/colors.js';
 import '@brightspace-ui/core/components/html-block/html-block.js';
-import './components/equation.js';
-import './components/fullpage.js';
-import './components/preview.js';
-import './components/quicklink.js';
-import './components/wordcount.js';
 import { css, html, LitElement } from 'lit-element/lit-element.js';
 import { classMap } from 'lit-html/directives/class-map.js';
 import { HtmlEditorMixin } from './htmleditor-mixin.js';
@@ -23,6 +19,8 @@ import { unsafeHTML } from 'lit-html/directives/unsafe-html.js';
 // TODO: review whether we need to stop pasting of image addresses (see fra editor)
 // TODO: review allow_script_urls (ideally we can turn this off)
 // TODO: review auto-focus and whether it should be on the API
+
+const isShadowDOMSupported = !(window.ShadyDOM && window.ShadyDOM.inUse);
 
 const editorTypes = {
 	FULL: 'full',
@@ -50,6 +48,31 @@ class HtmlEditor extends HtmlEditorMixin(SkeletonMixin(LitElement)) {
 			:host([hidden]) {
 				display: none;
 			}
+			.d2l-htmleditor-container {
+				border: 1px solid var(--d2l-color-gypsum);
+				border-radius: 6px;
+			}
+			.d2l-htmleditor-percentage-height {
+				height: inherit;
+			}
+			.d2l-htmleditor-fullscreen {
+				background-color: #ffffff;
+				display: flex;
+				flex-direction: column;
+				height: 100vh;
+				left: 0;
+				position: fixed;
+				top: 0;
+				width: 100%;
+				z-index: 1001;
+			}
+			.d2l-htmleditor-fullscreen .d2l-htmleditor-editor-container {
+				flex: auto;
+			}
+			/* stylelint-disable-next-line selector-class-pattern */
+			.d2l-htmleditor-fullscreen .tox-tinymce {
+				height: 100% !important;
+			}
 			.d2l-htmleditor-inline-container .d2l-htmleditor-container {
 				display: none;
 			}
@@ -75,13 +98,25 @@ class HtmlEditor extends HtmlEditorMixin(SkeletonMixin(LitElement)) {
 		this._isInlineEditButtonFocusing = false;
 	}
 
-	firstUpdated(changedProperties) {
-		super.firstUpdated(changedProperties);
+	async firstUpdated(changedProperties) {
+		await super.firstUpdated(changedProperties);
+
+		if (!isShadowDOMSupported) return;
+
 		this.addEventListener('d2l-htmleditor-blur', () => {
 			if (this.type === editorTypes.INLINE || this.type === editorTypes.INLINE_LIMITED) {
 				this._isEditing = false;
 			}
 		});
+
+		this._toolbar = await import('./components/toolbar/toolbar-full.js');
+		this.requestUpdate();
+
+		requestAnimationFrame(() => {
+			// eventually we can lazy load, but not until the plugins have been updated for toolbar refactoring
+			this._initializeTinymce(this._toolbar.getPlugins(this));
+		});
+
 	}
 
 	render() {
@@ -94,7 +129,7 @@ class HtmlEditor extends HtmlEditorMixin(SkeletonMixin(LitElement)) {
 		}
 
 		if (this.type === editorTypes.FULL) {
-			return this._renderEditor();
+			return this._renderFullEditor();
 		}
 
 		return this._renderInlineEditor();
@@ -111,6 +146,7 @@ class HtmlEditor extends HtmlEditorMixin(SkeletonMixin(LitElement)) {
 	}
 
 	_getToolbarConfig() {
+		//return false;
 		if (this.type === editorTypes.INLINE_LIMITED) {
 			return 'bold italic underline | d2l-list d2l-isf emoticons';
 		} else if (this.type === editorTypes.INLINE) {
@@ -137,26 +173,44 @@ class HtmlEditor extends HtmlEditorMixin(SkeletonMixin(LitElement)) {
 		requestAnimationFrame(() => this.focus());
 	}
 
-	_renderEditor() {
+	_renderEditor(toolbar) {
+		const containerClasses = {
+			'd2l-htmleditor-container': true,
+			'd2l-skeletize': true,
+			'd2l-htmleditor-percentage-height': super.height.includes('%'),
+			'd2l-htmleditor-fullscreen': this._fullscreen
+		};
 
 		return html`
 			${this.label && !this.labelHidden ? html`<span class="d2l-input-label d2l-skeletize" aria-hidden="true">${this.label}</span>` : ''}
-			<div class="d2l-htmleditor-container d2l-skeletize">
-				${this._render()}
+			<div class="${classMap(containerClasses)}">
+				<div class="d2l-htmleditor-toolbar-container">${toolbar}</div>
+				<div class="d2l-htmleditor-editor-container">${this._render()}</div>
 			</div>
 		`;
+	}
 
+	_renderFullEditor() {
+		if (this._toolbar) {
+			return this._renderEditor(this._toolbar.renderFullToolbar(this));
+		} else {
+			return this._renderEditor();
+		}
 	}
 
 	_renderInlineEditor() {
 
+		const hasPercentageHeight = this.height.includes('%');
+
 		const containerClasses = {
 			'd2l-htmleditor-inline-container': true,
+			'd2l-htmleditor-percentage-height': hasPercentageHeight,
 			'd2l-is-editing': this._isEditing
 		};
 
 		const htmlBlockClasses = {
 			'd2l-htmleditor-inline-html-block': true,
+			'd2l-htmleditor-percentage-height': hasPercentageHeight,
 			'd2l-input': true,
 			'd2l-input-focus': this._isInlineEditButtonFocusing
 		};
@@ -174,7 +228,7 @@ class HtmlEditor extends HtmlEditorMixin(SkeletonMixin(LitElement)) {
 						<template>${unsafeHTML(this._html)}</template>
 					</d2l-html-block>
 				</div>
-				${this._renderEditor()}
+				${this._renderEditor(renderFullToolbar())}
 			</div>`;
 
 	}

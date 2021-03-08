@@ -1,6 +1,6 @@
 import 'tinymce/tinymce.js';
 import { css, LitElement } from 'lit-element/lit-element.js';
-import { getContentFile, getSharedFile, getTempFile, hasLmsContext, openLegacyDialog, uploadFile } from './lms-adapter.js';
+import { getContentFile, getSharedFile, getTempFile, hasLmsContext, openLegacyDialog, uploadFile } from '../lms-adapter.js';
 import { RequesterMixin, requestInstance } from '@brightspace-ui/core/mixins/provider-mixin.js';
 import { getComposedActiveElement } from '@brightspace-ui/core/helpers/focus.js';
 
@@ -101,82 +101,87 @@ tinymce.PluginManager.add('d2l-image', function(editor) {
 
 	const localize = requestInstance(editor.getElement(), 'localize');
 
+	const action = () => {
+
+		const root = editor.getElement().getRootNode();
+
+		let dialog = root.querySelector('d2l-htmleditor-file-selector-dialog');
+		if (!dialog) dialog = root.appendChild(document.createElement('d2l-htmleditor-file-selector-dialog'));
+
+		const fileUploadForAllUsers = requestInstance(editor.getElement(), 'fileUploadForAllUsers');
+		const attachedImagesOnly = requestInstance(editor.getElement(), 'attachedImagesOnly');
+		const viewFiles = requestInstance(editor.getElement(), 'viewFiles');
+		const uploadFiles = requestInstance(editor.getElement(), 'uploadFiles');
+		const orgUnitPath = requestInstance(editor.getElement(), 'orgUnitPath');
+
+		if (viewFiles) {
+			if (uploadFiles || fileUploadForAllUsers) dialog.areaFilters = 'MyComputer,OuFiles,SharedFiles,Url';
+			else dialog.areaFilters = 'OuFiles,SharedFiles,Url';
+		}
+		if (!fileUploadForAllUsers) dialog.forceSaveToCourseFiles = true;
+		if (uploadFiles && fileUploadForAllUsers) dialog.allowSaveToCourseFiles = true;
+		if (viewFiles && fileUploadForAllUsers && attachedImagesOnly) {
+			dialog.allowSaveToCourseFiles = false;
+			dialog.areaFilters = 'OuFiles,MyComputer,Url';
+		}
+
+		dialog.responseKeys = 'files,IsDecorative,ImageAlt';
+		dialog.fileType = fileTypes.Image;
+		dialog.uploadHelp = fileUploadForAllUsers ? 'Framework.HtmlEditor2.lblInsertImageInlineHelp' : '';
+		dialog.opened = true;
+
+		dialog.addEventListener('d2l-htmleditor-file-selector-dialog-close', (e) => {
+			if (!e.detail) return;
+
+			let src;
+			const file = e.detail.files[0];
+			if (file.FileSystemType.toLowerCase() === 'content') {
+
+				// pre-pend orgUnitPath if necessary
+				src = file.FileId;
+				if (src.substr(0, 1) !== '/') src = orgUnitPath + src;
+
+				// any special characters in this src should be treated as part of the file path and not
+				// in the context of the url (e.g. & is not the url meaning of & ) so it's safe to encode the whole thing.
+				src = src.split('/').reduce((acc, cur) => {
+					return `${acc}/${encodeURIComponent(cur)}`;
+				});
+
+				// IE doesn't recognize extensions when the dot is encoded
+				//src = src.replace( "%2E", "." );
+
+			} else if (file.FileSystemType.toLowerCase() === 'temp') {
+				src = `/d2l/lp/files/temp/${file.FileId}/View`;
+			} else if (file.FileSystemType.toLowerCase() === 'external') {
+				src = file.FileId;
+			}
+
+			root.host.files.push(
+				new FileData(
+					file.FileSystemType,
+					file.FileId,
+					file.FileName,
+					file.Size,
+					src
+				)
+			);
+
+			const altText = e.detail.IsDecorative ? '' : e.detail.ImageAlt;
+			const imgHtml = `<img src="${src}" alt="${altText}" title="${altText}" data-d2l-editor-default-img-style style="max-width: 100%;">`;
+
+			editor.execCommand('mceInsertContent', false, imgHtml);
+			root.host.focus();
+
+		}, { once: true });
+
+	};
+
+	editor.addCommand('d2l-image', action);
+
 	editor.ui.registry.addButton('d2l-image', {
 		tooltip: localize('image.tooltip'),
 		icon: 'image',
-		onAction: () => {
-			const root = editor.getElement().getRootNode();
-
-			let dialog = root.querySelector('d2l-htmleditor-file-selector-dialog');
-			if (!dialog) dialog = root.appendChild(document.createElement('d2l-htmleditor-file-selector-dialog'));
-
-			const fileUploadForAllUsers = requestInstance(editor.getElement(), 'fileUploadForAllUsers');
-			const attachedImagesOnly = requestInstance(editor.getElement(), 'attachedImagesOnly');
-			const viewFiles = requestInstance(editor.getElement(), 'viewFiles');
-			const uploadFiles = requestInstance(editor.getElement(), 'uploadFiles');
-			const orgUnitPath = requestInstance(editor.getElement(), 'orgUnitPath');
-
-			if (viewFiles) {
-				if (uploadFiles || fileUploadForAllUsers) dialog.areaFilters = 'MyComputer,OuFiles,SharedFiles,Url';
-				else dialog.areaFilters = 'OuFiles,SharedFiles,Url';
-			}
-			if (!fileUploadForAllUsers) dialog.forceSaveToCourseFiles = true;
-			if (uploadFiles && fileUploadForAllUsers) dialog.allowSaveToCourseFiles = true;
-			if (viewFiles && fileUploadForAllUsers && attachedImagesOnly) {
-				dialog.allowSaveToCourseFiles = false;
-				dialog.areaFilters = 'OuFiles,MyComputer,Url';
-			}
-
-			dialog.responseKeys = 'files,IsDecorative,ImageAlt';
-			dialog.fileType = fileTypes.Image;
-			dialog.uploadHelp = fileUploadForAllUsers ? 'Framework.HtmlEditor2.lblInsertImageInlineHelp' : '';
-			dialog.opened = true;
-
-			dialog.addEventListener('d2l-htmleditor-file-selector-dialog-close', (e) => {
-				if (!e.detail) return;
-
-				let src;
-				const file = e.detail.files[0];
-				if (file.FileSystemType.toLowerCase() === 'content') {
-
-					// pre-pend orgUnitPath if necessary
-					src = file.FileId;
-					if (src.substr(0, 1) !== '/') src = orgUnitPath + src;
-
-					// any special characters in this src should be treated as part of the file path and not
-					// in the context of the url (e.g. & is not the url meaning of & ) so it's safe to encode the whole thing.
-					src = src.split('/').reduce((acc, cur) => {
-						return `${acc}/${encodeURIComponent(cur)}`;
-					});
-
-					// IE doesn't recognize extensions when the dot is encoded
-					//src = src.replace( "%2E", "." );
-
-				} else if (file.FileSystemType.toLowerCase() === 'temp') {
-					src = `/d2l/lp/files/temp/${file.FileId}/View`;
-				} else if (file.FileSystemType.toLowerCase() === 'external') {
-					src = file.FileId;
-				}
-
-				root.host.files.push(
-					new FileData(
-						file.FileSystemType,
-						file.FileId,
-						file.FileName,
-						file.Size,
-						src
-					)
-				);
-
-				const altText = e.detail.IsDecorative ? '' : e.detail.ImageAlt;
-				const imgHtml = `<img src="${src}" alt="${altText}" title="${altText}" data-d2l-editor-default-img-style style="max-width: 100%;">`;
-
-				editor.execCommand('mceInsertContent', false, imgHtml);
-				root.host.focus();
-
-			}, { once: true });
-
-		}
+		onAction: action
 	});
 
 });

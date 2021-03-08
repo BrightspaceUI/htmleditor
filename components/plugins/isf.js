@@ -1,6 +1,6 @@
 import 'tinymce/tinymce.js';
 import { css, LitElement } from 'lit-element/lit-element.js';
-import { hasLmsContext, openLegacyDialog } from './lms-adapter.js';
+import { hasLmsContext, openLegacyDialog } from '../lms-adapter.js';
 import { RequesterMixin, requestInstance } from '@brightspace-ui/core/mixins/provider-mixin.js';
 import { getComposedActiveElement } from '@brightspace-ui/core/helpers/focus.js';
 
@@ -31,23 +31,26 @@ tinymce.PluginManager.add('d2l-isf', function(editor) {
 	const localize = requestInstance(editor.getElement(), 'localize');
 	const wmodeOpaque = requestInstance(editor.getElement(), 'wmodeOpaque');
 
+	const action = () => {
+		const root = editor.getElement().getRootNode();
+
+		let dialog = root.querySelector('d2l-htmleditor-isf-dialog');
+		if (!dialog) dialog = root.appendChild(document.createElement('d2l-htmleditor-isf-dialog'));
+
+		dialog.opened = true;
+		dialog.addEventListener('d2l-htmleditor-isf-dialog-close', (e) => {
+			const html = e.detail.html;
+			if (html) editor.execCommand('mceInsertContent', false, html);
+			root.host.focus();
+		}, { once: true });
+	};
+
+	editor.addCommand('d2l-isf', action);
+
 	editor.ui.registry.addButton('d2l-isf', {
 		tooltip: localize('insertstuff.tooltip'),
 		icon: 'insert-stuff',
-		onAction: () => {
-			const root = editor.getElement().getRootNode();
-
-			let dialog = root.querySelector('d2l-htmleditor-isf-dialog');
-			if (!dialog) dialog = root.appendChild(document.createElement('d2l-htmleditor-isf-dialog'));
-
-			dialog.opened = true;
-			dialog.addEventListener('d2l-htmleditor-isf-dialog-close', (e) => {
-				const html = e.detail.html;
-				if (html) editor.execCommand('mceInsertContent', false, html);
-				root.host.focus();
-			}, { once: true });
-
-		}
+		onAction: action
 	});
 
 	const regExp = {

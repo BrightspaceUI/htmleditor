@@ -33,6 +33,41 @@ export function hasLmsContext() {
 
 let dialogService;
 
+export async function openDialog(opener, location, settings) {
+	if (window.ifrauclient) {
+
+		if (!dialogService) {
+			const ifrauClient = await window.ifrauclient().connect();
+			dialogService = await ifrauClient.getService('dialog', '0.1');
+		}
+
+		try {
+			const result = await dialogService.open(
+				location,
+				settings
+			);
+			return result;
+		} catch (e) {
+			// aborting the dialog rejects the promise so we swallow exception here
+			return '';
+		}
+
+	} else {
+
+		return new Promise(resolve => {
+			const dialogResult = D2L.LP.Web.UI.Desktop.MasterPages.Dialog.Open(
+				opener,
+				new D2L.LP.Web.Http.UrlLocation(location),
+				settings
+			);
+
+			dialogResult.AddReleaseListener(resolve);
+			dialogResult.AddListener(stuff => resolve(stuff));
+		});
+
+	}
+}
+
 export async function openDialogWithParam(opener, location, params, settings) {
 	if (window.ifrauclient) {
 

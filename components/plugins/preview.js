@@ -1,6 +1,6 @@
 import 'tinymce/tinymce.js';
 import { css, LitElement } from 'lit-element/lit-element.js';
-import { hasLmsContext, openDialogWithParam } from './lms-adapter.js';
+import { hasLmsContext, openDialogWithParam } from '../lms-adapter.js';
 import { RequesterMixin, requestInstance } from '@brightspace-ui/core/mixins/provider-mixin.js';
 import { getComposedActiveElement } from '@brightspace-ui/core/helpers/focus.js';
 
@@ -12,28 +12,32 @@ tinymce.PluginManager.add('d2l-preview', function(editor) {
 	const localize = requestInstance(editor.getElement(), 'localize');
 	const orgUnitId = requestInstance(editor.getElement(), 'orgUnitId');
 
+	const action = () => {
+		const root = editor.getElement().getRootNode();
+
+		let dialog = root.querySelector('d2l-htmleditor-preview-dialog');
+		if (!dialog) dialog = root.appendChild(document.createElement('d2l-htmleditor-preview-dialog'));
+
+		dialog.htmlInfo = {
+			id: 'preview',
+			html: root.host.html,
+			htmlOrgUnitId: orgUnitId,
+			files: root.host.files
+		};
+		dialog.opener = root.host;
+		dialog.opened = true;
+
+		dialog.addEventListener('d2l-htmleditor-preview-dialog-close', () => {
+			root.host.focus();
+		}, { once: true });
+	};
+
+	editor.addCommand('d2l-preview', action);
+
 	editor.ui.registry.addButton('d2l-preview', {
 		tooltip: localize('preview.tooltip'),
 		icon: 'preview',
-		onAction: () => {
-			const root = editor.getElement().getRootNode();
-
-			let dialog = root.querySelector('d2l-htmleditor-preview-dialog');
-			if (!dialog) dialog = root.appendChild(document.createElement('d2l-htmleditor-preview-dialog'));
-
-			dialog.htmlInfo = {
-				id: 'preview',
-				html: root.host.html,
-				htmlOrgUnitId: orgUnitId,
-				files: root.host.files
-			};
-			dialog.opener = root.host;
-			dialog.opened = true;
-
-			dialog.addEventListener('d2l-htmleditor-preview-dialog-close', () => {
-				root.host.focus();
-			}, { once: true });
-		}
+		onAction: action
 	});
 
 });

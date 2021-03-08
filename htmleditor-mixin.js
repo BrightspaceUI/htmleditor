@@ -1,4 +1,5 @@
 import '@brightspace-ui/core/components/alert/alert.js';
+import './components/plugins/fullpage.js';
 import 'tinymce/tinymce.js';
 import 'tinymce/icons/default/icons.js';
 import 'tinymce/plugins/autosave/plugin.js';
@@ -21,15 +22,15 @@ import 'tinymce/plugins/table/plugin.js';
 import 'tinymce/plugins/textpattern/plugin.js';
 import 'tinymce/themes/silver/theme.js';
 import { css, html, unsafeCSS } from 'lit-element/lit-element.js';
-import { getImage, uploadImage } from './components/image.js';
+import { getImage, uploadImage } from './components/plugins/image.js';
 import { addIcons } from './generated/icons.js';
 import { classMap } from 'lit-html/directives/class-map.js';
 import { getContext } from './components/lms-adapter.js';
 import { getUniqueId } from '@brightspace-ui/core/helpers/uniqueId.js';
-import { isfStyles } from './components/isf.js';
+import { isfStyles } from './components/plugins/isf.js';
 import { Localizer } from './lang/localizer.js';
 import { ProviderMixin } from '@brightspace-ui/core/mixins/provider-mixin.js';
-import { queryMentions } from './components/mentions.js';
+import { queryMentions } from './components/plugins/mentions.js';
 import { RtlMixin } from '@brightspace-ui/core/mixins/rtl-mixin.js';
 import { tinymceLangs } from './generated/langs.js';
 
@@ -119,6 +120,7 @@ export const HtmlEditorMixin = superclass => class extends Localizer(RtlMixin(Pr
 			width: { type: String },
 			wordCountInFooter: { type: Boolean, attribute: 'word-count-in-footer' },
 			_editorId: { type: String },
+			_fullscreen: { type: Boolean },
 			_fraContext: { type: Boolean, attribute: 'fra-context', reflect: true }
 		};
 	}
@@ -128,13 +130,15 @@ export const HtmlEditorMixin = superclass => class extends Localizer(RtlMixin(Pr
 			.d2l-htmleditor-no-tinymce {
 				display: none;
 			}
-
 			/* stylelint-disable selector-class-pattern */
 			:host(.tox-fullscreen) {
 				position: fixed;
 			}
 			:host(.tox-shadowhost.tox-fullscreen) {
 				z-index: 1000 !important;
+			}
+			.tox-tinymce {
+				border: none;
 			}
 			.tox-tinymce-aux,
 			.tox.tox-tinymce.tox-fullscreen {
@@ -237,11 +241,6 @@ export const HtmlEditorMixin = superclass => class extends Localizer(RtlMixin(Pr
 		this.provideInstance('wordCountInFooter', this.wordCountInFooter);
 		this.provideInstance('localize', this.localize.bind(this));
 
-		requestAnimationFrame(() => {
-			// eventually we can lazy load, but not until the plugins have been updated for toolbar refactoring
-			this._initializeTinymce();
-		});
-
 	}
 
 	async updated(changedProperties) {
@@ -260,6 +259,12 @@ export const HtmlEditorMixin = superclass => class extends Localizer(RtlMixin(Pr
 	get isDirty() {
 		const editor = tinymce.EditorManager.get(this._editorId);
 		return (editor && editor.isDirty());
+	}
+
+	async _getEditor() {
+		await this._initializationComplete;
+		const editor = tinymce.EditorManager.get(this._editorId);
+		return editor;
 	}
 
 	_getMinHeight() {
@@ -283,7 +288,7 @@ export const HtmlEditorMixin = superclass => class extends Localizer(RtlMixin(Pr
 		}
 	}
 
-	async _initializeTinymce() {
+	async _initializeTinymce(plugins) {
 
 		const textarea = this.shadowRoot.querySelector(`#${this._editorId}`);
 
@@ -377,7 +382,7 @@ export const HtmlEditorMixin = superclass => class extends Localizer(RtlMixin(Pr
 			},
 			mentions_selector: 'span[data-mentions-id]',
 			object_resizing : true,
-			plugins: `a11ychecker ${this.autoSave ? 'autosave' : ''} advtable autolink charmap advcode directionality emoticons ${this.fullPage ? 'fullpage d2l-fullpage' : ''} fullscreen hr image ${this.pasteLocalImages ? 'imagetools' : ''} lists link ${(this.mentions && D2L.LP) ? 'mentions' : ''} powerpaste ${this._context ? 'd2l-preview' : 'preview'} quickbars table textpattern d2l-equation d2l-image d2l-isf d2l-quicklink d2l-wordcount`,
+			plugins: `a11ychecker ${this.autoSave ? 'autosave' : ''} advtable autolink charmap advcode directionality emoticons ${this.fullPage ? 'fullpage d2l-fullpage' : ''} fullscreen hr image ${this.pasteLocalImages ? 'imagetools' : ''} lists link ${(this.mentions && D2L.LP) ? 'mentions' : ''} powerpaste ${this._context ? 'd2l-preview' : 'preview'} quickbars table textpattern d2l-equation d2l-image d2l-isf d2l-quicklink d2l-wordcount ${plugins.join(' ')}`,
 			quickbars_insert_toolbar: false,
 			relative_urls: false,
 			resize: true,
@@ -478,9 +483,7 @@ export const HtmlEditorMixin = superclass => class extends Localizer(RtlMixin(Pr
 		};
 
 		return html`
-			<div class="d2l-htmleditor-tinymce">
-				<textarea id="${this._editorId}" class="${classMap(textAreaClasses)}" aria-hidden="true" tabindex="-1">${this._html}</textarea>
-			</div>
+			<textarea id="${this._editorId}" class="${classMap(textAreaClasses)}" aria-hidden="true" tabindex="-1">${this._html}</textarea>
 			${!isShadowDOMSupported ? html`<d2l-alert>Web Components are not supported in this browser. Upgrade or switch to a newer browser to use the shiny new HtmlEditor.</d2l-alert>` : ''}
 		`;
 	}
