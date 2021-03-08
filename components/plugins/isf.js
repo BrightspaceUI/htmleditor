@@ -2,6 +2,7 @@ import 'tinymce/tinymce.js';
 import { css, LitElement } from 'lit-element/lit-element.js';
 import { hasLmsContext, openLegacyDialog } from '../lms-adapter.js';
 import { RequesterMixin, requestInstance } from '@brightspace-ui/core/mixins/provider-mixin.js';
+import { cmds } from '../commands.js';
 import { getComposedActiveElement } from '@brightspace-ui/core/helpers/focus.js';
 
 export const isfStyles = css`
@@ -45,7 +46,7 @@ tinymce.PluginManager.add('d2l-isf', function(editor) {
 		}, { once: true });
 	};
 
-	editor.addCommand('d2l-isf', action);
+	editor.addCommand(cmds.isf, action);
 
 	editor.ui.registry.addButton('d2l-isf', {
 		tooltip: localize('insertstuff.tooltip'),

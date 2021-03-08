@@ -1,6 +1,7 @@
 import 'tinymce/tinymce.js';
 import { css, LitElement } from 'lit-element/lit-element.js';
 import { RequesterMixin, requestInstance } from '@brightspace-ui/core/mixins/provider-mixin.js';
+import { cmds } from '../commands.js';
 import { getComposedActiveElement } from '@brightspace-ui/core/helpers/focus.js';
 import { hasLmsContext } from '../lms-adapter.js';
 
@@ -52,7 +53,7 @@ tinymce.PluginManager.add('d2l-quicklink', function(editor) {
 		}, { once: true });
 	};
 
-	editor.addCommand('d2l-quicklink', action);
+	editor.addCommand(cmds.quicklink, action);
 
 	editor.ui.registry.addButton('d2l-quicklink', {
 		tooltip: localize('quicklink.tooltip'),

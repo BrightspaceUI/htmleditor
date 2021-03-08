@@ -3,6 +3,7 @@ import 'tinymce/tinymce.js';
 import { css, LitElement } from 'lit-element/lit-element.js';
 import { hasLmsContext, openDialogWithParam } from '../lms-adapter.js';
 import { getComposedActiveElement } from '@brightspace-ui/core/helpers/focus.js';
+import { cmds } from '../commands.js';
 import { requestInstance } from '@brightspace-ui/core/mixins/provider-mixin.js';
 
 const editorTypes = {
@@ -66,15 +67,15 @@ tinymce.PluginManager.add('d2l-equation', function(editor) {
 
 	};
 
-	editor.addCommand('d2l-equation-graphical', () => launchEditor(editorTypes.Graphical));
-	editor.addCommand('d2l-equation-latex', () => launchEditor(editorTypes.Latex));
-	editor.addCommand('d2l-equation-mathml', () => launchEditor(editorTypes.MathML));
-	editor.addCommand('d2l-equation-chemistry', () => launchEditor(editorTypes.Chemistry));
+	editor.addCommand(cmds.equationGraphical, () => launchEditor(editorTypes.Graphical));
+	editor.addCommand(cmds.equationLaTeX, () => launchEditor(editorTypes.Latex));
+	editor.addCommand(cmds.equationMathML, () => launchEditor(editorTypes.MathML));
+	editor.addCommand(cmds.equationChemistry, () => launchEditor(editorTypes.Chemistry));
 
-	editor.addQueryStateHandler('d2l-equation-graphical', () => isEquationSelected(editorTypes.Graphical));
-	editor.addQueryStateHandler('d2l-equation-latex', () => isEquationSelected(editorTypes.Latex));
-	editor.addQueryStateHandler('d2l-equation-mathml', () => isEquationSelected(editorTypes.MathML));
-	editor.addQueryStateHandler('d2l-equation-chemistry', () => isEquationSelected(editorTypes.Chemistry));
+	editor.addQueryStateHandler(cmds.equationGraphical, () => isEquationSelected(editorTypes.Graphical));
+	editor.addQueryStateHandler(cmds.equationLaTeX, () => isEquationSelected(editorTypes.Latex));
+	editor.addQueryStateHandler(cmds.equationMathML, () => isEquationSelected(editorTypes.MathML));
+	editor.addQueryStateHandler(cmds.equationChemistry, () => isEquationSelected(editorTypes.Chemistry));
 
 	editor.ui.registry.addSplitButton('d2l-equation', {
 		icon: 'equation-graphical',

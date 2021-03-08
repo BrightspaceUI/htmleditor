@@ -2,6 +2,7 @@ import 'tinymce/tinymce.js';
 import { css, LitElement } from 'lit-element/lit-element.js';
 import { hasLmsContext, openDialogWithParam } from '../lms-adapter.js';
 import { RequesterMixin, requestInstance } from '@brightspace-ui/core/mixins/provider-mixin.js';
+import { cmds } from '../commands.js';
 import { getComposedActiveElement } from '@brightspace-ui/core/helpers/focus.js';
 
 tinymce.PluginManager.add('d2l-preview', function(editor) {
@@ -32,7 +33,7 @@ tinymce.PluginManager.add('d2l-preview', function(editor) {
 		}, { once: true });
 	};
 
-	editor.addCommand('d2l-preview', action);
+	editor.addCommand(cmds.preview, action);
 
 	editor.ui.registry.addButton('d2l-preview', {
 		tooltip: localize('preview.tooltip'),

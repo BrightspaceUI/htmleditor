@@ -2,6 +2,7 @@ import 'tinymce/tinymce.js';
 import { css, LitElement } from 'lit-element/lit-element.js';
 import { getContentFile, getSharedFile, getTempFile, hasLmsContext, openLegacyDialog, uploadFile } from '../lms-adapter.js';
 import { RequesterMixin, requestInstance } from '@brightspace-ui/core/mixins/provider-mixin.js';
+import { cmds } from '../commands.js';
 import { getComposedActiveElement } from '@brightspace-ui/core/helpers/focus.js';
 
 const fileTypes = {
@@ -176,7 +177,7 @@ tinymce.PluginManager.add('d2l-image', function(editor) {
 
 	};
 
-	editor.addCommand('d2l-image', action);
+	editor.addCommand(cmds.image, action);
 
 	editor.ui.registry.addButton('d2l-image', {
 		tooltip: localize('image.tooltip'),

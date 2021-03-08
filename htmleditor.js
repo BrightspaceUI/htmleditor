@@ -146,7 +146,7 @@ class HtmlEditor extends HtmlEditorMixin(SkeletonMixin(LitElement)) {
 	}
 
 	_getToolbarConfig() {
-		//return false;
+		return false;
 		if (this.type === editorTypes.INLINE_LIMITED) {
 			return 'bold italic underline | d2l-list d2l-isf emoticons';
 		} else if (this.type === editorTypes.INLINE) {

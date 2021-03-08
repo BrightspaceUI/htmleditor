@@ -8,6 +8,7 @@ import 'tinymce/tinymce.js';
 import { countAll, countCharacters, countWords } from '../../wordcount/wordcount.js';
 import { css, html, LitElement } from 'lit-element/lit-element.js';
 import { RequesterMixin, requestInstance } from '@brightspace-ui/core/mixins/provider-mixin.js';
+import { cmds } from '../commands.js';
 import { formatNumber } from '@brightspace-ui/intl/lib/number.js';
 import { RtlMixin } from '@brightspace-ui/core/mixins/rtl-mixin.js';
 import { selectStyles } from '@brightspace-ui/core/components/inputs/input-select-styles.js';
@@ -124,7 +125,7 @@ tinymce.PluginManager.add('d2l-wordcount', function(editor) {
 		}, { once: true });
 	};
 
-	editor.addCommand('d2l-wordcount', openWordCountDialog);
+	editor.addCommand(cmds.wordCount, openWordCountDialog);
 
 	editor.ui.registry.addButton('d2l-wordcount', {
 		tooltip: localize('wordcount.tooltip'),
