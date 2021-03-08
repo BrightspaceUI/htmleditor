@@ -13,7 +13,7 @@ import '../plugins/isf.js';
 import '../plugins/preview.js';
 import '../plugins/quicklink.js';
 import '../plugins/wordcount.js';
-import {cmds } from '../commands.js';
+import { cmds } from '../commands.js';
 import { html } from 'lit-element/lit-element.js';
 
 export function getPlugins(component) {
