@@ -20,6 +20,7 @@ class ButtonMenu extends ToolbarItemMixin(RtlMixin(LitElement)) {
 			icon: { type: String },
 			noOpenerContent: { type: Boolean, attribute: 'no-opener-content' },
 			text: { type: String },
+			_hasSlottedIcon: { type: Boolean },
 			_value: { type: String },
 			_valueText: { type: String }
 		};
@@ -55,6 +56,9 @@ class ButtonMenu extends ToolbarItemMixin(RtlMixin(LitElement)) {
 				margin-left: 10px;
 				margin-right: 0;
 			}
+			.d2l-htmleditor-button-menu-icon-container {
+				line-height: 0;
+			}
 			d2l-dropdown {
 				width: 100%;
 			}
@@ -63,6 +67,12 @@ class ButtonMenu extends ToolbarItemMixin(RtlMixin(LitElement)) {
 				min-width: 100%;
 			}
 		`];
+	}
+
+	constructor() {
+		super();
+		this.noOpenerContent = false;
+		this._hasSlottedIcon = false;
 	}
 
 	async firstUpdated() {
@@ -97,24 +107,28 @@ class ButtonMenu extends ToolbarItemMixin(RtlMixin(LitElement)) {
 	}
 
 	render() {
+		const hasIcon = this.icon || this._hasSlottedIcon;
 		return html`
 			<d2l-dropdown>
 				<button aria-label="${this.text}" class="d2l-dropdown-opener">
-					${!this.noOpenerContent ? html`<div>
-						${this.icon ? unsafeHTML(icons[this.icon]) : html`<slot name="icon">${this._valueText ? this._valueText : this.text}</slot>`}
+					${!this.noOpenerContent ? html`<div class="${hasIcon ? 'd2l-htmleditor-button-menu-icon-container' : ''}">
+						${this.icon ? unsafeHTML(icons[this.icon]) : html`<slot @slotchange="${this._handleIconSlotChange}" name="icon">${this._valueText ? this._valueText : this.text}</slot>`}
 					</div>` : null}
 					<svg width="18" height="18" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 18">
 						<path d="M2.39 6.49a1.5 1.5 0 0 1 2.12-.1L9 10.47l4.49-4.08a1.5 1.5 0 0 1 2.02 2.22L10 13.62A1.474 1.474 0 0 1 9 14a1.523 1.523 0 0 1-1-.38L2.49 8.61a1.5 1.5 0 0 1-.1-2.12z"/>
 					</svg>
 				</button>
-				<d2l-dropdown-menu>
-					<d2l-menu label="${this.text}"
-						@d2l-htmleditor-menu-item-change="${this._handleMenuItemChange}">
+				<d2l-dropdown-menu @d2l-htmleditor-menu-item-change="${this._handleMenuItemChange}">
+					<d2l-menu label="${this.text}">
 						<slot></slot>
 					</d2l-menu>
 				</d2l-dropdown-menu>
 			</d2l-dropdown>
 		`;
+	}
+
+	_handleIconSlotChange() {
+		this._hasSlottedIcon = true;
 	}
 
 	async _handleMenuItemChange(e) {

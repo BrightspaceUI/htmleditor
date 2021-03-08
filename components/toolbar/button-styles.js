@@ -9,6 +9,7 @@ export const buttonStyles = css`
 		display: none;
 	}
 	button {
+		align-items: center;
 		background-color: transparent;
 		border-color: var(--d2l-htmleditor-button-border-color, transparent);
 		border-radius: var(--d2l-htmleditor-button-border-radius, 0.3rem);
@@ -17,8 +18,9 @@ export const buttonStyles = css`
 		box-sizing: border-box;
 		color: var(--d2l-color-ferrite);
 		cursor: pointer;
-		display: inline-block;
+		display: flex;
 		fill: var(--d2l-color-ferrite);
+		justify-content: center;
 		margin: 0;
 		min-height: 34px;
 		min-width: 34px;
