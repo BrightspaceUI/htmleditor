@@ -23,18 +23,20 @@ import '@brightspace-ui/htmleditor/htmleditor.js';
 
 HTML fragment:
 ```html
-<d2l-htmleditor html="..." title="..."></d2l-htmleditor>
+<d2l-htmleditor html="..." label="..."></d2l-htmleditor>
 ```
 
 HTML document (including `head` & `body`):
 ```html
-<d2l-htmleditor html="..." title="..." full-page></d2l-htmleditor>
+<d2l-htmleditor html="..." label="..." full-page></d2l-htmleditor>
 ```
 
 Types of editors (toolbar features):
 ```html
-<d2l-htmleditor html="..." title="..." type="full|inline|inline-limited"></d2l-htmleditor>
+<d2l-htmleditor html="..." label="..." type="full|inline|inline-limited"></d2l-htmleditor>
 ```
+
+**Note**: Inline/inline-limited modes are currently in development. The current experience for these modes is not reflective of their intended design and will definitely change. Use at your own risk.
 
 **Properties:**
 
