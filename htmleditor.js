@@ -49,6 +49,7 @@ class HtmlEditor extends HtmlEditorMixin(SkeletonMixin(LitElement)) {
 				display: none;
 			}
 			.d2l-htmleditor-container {
+				background-color: #ffffff;
 				border: 1px solid var(--d2l-color-gypsum);
 				border-radius: 6px;
 			}
