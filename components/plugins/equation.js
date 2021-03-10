@@ -2,8 +2,8 @@
 import 'tinymce/tinymce.js';
 import { css, LitElement } from 'lit-element/lit-element.js';
 import { hasLmsContext, openDialogWithParam } from '../lms-adapter.js';
-import { getComposedActiveElement } from '@brightspace-ui/core/helpers/focus.js';
 import { cmds } from '../commands.js';
+import { getComposedActiveElement } from '@brightspace-ui/core/helpers/focus.js';
 import { requestInstance } from '@brightspace-ui/core/mixins/provider-mixin.js';
 
 const editorTypes = {
