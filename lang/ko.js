@@ -1,11 +1,22 @@
 /* eslint quotes: 0 */
 
 export default {
-	"font.family.recommended": "권장 절차",
+	"attributes": "속성",
+	"attributes.cancel": "취소",
+	"attributes.class": "클래스",
+	"attributes.create": "생성",
+	"attributes.direction.default": "기본값",
+	"attributes.direction.label": "텍스트 방향",
+	"attributes.direction.ltr": "왼쪽에서 오른쪽으로",
+	"attributes.direction.rtl": "오른쪽에서 왼쪽으로",
+	"attributes.id": "ID",
+	"attributes.style": "스타일",
+	"attributes.title": "제목",
 	"equationeditor.chemistrytooltip": "화학 방정식",
 	"equationeditor.graphicaltooltip": "그래픽 수식",
 	"equationeditor.latextooltip": "LaTeX 수식",
 	"equationeditor.mathmltooltip": "MathML 수식",
+	"font.family.recommended": "권장 절차",
 	"image.tooltip": "이미지 삽입",
 	"insertstuff.tooltip": "항목 삽입",
 	"preview.tooltip": "미리 보기",

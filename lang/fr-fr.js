@@ -1,11 +1,22 @@
 /* eslint quotes: 0 */
 
 export default {
-	"font.family.recommended": "Recommandé",
+	"attributes": "Attributs",
+	"attributes.cancel": "Annuler",
+	"attributes.class": "Classe",
+	"attributes.create": "Créer",
+	"attributes.direction.default": "Par défaut",
+	"attributes.direction.label": "Orientation du texte",
+	"attributes.direction.ltr": "De gauche à droite",
+	"attributes.direction.rtl": "De droite à gauche",
+	"attributes.id": "ID",
+	"attributes.style": "Style",
+	"attributes.title": "Titre",
 	"equationeditor.chemistrytooltip": "Équation de chimie",
 	"equationeditor.graphicaltooltip": "Équation graphique",
 	"equationeditor.latextooltip": "Équation LaTeX",
 	"equationeditor.mathmltooltip": "Équation MathML",
+	"font.family.recommended": "Recommandé",
 	"image.tooltip": "Insérer une image",
 	"insertstuff.tooltip": "Insérer quelque chose",
 	"preview.tooltip": "Prévisualiser",

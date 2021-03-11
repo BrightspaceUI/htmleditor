@@ -1,4 +1,7 @@
 import '@brightspace-ui/core/components/html-block/html-block.js';
+import './components/attributes.js';
+import './components/colors.js';
+import './components/emoji.js';
 import './components/equation.js';
 import './components/fullpage.js';
 import './components/preview.js';
@@ -122,7 +125,7 @@ class HtmlEditor extends HtmlEditorMixin(SkeletonMixin(LitElement)) {
 				`styleselect | bold italic underline d2l-inline | d2l-align d2l-list | d2l-isf d2l-quicklink d2l-image | table d2l-equation charmap emoticons hr | a11ycheck | fontselect | fontsizeselect | forecolor | ${ this._context ? 'd2l-preview' : 'preview'} code | undo redo | fullscreen`
 			];
 		} else {
-			return `styleselect | bold italic underline d2l-inline | d2l-align d2l-list | d2l-isf d2l-quicklink d2l-image | table d2l-equation charmap emoticons hr | a11ycheck | fontselect | fontsizeselect | forecolor | ${ this._context ? 'd2l-preview' : 'preview'} code d2l-wordcount | undo redo | fullscreen`;
+			return `styleselect | bold italic underline d2l-inline ${this._context ? 'd2l-color-picker' : 'forecolor' } | d2l-align d2l-list | d2l-isf d2l-quicklink d2l-image d2l-equation table d2l-insert | a11ycheck | fontselect | fontsizeselect | ${ this._context ? 'd2l-preview' : 'preview'} code d2l-wordcount | undo redo | fullscreen`;
 		}
 	}
 

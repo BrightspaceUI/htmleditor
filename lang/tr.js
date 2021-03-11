@@ -1,11 +1,22 @@
 /* eslint quotes: 0 */
 
 export default {
-	"font.family.recommended": "Önerilen",
+	"attributes": "Öznitelikler",
+	"attributes.cancel": "İptal",
+	"attributes.class": "Sınıf",
+	"attributes.create": "Oluştur",
+	"attributes.direction.default": "Varsayılan",
+	"attributes.direction.label": "Metin Yönü",
+	"attributes.direction.ltr": "Soldan Sağa",
+	"attributes.direction.rtl": "Sağdan Sola",
+	"attributes.id": "Kimlik",
+	"attributes.style": "Stil",
+	"attributes.title": "Ad",
 	"equationeditor.chemistrytooltip": "Kimya Denklemi",
 	"equationeditor.graphicaltooltip": "Grafik Denklemi",
 	"equationeditor.latextooltip": "LaTeX Denklemi",
 	"equationeditor.mathmltooltip": "MathML Denklemi",
+	"font.family.recommended": "Önerilen",
 	"image.tooltip": "Görüntü Ekle",
 	"insertstuff.tooltip": "Öğe Ekle",
 	"preview.tooltip": "Önizle",
