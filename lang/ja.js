@@ -1,11 +1,22 @@
 /* eslint quotes: 0 */
 
 export default {
-	"font.family.recommended": "推奨",
+	"attributes": "属性",
+	"attributes.cancel": "キャンセル",
+	"attributes.class": "クラス",
+	"attributes.create": "作成",
+	"attributes.direction.default": "デフォルト",
+	"attributes.direction.label": "テキストの方向",
+	"attributes.direction.ltr": "左から右",
+	"attributes.direction.rtl": "右から左",
+	"attributes.id": "ID",
+	"attributes.style": "スタイル",
+	"attributes.title": "タイトル",
 	"equationeditor.chemistrytooltip": "化学方程式",
 	"equationeditor.graphicaltooltip": "グラフィカル数式",
 	"equationeditor.latextooltip": "LaTeX 数式",
 	"equationeditor.mathmltooltip": "MathML 数式",
+	"font.family.recommended": "推奨",
 	"image.tooltip": "イメージの挿入",
 	"insertstuff.tooltip": "素材の挿入",
 	"preview.tooltip": "プレビュー",

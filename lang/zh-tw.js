@@ -1,11 +1,22 @@
 /* eslint quotes: 0 */
 
 export default {
-	"font.family.recommended": "建議",
+	"attributes": "屬性",
+	"attributes.cancel": "取消",
+	"attributes.class": "班級",
+	"attributes.create": "建立",
+	"attributes.direction.default": "預設",
+	"attributes.direction.label": "文字方向",
+	"attributes.direction.ltr": "由左至右",
+	"attributes.direction.rtl": "由右至左",
+	"attributes.id": "ID",
+	"attributes.style": "樣式",
+	"attributes.title": "標題",
 	"equationeditor.chemistrytooltip": "化學方程式",
 	"equationeditor.graphicaltooltip": "圖形方程式",
 	"equationeditor.latextooltip": "LaTeX 方程式",
 	"equationeditor.mathmltooltip": "MathML 方程式",
+	"font.family.recommended": "建議",
 	"image.tooltip": "插入影像",
 	"insertstuff.tooltip": "插入媒體",
 	"preview.tooltip": "預覽",

@@ -6,7 +6,6 @@ import 'tinymce/plugins/autolink/plugin.js';
 import 'tinymce/plugins/charmap/plugin.js';
 import 'tinymce/plugins/code/plugin.js';
 import 'tinymce/plugins/directionality/plugin.js';
-import 'tinymce/plugins/emoticons/plugin.js';
 import 'tinymce/plugins/emoticons/js/emojis.js';
 import 'tinymce/plugins/fullpage/plugin.js';
 import 'tinymce/plugins/fullscreen/plugin.js';
@@ -347,6 +346,7 @@ export const HtmlEditorMixin = superclass => class extends Localizer(RtlMixin(Pr
 			font_formats: `Arabic Transparent=arabic transparent,sans-serif; Arial=arial,helvetica,sans-serif; Comic Sans=comic sans ms,sans-serif; Courier=courier new,courier,sans-serif; Ezra SIL=ezra sil,arial unicode ms,arial,sans-serif; Georgia=georgia,serif; Lato (${this.localize('font.family.recommended')})=Lato,sans-serif; SBL Hebrew=sbl hebrew,times new roman,serif; Simplified Arabic=simplified arabic,sans-serif; Tahoma=tahoma,sans-serif; Times New Roman=times new roman,times,serif; Traditional Arabic=traditional arabic,serif; Trebuchet=trebuchet ms,helvetica,sans-serif; Verdana=verdana,sans-serif; 돋움 (Dotum)=dotum,arial,helvetica,sans-serif; 宋体 (Sim Sun)=simsun; 細明體 (Ming Liu)=mingliu,arial,helvetica,sans-serif`,
 			fontsize_formats: '8pt 10pt 12pt 14pt 18pt 24pt 36pt',
 			height: this.height,
+			image_uploadtab: false,
 			images_upload_handler: (blobInfo, success, failure) => uploadImage(this, blobInfo, success, failure),
 			init_instance_callback: editor => {
 				if (!editor) return;
@@ -379,7 +379,7 @@ export const HtmlEditorMixin = superclass => class extends Localizer(RtlMixin(Pr
 			},
 			mentions_selector: 'span[data-mentions-id]',
 			object_resizing : true,
-			plugins: `a11ychecker ${this.autoSave ? 'autosave' : ''} advtable autolink charmap advcode directionality emoticons ${this.fullPage ? 'fullpage d2l-fullpage' : ''} fullscreen hr image ${this.pasteLocalImages ? 'imagetools' : ''} lists link ${(this.mentions && D2L.LP) ? 'mentions' : ''} powerpaste ${this._context ? 'd2l-preview' : 'preview'} quickbars table textpattern d2l-equation d2l-image d2l-isf d2l-quicklink d2l-wordcount`,
+			plugins: `a11ychecker ${this.autoSave ? 'autosave' : ''} advtable autolink charmap advcode directionality emoticons ${this.fullPage ? 'fullpage d2l-fullpage' : ''} fullscreen hr image ${this.pasteLocalImages ? 'imagetools' : ''} lists link ${(this.mentions && D2L.LP) ? 'mentions' : ''} powerpaste ${this._context ? 'd2l-preview' : 'preview'} quickbars table textpattern d2l-attributes d2l-color-picker d2l-equation d2l-image d2l-isf d2l-quicklink d2l-wordcount`,
 			quickbars_insert_toolbar: false,
 			relative_urls: false,
 			resize: true,
@@ -401,7 +401,7 @@ export const HtmlEditorMixin = superclass => class extends Localizer(RtlMixin(Pr
 				const createSplitButton = (name, icon, tooltip, cmd, items) => {
 					editor.ui.registry.addSplitButton(name, {
 						icon: icon,
-						tooltip: tooltip,
+						tooltip: this.localize(tooltip),
 						onAction: () => editor.execCommand(cmd),
 						onItemAction: (api, value) => editor.execCommand(value),
 						select: value => value !== 'outdent' && editor.queryCommandState(value),
@@ -411,7 +411,7 @@ export const HtmlEditorMixin = superclass => class extends Localizer(RtlMixin(Pr
 
 				const createMenuButton = (name, icon, tooltip, items) => {
 					editor.ui.registry.addMenuButton(name, {
-						tooltip: tooltip,
+						tooltip: this.localize(tooltip),
 						icon: icon,
 						fetch: callback => callback(items)
 					});
@@ -419,33 +419,39 @@ export const HtmlEditorMixin = superclass => class extends Localizer(RtlMixin(Pr
 
 				const createToggleMenuItem = (name, icon, text, cmd) => {
 					editor.ui.registry.addToggleMenuItem(name, {
-						text: text,
+						text: this.localize(text),
 						icon: icon,
 						onAction: () => editor.execCommand(cmd),
 						onSetup: api => api.setActive(editor.queryCommandState(cmd))
 					});
 				};
 
-				createSplitButton('d2l-inline', 'strike-through', 'Strike-through', 'strikethrough', [
-					{ type: 'choiceitem', icon: 'strike-through', text: 'Strike-through', value: 'strikethrough' },
-					{ type: 'choiceitem', icon: 'superscript', text: 'Superscript', value: 'superscript' },
-					{ type: 'choiceitem', icon: 'subscript', text: 'Subscript', value: 'subscript' }
+				createSplitButton('d2l-inline', 'strike-through', 'format.strikethrough', 'strikethrough', [
+					{ type: 'choiceitem', icon: 'strike-through', text: this.localize('format.strikethrough'), value: 'strikethrough' },
+					{ type: 'choiceitem', icon: 'superscript', text: this.localize('format.superscript'), value: 'superscript' },
+					{ type: 'choiceitem', icon: 'subscript', text: this.localize('format.subscript'), value: 'subscript' }
 				]);
 
-				createToggleMenuItem('d2l-align-left', 'align-left', 'Left', 'justifyLeft');
-				createToggleMenuItem('d2l-align-center', 'align-center', 'Center', 'justifyCenter');
-				createToggleMenuItem('d2l-align-right', 'align-right', 'Right', 'justifyRight');
-				createToggleMenuItem('d2l-align-justify', 'align-justify', 'Justify', 'justifyFull');
-				createToggleMenuItem('d2l-ltr', 'ltr', 'Left to Right', 'mceDirectionLTR');
-				createToggleMenuItem('d2l-rtl', 'rtl', 'Right to Left', 'mceDirectionRTL');
-				createMenuButton('d2l-align', 'align-left', 'Alignment', 'd2l-align-left d2l-align-center d2l-align-right d2l-align-justify | d2l-ltr d2l-rtl');
+				createToggleMenuItem('d2l-align-left', 'align-left', 'align.left', 'justifyLeft');
+				createToggleMenuItem('d2l-align-center', 'align-center', 'align.center', 'justifyCenter');
+				createToggleMenuItem('d2l-align-right', 'align-right', 'align.right', 'justifyRight');
+				createToggleMenuItem('d2l-align-justify', 'align-justify', 'align.justify', 'justifyFull');
+				createToggleMenuItem('d2l-ltr', 'ltr', 'direction.ltr', 'mceDirectionLTR');
+				createToggleMenuItem('d2l-rtl', 'rtl', 'direction.rtl', 'mceDirectionRTL');
+				createMenuButton('d2l-align', 'align-left', 'align', 'd2l-align-left d2l-align-center d2l-align-right d2l-align-justify | d2l-ltr d2l-rtl');
 
-				createSplitButton('d2l-list', 'unordered-list', 'Bulleted List', 'insertUnorderedList', [
-					{ type: 'choiceitem', icon: 'unordered-list', text: 'Bulleted List', value: 'insertUnorderedList' },
-					{ type: 'choiceitem', icon: 'ordered-list', text: 'Numbered List', value: 'insertOrderedList' },
-					{ type: 'choiceitem', icon: 'indent', text: 'Increase Indent', value: 'indent' },
-					{ type: 'choiceitem', icon: 'outdent', text: 'Decrease Indent', value: 'outdent' }
+				createSplitButton('d2l-list', 'unordered-list', 'list.bullets', 'insertUnorderedList', [
+					{ type: 'choiceitem', icon: 'unordered-list', text: this.localize('list.bullets'), value: 'insertUnorderedList' },
+					{ type: 'choiceitem', icon: 'ordered-list', text: this.localize('list.numbers'), value: 'insertOrderedList' },
+					{ type: 'choiceitem', icon: 'indent', text: this.localize('indent'), value: 'indent' },
+					{ type: 'choiceitem', icon: 'outdent', text: this.localize('outdent'), value: 'outdent' }
 				]);
+
+				createToggleMenuItem('d2l-attributes', 'insert-attributes', 'attributes', 'attributes');
+				createToggleMenuItem('d2l-horizontalrule', 'horizontal-rule', 'horizontalrule', 'InsertHorizontalRule');
+				createToggleMenuItem('d2l-emoji', 'emoji', 'emoji', 'mceEmoticons');
+				createToggleMenuItem('d2l-symbols', 'insert-character', 'symbols', 'mceShowCharmap');
+				createMenuButton('d2l-insert', 'insert', 'insert', 'd2l-attributes d2l-horizontalrule d2l-emoji d2l-symbols');
 
 			},
 			skin_url: `${baseImportPath}/tinymce/skins/ui/d2l`,
