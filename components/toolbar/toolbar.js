@@ -3,9 +3,18 @@ import { css, html, LitElement } from 'lit-element/lit-element.js';
 import { buttonStyles } from './button-styles.js';
 import { classMap } from 'lit-html/directives/class-map.js';
 import ResizeObserver from 'resize-observer-polyfill/dist/ResizeObserver.es.js';
-import { SkeletonMixin } from '@brightspace-ui/core/components/skeleton/skeleton-mixin.js';
+import { RtlMixin } from '@brightspace-ui/core/mixins/rtl-mixin.js';
 
-class Toolbar extends SkeletonMixin(LitElement) {
+const keyCodes = Object.freeze({
+	END: 35,
+	HOME: 36,
+	LEFT: 37,
+	UP: 38,
+	RIGHT: 39,
+	DOWN: 40,
+});
+
+class Toolbar extends RtlMixin(LitElement) {
 
 	static get properties() {
 		return {
@@ -17,7 +26,7 @@ class Toolbar extends SkeletonMixin(LitElement) {
 	}
 
 	static get styles() {
-		return [ super.styles, buttonStyles, css`
+		return [ buttonStyles, css`
 			:host {
 				display: block;
 				margin: 10px 10px 0 10px;
@@ -31,7 +40,6 @@ class Toolbar extends SkeletonMixin(LitElement) {
 				flex-wrap: wrap;
 				max-height: 210px;
 				transition: max-height 200ms ease-out;
-
 			}
 			.d2l-htmleditor-toolbar-measuring {
 				opacity: 0;
@@ -74,6 +82,7 @@ class Toolbar extends SkeletonMixin(LitElement) {
 		this._measures.chomper = this.shadowRoot.querySelector('button').offsetWidth;
 		this._resizeObserver = new ResizeObserver(this._handleResize.bind(this));
 		this._resizeObserver.observe(this.shadowRoot.querySelector('div'));
+		this._initializeRovingTabIndex();
 	}
 
 	render() {
@@ -84,7 +93,10 @@ class Toolbar extends SkeletonMixin(LitElement) {
 		};
 
 		return html`
-			<div class="${classMap(classes)}" data-state="${this._state}">
+			<div
+				class="${classMap(classes)}"
+				data-state="${this._state}"
+				@keydown="${this._handleKeyDown}">
 				<slot @slotchange="${this._handleSlotChange}"></slot>
 				<button @click="${this._handleChomperClick}">
 					<svg style="height: 18px; width: 18px; transform: scale(-1,1);" xmlns="http://www.w3.org/2000/svg" version="1.0" width="1280.000000pt" height="936.000000pt" viewBox="0 0 1280.000000 936.000000" preserveAspectRatio="xMidYMid meet">
@@ -108,6 +120,45 @@ class Toolbar extends SkeletonMixin(LitElement) {
 		this._updateItemsVisibility(true);
 	}
 
+	async _handleKeyDown(e) {
+
+		if (e.keyCode !== keyCodes.LEFT && e.keyCode !== keyCodes.RIGHT && e.keyCode !== keyCodes.HOME && e.keyCode !== keyCodes.END) return;
+		if (e.target === this.shadowRoot.querySelector('button')) return;
+
+		const items = this.shadowRoot.querySelector('slot').assignedNodes({ flatten: true })
+			.filter(node => node.nodeType === Node.ELEMENT_NODE && node.getAttribute('data-toolbar-item-state') !== 'chomped');
+
+		const index = items.findIndex(item => item.focusable);
+
+		let newIndex = index;
+		items[index].focusable = false;
+		if (this._dir === 'rtl' && e.keyCode === keyCodes.LEFT) {
+			if (index === items.length - 1) newIndex = 0;
+			else newIndex = index + 1;
+		} else if (this._dir === 'rtl' && e.keyCode === keyCodes.RIGHT) {
+			if (index === 0) newIndex = items.length - 1;
+			else newIndex = index - 1;
+		} else if (e.keyCode === keyCodes.LEFT) {
+			if (index === 0) newIndex = items.length - 1;
+			else newIndex = index - 1;
+		} else if (e.keyCode === keyCodes.RIGHT) {
+			if (index === items.length - 1) newIndex = 0;
+			else newIndex = index + 1;
+		} else if (e.keyCode === keyCodes.HOME) {
+			newIndex = 0;
+		} else if (e.keyCode === keyCodes.END) {
+			newIndex = items.length - 1;
+		}
+
+		// prevent default so page doesn't scroll when hitting HOME/END
+		e.preventDefault();
+
+		items[newIndex].focusable = true;
+		await items[newIndex].updateComplete;
+		items[newIndex].focus();
+
+	}
+
 	_handleResize(entries) {
 		if (this._measures.available === entries[0].contentRect.width) return;
 		this._measures.available = entries[0].contentRect.width;
@@ -119,7 +170,8 @@ class Toolbar extends SkeletonMixin(LitElement) {
 		this._measures.items = [];
 		this._measures.total = 0;
 
-		const items = e.target.assignedNodes({ flatten: true }).filter(node => node.nodeType === Node.ELEMENT_NODE);
+		const items = e.target.assignedNodes({ flatten: true })
+			.filter(node => node.nodeType === Node.ELEMENT_NODE);
 
 		requestAnimationFrame(() => {
 			items.forEach(item => {
@@ -132,8 +184,17 @@ class Toolbar extends SkeletonMixin(LitElement) {
 
 	}
 
+	_initializeRovingTabIndex() {
+		const items = this.shadowRoot.querySelector('slot').assignedNodes({ flatten: true })
+			.filter(node => node.nodeType === Node.ELEMENT_NODE);
+		items[0].focusable = true;
+
+	}
+
 	_updateItemsVisibility(animate, items) {
-		if (!items) items = this.shadowRoot.querySelector('slot').assignedNodes({ flatten: true }).filter(node => node.nodeType === Node.ELEMENT_NODE);
+		if (!items) items = this.shadowRoot.querySelector('slot').assignedNodes({ flatten: true })
+			.filter(node => node.nodeType === Node.ELEMENT_NODE);
+
 		if (this._chomping) {
 
 			this._overflowing = (this._measures.total > this._measures.available);
@@ -152,6 +213,12 @@ class Toolbar extends SkeletonMixin(LitElement) {
 						item.setAttribute('data-toolbar-item-state', 'hidden');
 					} else {
 						item.setAttribute('data-toolbar-item-state', 'chomped');
+					}
+
+					// if chomping item with the current roving tabindex then reset it
+					if (item.focusable) {
+						item.focusable = false;
+						items[0].focusable = true;
 					}
 
 				} else {

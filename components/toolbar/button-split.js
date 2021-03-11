@@ -58,11 +58,13 @@ class ButtonSplit extends ToolbarItemMixin(RtlMixin(LitElement)) {
 			<div>
 				<d2l-htmleditor-button-toggle
 					cmd="${this.cmd}"
+					?focusable="${this.focusable}"
 					icon="${this.icon}"
 					text="${this.text}">
 				</d2l-htmleditor-button-toggle>
 				<d2l-htmleditor-button-menu
 					@d2l-htmleditor-menu-item-select="${this._handleMenuItemSelect}"
+					?focusable="${this.focusable}"
 					no-opener-content
 					text="${this.text}">
 					<slot></slot>

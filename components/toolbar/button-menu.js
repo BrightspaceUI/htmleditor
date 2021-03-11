@@ -110,7 +110,10 @@ class ButtonMenu extends ToolbarItemMixin(RtlMixin(LitElement)) {
 		const hasIcon = this.icon || this._hasSlottedIcon;
 		return html`
 			<d2l-dropdown>
-				<button aria-label="${this.text}" class="d2l-dropdown-opener">
+				<button 
+					aria-label="${this.text}"
+					class="d2l-dropdown-opener"
+					tabindex="${this.focusable ? 0 : -1}">
 					${!this.noOpenerContent ? html`<div class="${hasIcon ? 'd2l-htmleditor-button-menu-icon-container' : ''}">
 						${this.icon ? unsafeHTML(icons[this.icon]) : html`<slot @slotchange="${this._handleIconSlotChange}" name="icon">${this._valueText ? this._valueText : this.text}</slot>`}
 					</div>` : null}

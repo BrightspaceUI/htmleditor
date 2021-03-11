@@ -37,6 +37,7 @@ class Button extends ToolbarItemMixin(LitElement) {
 				aria-label="${this.text}"
 				@click="${this._handleClick}"
 				?disabled="${this.disabled}"
+				tabindex="${this.focusable ? 0 : -1}"
 				title="${this.text}">
 				${this.icon ? unsafeHTML(icons[this.icon]) : html`<slot></slot>`}
 			</button>`;
