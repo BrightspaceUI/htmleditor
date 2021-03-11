@@ -58,6 +58,7 @@
     "@brightspace-ui/intl": "^3",
     "@webcomponents/webcomponentsjs": "^2",
     "lit-element": "^2",
+    "resize-observer-polyfill": "^1",
     "tinymce": "5.7.0"
   }
 }

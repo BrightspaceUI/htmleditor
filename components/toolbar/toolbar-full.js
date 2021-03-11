@@ -53,7 +53,7 @@ export function getPlugins(component) {
 export function renderFullToolbar(component) {
 	return html`
 		<d2l-htmleditor-toolbar>
-			<d2l-htmleditor-button-menu text="${component.localize('formats')}">
+			<d2l-htmleditor-button-menu text="${component.localize('formats')}" style="width: 115px;">
 				<d2l-htmleditor-menu-item cmd="${cmds.formatBlock}" value="p"><p>Paragraph</p></d2l-htmleditor-menu-item>
 				<d2l-htmleditor-menu-item cmd="${cmds.formatBlock}" value="h1"><h1>Heading 1</h1></d2l-htmleditor-menu-item>
 				<d2l-htmleditor-menu-item cmd="${cmds.formatBlock}" value="h2"><h2>Heading 2</h2></d2l-htmleditor-menu-item>
@@ -64,8 +64,8 @@ export function renderFullToolbar(component) {
 			</d2l-htmleditor-button-menu>
 			<d2l-htmleditor-button-toggle cmd="${cmds.bold}" icon="bold" text="${component.localize('bold')}"></d2l-htmleditor-button-toggle>
 			<d2l-htmleditor-button-toggle cmd="${cmds.italic}" icon="italic" text="${component.localize('italic')}"></d2l-htmleditor-button-toggle>
-			<d2l-htmleditor-button-toggle cmd="${cmds.underline}" icon="underline" text="${component.localize('underline')}"></d2l-htmleditor-button-toggle>
 			<d2l-htmleditor-button-split cmd="${cmds.strikethrough}" icon="strike-through" text="Strike-through">
+				<d2l-htmleditor-menu-item cmd="${cmds.underline}" icon="underline">Underline</d2l-htmleditor-menu-item>
 				<d2l-htmleditor-menu-item cmd="${cmds.strikethrough}" icon="strike-through">Strike-through</d2l-htmleditor-menu-item>
 				<d2l-htmleditor-menu-item cmd="${cmds.superscript}" icon="superscript">Superscript</d2l-htmleditor-menu-item>
 				<d2l-htmleditor-menu-item cmd="${cmds.subscript}" icon="subscript">Subscript</d2l-htmleditor-menu-item>
