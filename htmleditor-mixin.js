@@ -417,6 +417,14 @@ export const HtmlEditorMixin = superclass => class extends Localizer(RtlMixin(Pr
 					});
 				};
 
+				const createMenuItem = (name, icon, text, cmd) => {
+					editor.ui.registry.addMenuItem(name, {
+						text: this.localize(text),
+						icon: icon,
+						onAction: () => editor.execCommand(cmd)
+					});
+				};
+
 				const createToggleMenuItem = (name, icon, text, cmd) => {
 					editor.ui.registry.addToggleMenuItem(name, {
 						text: this.localize(text),
@@ -447,10 +455,9 @@ export const HtmlEditorMixin = superclass => class extends Localizer(RtlMixin(Pr
 					{ type: 'choiceitem', icon: 'outdent', text: this.localize('outdent'), value: 'outdent' }
 				]);
 
-				createToggleMenuItem('d2l-attributes', 'insert-attributes', 'attributes', 'attributes');
-				createToggleMenuItem('d2l-horizontalrule', 'horizontal-rule', 'horizontalrule', 'InsertHorizontalRule');
-				createToggleMenuItem('d2l-emoji', 'emoji', 'emoji', 'mceEmoticons');
-				createToggleMenuItem('d2l-symbols', 'insert-character', 'symbols', 'mceShowCharmap');
+				createMenuItem('d2l-horizontalrule', 'horizontal-rule', 'horizontalrule', 'InsertHorizontalRule');
+				createMenuItem('d2l-emoji', 'emoji', 'emoji', 'mceEmoticons');
+				createMenuItem('d2l-symbols', 'insert-character', 'symbols', 'mceShowCharmap');
 				createMenuButton('d2l-insert', 'insert', 'insert', 'd2l-attributes d2l-horizontalrule d2l-emoji d2l-symbols');
 
 			},

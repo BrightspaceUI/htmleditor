@@ -22,9 +22,10 @@ tinymce.PluginManager.add('d2l-attributes', function(editor) {
 	const canAddAttributes = (node) => {
 		if (!node) return false;
 
-		return node.nodeName === 'BODY'
-			|| node.nodeName === 'BR'
-			|| node.nodeType === Node.DOCUMENT_NODE;
+		return node.nodeName !== 'BODY'
+			&& node.nodeName !== 'BR'
+			&& node.nodeType !== Node.DOCUMENT_NODE
+			&& node.getAttribute !== undefined;
 	};
 
 	const openAttributesDialog = () => {
@@ -68,6 +69,20 @@ tinymce.PluginManager.add('d2l-attributes', function(editor) {
 	};
 
 	editor.addCommand('attributes', openAttributesDialog);
+
+	editor.ui.registry.addMenuItem('d2l-attributes', {
+		text: localize('attributes'),
+		icon: 'insert-attributes',
+		onAction: openAttributesDialog,
+		onSetup: api => {
+			if (editor.selection) {
+				const node = editor.selection && editor.selection.getNode();
+				api.setDisabled(!canAddAttributes(node));
+			} else {
+				api.setDisabled(true);
+			}
+		}
+	});
 
 	editor.ui.registry.addButton('d2l-attributes', {
 		tooltip: localize('attributes'),
