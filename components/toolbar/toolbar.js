@@ -39,7 +39,7 @@ class Toolbar extends RtlMixin(LitElement) {
 				display: flex;
 				flex-wrap: wrap;
 				max-height: 210px;
-				transition: max-height 200ms ease-out;
+				transition: max-height 250ms ease-out;
 			}
 			.d2l-htmleditor-toolbar-measuring {
 				opacity: 0;
@@ -56,7 +56,8 @@ class Toolbar extends RtlMixin(LitElement) {
 				display: flex;
 			}
 			::slotted(*) {
-				transition: opacity 200ms ease-out;
+				transition-delay: 200ms;
+				transition: opacity 250ms ease-out;
 			}
 			::slotted([data-toolbar-item-state="chomped"]) {
 				display: none;
