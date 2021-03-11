@@ -127,8 +127,9 @@ class ButtonMenu extends ToolbarItemMixin(RtlMixin(LitElement)) {
 		`;
 	}
 
-	_handleIconSlotChange() {
-		this._hasSlottedIcon = true;
+	_handleIconSlotChange(e) {
+		// safari dispatches slotchange initially even when empty
+		this._hasSlottedIcon = (e.target.assignedNodes().length > 0);
 	}
 
 	async _handleMenuItemChange(e) {
