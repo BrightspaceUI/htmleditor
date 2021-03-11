@@ -110,7 +110,7 @@ class ButtonMenu extends ToolbarItemMixin(RtlMixin(LitElement)) {
 		const hasIcon = this.icon || this._hasSlottedIcon;
 		return html`
 			<d2l-dropdown>
-				<button 
+				<button
 					aria-label="${this.text}"
 					class="d2l-dropdown-opener"
 					tabindex="${this.focusable ? 0 : -1}">
@@ -128,6 +128,11 @@ class ButtonMenu extends ToolbarItemMixin(RtlMixin(LitElement)) {
 				</d2l-dropdown-menu>
 			</d2l-dropdown>
 		`;
+	}
+
+	focus() {
+		const elem = this.shadowRoot.querySelector('button');
+		if (elem) elem.focus();
 	}
 
 	_handleIconSlotChange(e) {

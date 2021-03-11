@@ -43,6 +43,11 @@ class Button extends ToolbarItemMixin(LitElement) {
 			</button>`;
 	}
 
+	focus() {
+		const elem = this.shadowRoot.querySelector('button');
+		if (elem) elem.focus();
+	}
+
 	async _handleClick() {
 		if (!this.cmd) return;
 		const editor = await this._getEditor();

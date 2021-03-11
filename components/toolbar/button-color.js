@@ -92,6 +92,11 @@ class ButtonColor extends Localizer(ToolbarItemMixin(RtlMixin(LitElement))) {
 		this.style.setProperty('--d2l-htmleditor-button-color-value', this._color);
 	}
 
+	focus() {
+		const elem = this.shadowRoot.querySelector('d2l-htmleditor-button');
+		if (elem) elem.focus();
+	}
+
 	async _applyColor() {
 		const editor = await this._getEditor();
 		editor.execCommand('forecolor', false, this._color);

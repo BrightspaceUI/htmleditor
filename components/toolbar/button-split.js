@@ -73,6 +73,11 @@ class ButtonSplit extends ToolbarItemMixin(RtlMixin(LitElement)) {
 		`;
 	}
 
+	focus() {
+		const elem = this.shadowRoot.querySelector('d2l-htmleditor-button-toggle');
+		if (elem) elem.focus();
+	}
+
 	_handleMenuItemSelect(e) {
 		this.cmd = e.target.cmd;
 		this.icon = e.target.icon;
