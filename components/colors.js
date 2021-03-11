@@ -73,22 +73,6 @@ tinymce.PluginManager.add('d2l-color-picker', function(editor) {
 			}, { once: true });
 		}
 	});
-
-	let timerId = 0;
-	editor.on('selectionchange', () => {
-		clearTimeout(timerId);
-
-		timerId = setTimeout(() => {
-			let contextNode = (editor.selection ? editor.selection.getNode() : null);
-			if (contextNode) {
-				if (contextNode.nodeType === Node.DOCUMENT_NODE) contextNode = contextNode.body;
-				const currentForegroundColor = getComputedStyle(contextNode, 'color');
-
-				const colorIcon = root.querySelector('#tox-icon-text-color__color');
-				colorIcon.style.fill = currentForegroundColor;
-			}
-		}, 100);
-	});
 });
 
 class ColorPickerDialog extends LitElement {
