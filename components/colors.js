@@ -1,4 +1,3 @@
-/* eslint no-useless-escape: 0 */
 import 'tinymce/tinymce.js';
 import { css, LitElement } from 'lit-element/lit-element.js';
 import { hasLmsContext, openDialog } from './lms-adapter.js';
@@ -57,14 +56,14 @@ tinymce.PluginManager.add('d2l-color-picker', function(editor) {
 			let dialog = root.querySelector('d2l-htmleditor-color-picker-dialog');
 			if (!dialog) dialog = root.appendChild(document.createElement('d2l-htmleditor-color-picker-dialog'));
 
-			dialog.opener = root.host;
-			dialog.opened = true;
-
 			let contextNode = (editor.selection ? editor.selection.getNode() : null);
 			if (contextNode) {
 				if (contextNode.nodeType === Node.DOCUMENT_NODE) contextNode = contextNode.body;
 				dialog.backgroundColor = getComputedStyle(contextNode, 'background-color');
 			}
+
+			dialog.opener = root.host;
+			dialog.opened = true;
 
 			dialog.addEventListener('d2l-htmleditor-color-picker-dialog-close', (e) => {
 				if (!e.detail || !e.detail.color) return;
