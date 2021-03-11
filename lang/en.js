@@ -31,7 +31,7 @@ export default {
 	"image.tooltip": "Insert Image",
 	"indent": "Increase Indent",
 	"inline.button": "Edit {name}",
-	"insert": "Insert",
+	"insert": "Other Insert Options",
 	"insertstuff.tooltip": "Insert Stuff",
 	"list.bullets": "Bulleted List",
 	"list.numbers": "Numbered List",
