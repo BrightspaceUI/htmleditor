@@ -263,6 +263,11 @@ export const HtmlEditorMixin = superclass => class extends Localizer(RtlMixin(Pr
 		return (editor && editor.isDirty());
 	}
 
+	save() {
+		const editor = tinymce.EditorManager.get(this._editorId);
+		if (editor) editor.save();
+	}
+
 	_getMinHeight() {
 		const defaultMinHeight = 300;
 		const splitPosition = this.height.search(/\D/);
