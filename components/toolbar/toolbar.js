@@ -65,7 +65,7 @@ class Toolbar extends RtlMixin(LitElement) {
 			}
 			.d2l-htmleditor-toolbar-measuring button,
 			.d2l-htmleditor-toolbar-overflowing button {
-				display: flex
+				display: flex;
 			}
 			::slotted(*) {
 				transition: opacity 250ms ease-out;

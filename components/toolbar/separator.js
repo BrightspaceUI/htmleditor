@@ -13,8 +13,8 @@ class Separator extends LitElement {
 				display: none;
 			}
 			div {
-				box-sizing: border-box;
 				border-left: 1px solid var(--d2l-color-gypsum);
+				box-sizing: border-box;
 				height: 22px;
 			}
 		`;
