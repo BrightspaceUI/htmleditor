@@ -138,7 +138,7 @@ export const HtmlEditorMixin = superclass => class extends Localizer(RtlMixin(Pr
 				z-index: 1000 !important;
 			}
 			.tox-tinymce {
-				border: none;
+				border: none !important;
 			}
 			.tox-tinymce-aux,
 			.tox.tox-tinymce.tox-fullscreen {
