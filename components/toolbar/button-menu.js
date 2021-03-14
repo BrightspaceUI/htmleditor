@@ -49,7 +49,7 @@ class ButtonMenu extends ToolbarItemMixin(RtlMixin(LitElement)) {
 				text-overflow: ellipsis;
 				white-space: nowrap;
 			}
-			button > svg {
+			button > d2l-icon {
 				flex: none;
 			}
 			:host([dir="rtl"]) button > div {
@@ -117,9 +117,7 @@ class ButtonMenu extends ToolbarItemMixin(RtlMixin(LitElement)) {
 					${!this.noOpenerContent ? html`<div class="${hasIcon ? 'd2l-htmleditor-button-menu-icon-container' : ''}">
 						${this.icon ? unsafeHTML(icons[this.icon]) : html`<slot @slotchange="${this._handleIconSlotChange}" name="icon">${this._valueText ? this._valueText : this.text}</slot>`}
 					</div>` : null}
-					<svg width="18" height="18" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 18">
-						<path d="M2.39 6.49a1.5 1.5 0 0 1 2.12-.1L9 10.47l4.49-4.08a1.5 1.5 0 0 1 2.02 2.22L10 13.62A1.474 1.474 0 0 1 9 14a1.523 1.523 0 0 1-1-.38L2.49 8.61a1.5 1.5 0 0 1-.1-2.12z"/>
-					</svg>
+					<d2l-icon icon="tier1:chevron-down-thin"></d2l-icon>
 				</button>
 				<d2l-dropdown-menu @d2l-htmleditor-menu-item-change="${this._handleMenuItemChange}">
 					<d2l-menu label="${this.text}">
@@ -169,10 +167,12 @@ class MenuItem extends MenuItemSelectableMixin(ToolbarItemMixin(RtlMixin(LitElem
 	static get styles() {
 		return [ menuItemStyles, css`
 			:host {
+				--d2l-menu-border-color-hover: var(--d2l-color-celestine);
+				--d2l-menu-foreground-color-hover: var(--d2l-color-celestine);
 				align-items: center;
 				display: flex;
 				fill: var(--d2l-color-ferrite);
-				padding: 4px 10px;
+				padding: 7px 10px;
 			}
 			:host([hidden]) {
 				display: none;
@@ -183,9 +183,6 @@ class MenuItem extends MenuItemSelectableMixin(ToolbarItemMixin(RtlMixin(LitElem
 				text-overflow: ellipsis;
 				white-space: nowrap;
 			}
-			svg {
-				flex: none;
-			}
 			d2l-icon {
 				flex: none;
 				visibility: hidden;
@@ -194,7 +191,7 @@ class MenuItem extends MenuItemSelectableMixin(ToolbarItemMixin(RtlMixin(LitElem
 			:host(:hover),
 			:host(:focus) d2l-icon,
 			:host(:hover) d2l-icon {
-				fill: var(--d2l-color-celestine-minus-1);
+				fill: var(--d2l-color-celestine);
 			}
 			:host([aria-checked="true"]) > d2l-icon {
 				visibility: visible;
@@ -206,7 +203,7 @@ class MenuItem extends MenuItemSelectableMixin(ToolbarItemMixin(RtlMixin(LitElem
 			::slotted(h4),
 			::slotted(blockquote),
 			::slotted(code) {
-				margin: 0.3em 0;
+				margin: 0.2em 0;
 			}
 			svg,
 			::slotted([slot="icon"]) {
@@ -253,7 +250,7 @@ class MenuItem extends MenuItemSelectableMixin(ToolbarItemMixin(RtlMixin(LitElem
 		return html`
 			${this.icon ? unsafeHTML(icons[this.icon]) : html`<slot name="icon"></slot>`}
 			<div><slot></slot></div>
-			<d2l-icon icon="tier1:check-circle"></d2l-icon>
+			<d2l-icon icon="tier1:check"></d2l-icon>
 		`;
 	}
 
