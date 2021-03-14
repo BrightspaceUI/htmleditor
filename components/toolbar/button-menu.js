@@ -51,6 +51,11 @@ class ButtonMenu extends ToolbarItemMixin(RtlMixin(LitElement)) {
 			}
 			button > d2l-icon {
 				flex: none;
+				fill: var(--d2l-color-galena);
+			}
+			button:focus > d2l-icon,
+			button:hover > d2l-icon {
+				fill: var(--d2l-color-celestine);
 			}
 			:host([dir="rtl"]) button > div {
 				margin-left: 10px;
