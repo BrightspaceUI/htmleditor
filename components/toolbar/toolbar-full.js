@@ -13,6 +13,7 @@ import '../plugins/isf.js';
 import '../plugins/preview.js';
 import '../plugins/quicklink.js';
 import '../plugins/wordcount.js';
+import './separator.js';
 import { cmds } from '../commands.js';
 import { html } from 'lit-element/lit-element.js';
 
@@ -62,6 +63,7 @@ export function renderFullToolbar(component) {
 				<d2l-htmleditor-menu-item cmd="${cmds.blockQuote}"><blockquote>Blockquote</blockquote></d2l-htmleditor-menu-item>
 				<d2l-htmleditor-menu-item cmd="${cmds.formatBlock}" value="code"><code>Code</code></d2l-htmleditor-menu-item>
 			</d2l-htmleditor-button-menu>
+			<d2l-htmleditor-separator></d2l-htmleditor-separator>
 			<d2l-htmleditor-button-toggle cmd="${cmds.bold}" icon="bold" text="${component.localize('bold')}"></d2l-htmleditor-button-toggle>
 			<d2l-htmleditor-button-toggle cmd="${cmds.italic}" icon="italic" text="${component.localize('italic')}"></d2l-htmleditor-button-toggle>
 			<d2l-htmleditor-button-split cmd="${cmds.strikethrough}" icon="strike-through" text="Strike-through">
@@ -70,6 +72,7 @@ export function renderFullToolbar(component) {
 				<d2l-htmleditor-menu-item cmd="${cmds.superscript}" icon="superscript">Superscript</d2l-htmleditor-menu-item>
 				<d2l-htmleditor-menu-item cmd="${cmds.subscript}" icon="subscript">Subscript</d2l-htmleditor-menu-item>
 			</d2l-htmleditor-button-split>
+			<d2l-htmleditor-separator></d2l-htmleditor-separator>
 			<d2l-htmleditor-button-menu text="${component.localize('alignment')}" icon="align-left">
 				<d2l-htmleditor-menu-item cmd="${cmds.alignLeft}" icon="align-left">Left</d2l-htmleditor-menu-item>
 				<d2l-htmleditor-menu-item cmd="${cmds.alignCenter}" icon="align-center">Center</d2l-htmleditor-menu-item>
@@ -86,6 +89,7 @@ export function renderFullToolbar(component) {
 				<d2l-htmleditor-menu-item cmd="${cmds.indent}" icon="indent">${component.localize('indent')}</d2l-htmleditor-menu-item>
 				<d2l-htmleditor-menu-item cmd="${cmds.outdent}" icon="outdent">${component.localize('outdent')}</d2l-htmleditor-menu-item>
 			</d2l-htmleditor-button-menu>
+			<d2l-htmleditor-separator></d2l-htmleditor-separator>
 			${component._context ? html`
 				<d2l-htmleditor-button cmd="${cmds.isf}" icon="insert-stuff" text="${component.localize('isf')}"></d2l-htmleditor-button>
 				<d2l-htmleditor-button cmd="${cmds.quicklink}" icon="link" text="${component.localize('quicklink')}"></d2l-htmleditor-button>
@@ -133,6 +137,7 @@ export function renderFullToolbar(component) {
 			<d2l-htmleditor-button cmd="${cmds.character}" icon="insert-character" text="${component.localize('character')}"></d2l-htmleditor-button>
 			<d2l-htmleditor-button cmd="${cmds.emoticons}" icon="emoji" text="Emoticons"></d2l-htmleditor-button>
 			<d2l-htmleditor-button cmd="${cmds.hr}" icon="horizontal-rule" text="${component.localize('line')}"></d2l-htmleditor-button>
+			<d2l-htmleditor-separator></d2l-htmleditor-separator>
 			<d2l-htmleditor-button cmd="${cmds.a11yChecker}" icon="accessibility-check" text="${component.localize('allychecker')}"></d2l-htmleditor-button>
 			<d2l-htmleditor-button-menu cmd="${cmds.fontFamily}" text="${component.localize('fonts')}" style="width: 130px;">
 				<d2l-htmleditor-menu-item value="arabic transparent,sans-serif"><span style="font-family: arabic transparent,sans-serif;">Arabic Transparent</span></d2l-htmleditor-menu-item>
@@ -153,6 +158,7 @@ export function renderFullToolbar(component) {
 				<d2l-htmleditor-menu-item value="simsun"><span style="font-family: simsun;">宋体 (Sim Sun)</span></d2l-htmleditor-menu-item>
 				<d2l-htmleditor-menu-item value="mingliu,arial,helvetica,sans-serif"><span style="font-family: mingliu,arial,helvetica,sans-serif;">細明體 (Ming Liu)</span></d2l-htmleditor-menu-item>
 			</d2l-htmleditor-button-menu>
+			<d2l-htmleditor-separator></d2l-htmleditor-separator>
 			<d2l-htmleditor-button-menu cmd="${cmds.fontSize}" text="${component.localize('fontsize')}" style="width: 80px;">
 				<d2l-htmleditor-menu-item value="8pt">8pt</d2l-htmleditor-menu-item>
 				<d2l-htmleditor-menu-item value="10pt">10pt</d2l-htmleditor-menu-item>
@@ -162,14 +168,17 @@ export function renderFullToolbar(component) {
 				<d2l-htmleditor-menu-item value="24pt">24pt</d2l-htmleditor-menu-item>
 				<d2l-htmleditor-menu-item value="36pt">36pt</d2l-htmleditor-menu-item>
 			</d2l-htmleditor-button-menu>
+			<d2l-htmleditor-separator></d2l-htmleditor-separator>
 			${component._context ? html`
 				<d2l-htmleditor-button-color></d2l-htmleditor-button-color>
 			` : ''}
 			<d2l-htmleditor-button cmd="${component._context ? cmds.preview : 'mcePreview'}" icon="preview" text="${component.localize('preview')}"></d2l-htmleditor-button>
 			<d2l-htmleditor-button cmd="${cmds.sourceCode}" icon="sourcecode" text="${component.localize('source')}"></d2l-htmleditor-button>
 			<d2l-htmleditor-button cmd="${cmds.wordCount}" icon="word-count" text="Word Count"></d2l-htmleditor-button>
+			<d2l-htmleditor-separator></d2l-htmleditor-separator>
 			<d2l-htmleditor-button cmd="${cmds.undo}" icon="undo" text="${component.localize('undo')}"></d2l-htmleditor-button>
 			<d2l-htmleditor-button cmd="${cmds.redo}" icon="redo" text="${component.localize('redo')}"></d2l-htmleditor-button>
+			<d2l-htmleditor-separator></d2l-htmleditor-separator>
 			<d2l-htmleditor-button-toggle cmd="${cmds.fullscreen}" icon="fullscreen" text="${component.localize('fullscreen')}"></d2l-htmleditor-button-toggle>
 		</d2l-htmleditor-toolbar>
 	`;

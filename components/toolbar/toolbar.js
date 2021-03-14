@@ -83,7 +83,8 @@ class Toolbar extends RtlMixin(LitElement) {
 		this._measures.chomper = this.shadowRoot.querySelector('button').offsetWidth;
 		this._resizeObserver = new ResizeObserver(this._handleResize.bind(this));
 		this._resizeObserver.observe(this.shadowRoot.querySelector('div'));
-		this._initializeRovingTabIndex();
+		const focusables = this._getFocusables();
+		if (focusables && focusables.length > 0) focusables[0].activeFocusable = true;
 	}
 
 	render() {
@@ -106,6 +107,14 @@ class Toolbar extends RtlMixin(LitElement) {
 		`;
 	}
 
+	_getFocusables() {
+		return this.shadowRoot.querySelector('slot').assignedNodes({ flatten: true })
+			.filter(node => node.nodeType === Node.ELEMENT_NODE
+				&& node.tagName !== 'D2L-HTMLEDITOR-SEPARATOR'
+				&& node.getAttribute('data-toolbar-item-state') !== 'chomped'
+			);
+	}
+
 	async _handleChomperClick() {
 		this._chomping = !this._chomping;
 		this._updateItemsVisibility(true);
@@ -114,39 +123,37 @@ class Toolbar extends RtlMixin(LitElement) {
 	async _handleKeyDown(e) {
 
 		if (e.keyCode !== keyCodes.LEFT && e.keyCode !== keyCodes.RIGHT && e.keyCode !== keyCodes.HOME && e.keyCode !== keyCodes.END) return;
-		if (e.target === this.shadowRoot.querySelector('button')) return;
+		if (e.target === this.shadowRoot.querySelector('button')) return; // chomper
 
-		const items = this.shadowRoot.querySelector('slot').assignedNodes({ flatten: true })
-			.filter(node => node.nodeType === Node.ELEMENT_NODE && node.getAttribute('data-toolbar-item-state') !== 'chomped');
-
-		const index = items.findIndex(item => item.focusable);
+		const focusables = this._getFocusables();
+		const index = focusables.findIndex(item => item.activeFocusable);
 
 		let newIndex = index;
-		items[index].focusable = false;
+		focusables[index].activeFocusable = false;
 		if (this._dir === 'rtl' && e.keyCode === keyCodes.LEFT) {
-			if (index === items.length - 1) newIndex = 0;
+			if (index === focusables.length - 1) newIndex = 0;
 			else newIndex = index + 1;
 		} else if (this._dir === 'rtl' && e.keyCode === keyCodes.RIGHT) {
-			if (index === 0) newIndex = items.length - 1;
+			if (index === 0) newIndex = focusables.length - 1;
 			else newIndex = index - 1;
 		} else if (e.keyCode === keyCodes.LEFT) {
-			if (index === 0) newIndex = items.length - 1;
+			if (index === 0) newIndex = focusables.length - 1;
 			else newIndex = index - 1;
 		} else if (e.keyCode === keyCodes.RIGHT) {
-			if (index === items.length - 1) newIndex = 0;
+			if (index === focusables.length - 1) newIndex = 0;
 			else newIndex = index + 1;
 		} else if (e.keyCode === keyCodes.HOME) {
 			newIndex = 0;
 		} else if (e.keyCode === keyCodes.END) {
-			newIndex = items.length - 1;
+			newIndex = focusables.length - 1;
 		}
 
 		// prevent default so page doesn't scroll when hitting HOME/END
 		e.preventDefault();
 
-		items[newIndex].focusable = true;
-		await items[newIndex].updateComplete;
-		items[newIndex].focus();
+		focusables[newIndex].activeFocusable = true;
+		await focusables[newIndex].updateComplete;
+		focusables[newIndex].focus();
 
 	}
 
@@ -175,13 +182,6 @@ class Toolbar extends RtlMixin(LitElement) {
 
 	}
 
-	_initializeRovingTabIndex() {
-		const items = this.shadowRoot.querySelector('slot').assignedNodes({ flatten: true })
-			.filter(node => node.nodeType === Node.ELEMENT_NODE);
-		items[0].focusable = true;
-
-	}
-
 	_updateItemsVisibility(animate, items) {
 		if (!items) items = this.shadowRoot.querySelector('slot').assignedNodes({ flatten: true })
 			.filter(node => node.nodeType === Node.ELEMENT_NODE);
@@ -207,9 +207,9 @@ class Toolbar extends RtlMixin(LitElement) {
 					}
 
 					// if chomping item with the current roving tabindex then reset it
-					if (item.focusable) {
-						item.focusable = false;
-						items[0].focusable = true;
+					if (item.activeFocusable) {
+						item.activeFocusable = false;
+						items[0].activeFocusable = true;
 					}
 
 				} else {

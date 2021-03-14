@@ -4,13 +4,16 @@ export const ToolbarItemMixin = superclass => class extends superclass {
 
 	static get properties() {
 		return {
-			focusable: { type: Boolean, reflect: true },
+			/**
+			 * Indicates whether the element is the active focusable (has the roving tabindex).
+			 */
+			activeFocusable: { type: Boolean, reflect: true, attribute: 'active-focusable' },
 		};
 	}
 
 	constructor() {
 		super();
-		this.focusable = false;
+		this.activeFocusable = false;
 	}
 
 	_getEditor() {

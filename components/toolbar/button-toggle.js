@@ -46,7 +46,7 @@ class ButtonToggle extends ToolbarItemMixin(LitElement) {
 				aria-pressed="${this._active ? 'true' : 'false'}"
 				@click="${this._handleClick}"
 				?disabled="${this.disabled}"
-				tabindex="${this.focusable ? 0 : -1}"
+				tabindex="${this.activeFocusable ? 0 : -1}"
 				title="${this.text}">
 				${this.icon ? unsafeHTML(icons[this.icon]) : html`<slot></slot>`}
 			</button>`;
