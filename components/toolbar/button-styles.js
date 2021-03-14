@@ -49,6 +49,10 @@ export const buttonStyles = css`
 		color: var(--d2l-color-celestine);
 		fill: var(--d2l-color-celestine);
 	}
+	button:hover d2l-icon,
+	button:focus d2l-icon {
+		fill: var(--d2l-color-celestine);
+	}
 	button[disabled] {
 		cursor: default;
 		opacity: 0.5;
