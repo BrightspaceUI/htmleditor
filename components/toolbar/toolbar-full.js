@@ -3,7 +3,6 @@ import './toolbar.js';
 import './button.js';
 import './button-color.js';
 import './button-menu.js';
-import './button-split.js';
 import './button-toggle.js';
 import '../plugins/a11ychecker.js';
 import '../plugins/equation.js';
@@ -66,12 +65,12 @@ export function renderFullToolbar(component) {
 			<d2l-htmleditor-separator></d2l-htmleditor-separator>
 			<d2l-htmleditor-button-toggle cmd="${cmds.bold}" icon="bold" text="${component.localize('bold')}"></d2l-htmleditor-button-toggle>
 			<d2l-htmleditor-button-toggle cmd="${cmds.italic}" icon="italic" text="${component.localize('italic')}"></d2l-htmleditor-button-toggle>
-			<d2l-htmleditor-button-split cmd="${cmds.strikethrough}" icon="strike-through" text="Strike-through">
+			<d2l-htmleditor-button-menu text="Inline Formats" icon="strike-through">
 				<d2l-htmleditor-menu-item cmd="${cmds.underline}" icon="underline">Underline</d2l-htmleditor-menu-item>
 				<d2l-htmleditor-menu-item cmd="${cmds.strikethrough}" icon="strike-through">Strike-through</d2l-htmleditor-menu-item>
 				<d2l-htmleditor-menu-item cmd="${cmds.superscript}" icon="superscript">Superscript</d2l-htmleditor-menu-item>
 				<d2l-htmleditor-menu-item cmd="${cmds.subscript}" icon="subscript">Subscript</d2l-htmleditor-menu-item>
-			</d2l-htmleditor-button-split>
+			</d2l-htmleditor-button-menu>
 			<d2l-htmleditor-separator></d2l-htmleditor-separator>
 			<d2l-htmleditor-button-menu text="${component.localize('alignment')}" icon="align-left">
 				<d2l-htmleditor-menu-item cmd="${cmds.alignLeft}" icon="align-left">Left</d2l-htmleditor-menu-item>
@@ -127,12 +126,12 @@ export function renderFullToolbar(component) {
 				<d2l-htmleditor-menu-item cmd="${cmds.tableDelete}" icon="table-delete-table">Delete Table</d2l-htmleditor-menu-item>
 			</d2l-htmleditor-button-menu>
 			${component._context ? html`
-				<d2l-htmleditor-button-split cmd="${cmds.equationGraphical}" icon="equation-graphical" text="${component.localize('graphical')}">
+				<d2l-htmleditor-button-menu icon="equation-graphical" text="Equations">
 					<d2l-htmleditor-menu-item cmd="${cmds.equationGraphical}" icon="equation-graphical">${component.localize('graphical')}</d2l-htmleditor-menu-item>
 					<d2l-htmleditor-menu-item cmd="${cmds.equationLaTeX}" icon="equation-latex">${component.localize('latex')}</d2l-htmleditor-menu-item>
 					<d2l-htmleditor-menu-item cmd="${cmds.equationMathML}" icon="equation-mathml">${component.localize('mathml')}</d2l-htmleditor-menu-item>
 					<d2l-htmleditor-menu-item cmd="${cmds.equationChemistry}" icon="equation-chemistry">${component.localize('chemistry')}</d2l-htmleditor-menu-item>
-				</d2l-htmleditor-button-split>
+				</d2l-htmleditor-button-menu>
 			` : ''}
 			<d2l-htmleditor-button cmd="${cmds.character}" icon="insert-character" text="${component.localize('character')}"></d2l-htmleditor-button>
 			<d2l-htmleditor-button cmd="${cmds.emoticons}" icon="emoji" text="Emoticons"></d2l-htmleditor-button>
