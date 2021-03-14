@@ -6,6 +6,7 @@ import ResizeObserver from 'resize-observer-polyfill/dist/ResizeObserver.es.js';
 import { RtlMixin } from '@brightspace-ui/core/mixins/rtl-mixin.js';
 
 const keyCodes = Object.freeze({
+	ENTER: 13,
 	END: 35,
 	HOME: 36,
 	LEFT: 37,
@@ -34,26 +35,37 @@ class Toolbar extends RtlMixin(LitElement) {
 			:host([hidden]) {
 				display: none;
 			}
-			div {
-				align-items: center;
+			.d2l-htmleditor-toolbar-container {
 				display: flex;
-				flex-wrap: wrap;
 				max-height: 210px;
 				transition: max-height 250ms ease-out;
 			}
+			/*
 			.d2l-htmleditor-toolbar-measuring {
 				opacity: 0;
 				position: absolute;
 			}
+			*/
 			.d2l-htmleditor-toolbar-chomping {
 				max-height: 34px;
+			}
+			.d2l-htmleditor-toolbar-actions {
+				flex: auto;
+			}
+			.d2l-htmleditor-toolbar-actions > div {
+				align-items: center;
+				display: flex;
+				flex-wrap: wrap;
+			}
+			.d2l-htmleditor-toolbar-chomper {
+				flex: none;
 			}
 			button {
 				display: none;
 			}
 			.d2l-htmleditor-toolbar-measuring button,
 			.d2l-htmleditor-toolbar-overflowing button {
-				display: flex;
+				display: flex
 			}
 			::slotted(*) {
 				transition: opacity 250ms ease-out;
@@ -82,14 +94,15 @@ class Toolbar extends RtlMixin(LitElement) {
 		this._measures.available = this.offsetWidth;
 		this._measures.chomper = this.shadowRoot.querySelector('button').offsetWidth;
 		this._resizeObserver = new ResizeObserver(this._handleResize.bind(this));
-		this._resizeObserver.observe(this.shadowRoot.querySelector('div'));
+		this._resizeObserver.observe(this.shadowRoot.querySelector('.d2l-htmleditor-toolbar-container'));
 		const focusables = this._getFocusables();
 		if (focusables && focusables.length > 0) focusables[0].activeFocusable = true;
 	}
 
 	render() {
 		const classes = {
-			'd2l-htmleditor-toolbar-measuring': !this._measured,
+			'd2l-htmleditor-toolbar-container': true,
+			//'d2l-htmleditor-toolbar-measuring': !this._measured,
 			'd2l-htmleditor-toolbar-overflowing': this._overflowing,
 			'd2l-htmleditor-toolbar-chomping': this._chomping
 		};
@@ -99,20 +112,30 @@ class Toolbar extends RtlMixin(LitElement) {
 				class="${classMap(classes)}"
 				data-state="${this._state}"
 				@keydown="${this._handleKeyDown}">
-				<slot @slotchange="${this._handleSlotChange}"></slot>
-				<button @click="${this._handleChomperClick}">
-					<d2l-icon icon="tier1:more"></d2l-icon>
-				</button>
+				<div class="d2l-htmleditor-toolbar-actions">
+					<div>
+						<slot @slotchange="${this._handleSlotChange}"></slot>
+					</div>
+				</div>
+				<div class="d2l-htmleditor-toolbar-chomper">
+					<button @click="${this._handleChomperClick}" tabindex="-1">
+						<d2l-icon icon="tier1:more"></d2l-icon>
+					</button>
+				</div>
 			</div>
 		`;
 	}
 
-	_getFocusables() {
-		return this.shadowRoot.querySelector('slot').assignedNodes({ flatten: true })
+	_getFocusables(chomped) {
+		const focusables = this.shadowRoot.querySelector('slot').assignedNodes({ flatten: true })
 			.filter(node => node.nodeType === Node.ELEMENT_NODE
 				&& node.tagName !== 'D2L-HTMLEDITOR-SEPARATOR'
-				&& node.getAttribute('data-toolbar-item-state') !== 'chomped'
+				&& (node.getAttribute('data-toolbar-item-state') !== 'chomped' || chomped)
 			);
+		if (this._overflowing) {
+			focusables.push(this.shadowRoot.querySelector('button'));
+		}
+		return focusables;
 	}
 
 	async _handleChomperClick() {
@@ -120,10 +143,28 @@ class Toolbar extends RtlMixin(LitElement) {
 		this._updateItemsVisibility(true);
 	}
 
-	async _handleKeyDown(e) {
+	_handleKeyDown(e) {
 
-		if (e.keyCode !== keyCodes.LEFT && e.keyCode !== keyCodes.RIGHT && e.keyCode !== keyCodes.HOME && e.keyCode !== keyCodes.END) return;
-		if (e.target === this.shadowRoot.querySelector('button')) return; // chomper
+		if (e.keyCode !== keyCodes.LEFT && e.keyCode !== keyCodes.RIGHT && e.keyCode !== keyCodes.HOME && e.keyCode !== keyCodes.END && e.keyCode !== keyCodes.ENTER) return;
+
+		const setActiveFocusable = async focusable => {
+			focusable.activeFocusable = true;
+			await focusable.updateComplete;
+			requestAnimationFrame(() => {
+				focusable.focus();
+			});
+		};
+
+		if (e.keyCode === keyCodes.ENTER && e.target === this.shadowRoot.querySelector('button')) {
+			/*
+			if (this._chomping) {
+				const firstChompedFocusable = this._getFocusables(true)
+					.find(item => item.getAttribute('data-toolbar-item-state') === 'chomped');
+				setActiveFocusable(firstChompedFocusable);
+			}
+			*/
+			return;
+		}
 
 		const focusables = this._getFocusables();
 		const index = focusables.findIndex(item => item.activeFocusable);
@@ -151,10 +192,7 @@ class Toolbar extends RtlMixin(LitElement) {
 		// prevent default so page doesn't scroll when hitting HOME/END
 		e.preventDefault();
 
-		focusables[newIndex].activeFocusable = true;
-		await focusables[newIndex].updateComplete;
-		focusables[newIndex].focus();
-
+		setActiveFocusable(focusables[newIndex]);
 	}
 
 	_handleResize(entries) {
