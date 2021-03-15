@@ -114,7 +114,8 @@ class ButtonMenu extends ToolbarItemMixin(RtlMixin(LitElement)) {
 				<button
 					aria-label="${this.text}"
 					class="d2l-dropdown-opener"
-					tabindex="${this.activeFocusable ? 0 : -1}">
+					tabindex="${this.activeFocusable ? 0 : -1}"
+					title="${this.text}">
 					${!this.noOpenerContent ? html`<div class="${hasIcon ? 'd2l-htmleditor-button-menu-icon-container' : ''}">
 						${this.icon ? unsafeHTML(icons[this.icon]) : html`<slot @slotchange="${this._handleIconSlotChange}" name="icon">${this._valueText ? this._valueText : this.text}</slot>`}
 					</div>` : null}
