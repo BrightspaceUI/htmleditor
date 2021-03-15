@@ -36,6 +36,7 @@
   "author": "D2L Corporation",
   "license": "Apache-2.0",
   "devDependencies": {
+    "@babel/eslint-parser": "^7",
     "@brightspace-ui/stylelint-config": "^0.1.0",
     "@open-wc/testing": "^2",
     "@open-wc/testing-karma": "^4",
@@ -44,7 +45,7 @@
     "deepmerge": "^4.2.2",
     "es-dev-server": "^2",
     "eslint": "^7",
-    "eslint-config-brightspace": "^0.12.0",
+    "eslint-config-brightspace": "^0.13.1",
     "eslint-plugin-html": "^6",
     "eslint-plugin-lit": "^1",
     "eslint-plugin-sort-class-members": "^1",
