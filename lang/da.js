@@ -1,11 +1,22 @@
 /* eslint quotes: 0 */
 
 export default {
-	"font.family.recommended": "Anbefales",
+	"attributes": "Attributter",
+	"attributes.cancel": "Annuller",
+	"attributes.class": "Hold",
+	"attributes.create": "Opret",
+	"attributes.direction.default": "Standard",
+	"attributes.direction.label": "Tekstretning",
+	"attributes.id": "Id",
+	"attributes.style": "Typografi",
+	"attributes.title": "Titel",
+	"direction.ltr": "Venstre mod højre",
+	"direction.rtl": "Højre mod venstre",
 	"equationeditor.chemistrytooltip": "Kemisk ligning",
 	"equationeditor.graphicaltooltip": "Grafisk ligning",
 	"equationeditor.latextooltip": "LaTeX-ligning",
 	"equationeditor.mathmltooltip": "MathML-ligning",
+	"font.family.recommended": "Anbefales",
 	"image.tooltip": "Indsæt billede",
 	"insertstuff.tooltip": "Indsæt noget",
 	"preview.tooltip": "Forhåndsvisning",

@@ -1,11 +1,22 @@
 /* eslint quotes: 0 */
 
 export default {
-	"font.family.recommended": "Aanbevolen",
+	"attributes": "Kenmerken",
+	"attributes.cancel": "Annuleren",
+	"attributes.class": "Klasse",
+	"attributes.create": "Maken",
+	"attributes.direction.default": "Standaard",
+	"attributes.direction.label": "Tekstrichting",
+	"attributes.id": "Id",
+	"attributes.style": "Stijl",
+	"attributes.title": "Titel",
+	"direction.ltr": "Van links naar rechts",
+	"direction.rtl": "Van rechts naar links",
 	"equationeditor.chemistrytooltip": "Scheikundige vergelijking",
 	"equationeditor.graphicaltooltip": "Grafische vergelijking",
 	"equationeditor.latextooltip": "LaTeX-vergelijking",
 	"equationeditor.mathmltooltip": "MathML-vergelijking",
+	"font.family.recommended": "Aanbevolen",
 	"image.tooltip": "Afbeelding invoegen",
 	"insertstuff.tooltip": "Inhoud invoegen",
 	"preview.tooltip": "Voorbeeldweergave",

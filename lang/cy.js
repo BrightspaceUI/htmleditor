@@ -1,11 +1,22 @@
 /* eslint quotes: 0 */
 
 export default {
-	"font.family.recommended": "Argymhellir",
+	"attributes": "Priodweddau",
+	"attributes.cancel": "Canslo",
+	"attributes.class": "Dosbarth",
+	"attributes.create": "Creu",
+	"attributes.direction.default": "Diofyn",
+	"attributes.direction.label": "Cyfeiriad Testun",
+	"attributes.id": "ID",
+	"attributes.style": "Arddull",
+	"attributes.title": "Teitl",
+	"direction.ltr": "Chwith i'r Dde",
+	"direction.rtl": "De i'r Chwith",
 	"equationeditor.chemistrytooltip": "Hafaliad Cemeg",
 	"equationeditor.graphicaltooltip": "Hafaliad Graffigol",
 	"equationeditor.latextooltip": "Hafaliad LaTeX",
 	"equationeditor.mathmltooltip": "Hafaliad MathML",
+	"font.family.recommended": "Argymhellir",
 	"image.tooltip": "Mewnosod Delwedd",
 	"insertstuff.tooltip": "Mewnosod Stwff",
 	"preview.tooltip": "Rhagolwg",

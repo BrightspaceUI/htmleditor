@@ -1,11 +1,22 @@
 /* eslint quotes: 0 */
 
 export default {
-	"font.family.recommended": "建议",
+	"attributes": "特性",
+	"attributes.cancel": "取消",
+	"attributes.class": "班级",
+	"attributes.create": "创建",
+	"attributes.direction.default": "默认值",
+	"attributes.direction.label": "文本方向",
+	"attributes.id": "ID",
+	"attributes.style": "样式",
+	"attributes.title": "标题",
+	"direction.ltr": "从左向右",
+	"direction.rtl": "从右向左",
 	"equationeditor.chemistrytooltip": "化学反应式",
 	"equationeditor.graphicaltooltip": "图形等式",
 	"equationeditor.latextooltip": "LaTeX 等式",
 	"equationeditor.mathmltooltip": "MathML 等式",
+	"font.family.recommended": "建议",
 	"image.tooltip": "插入图像",
 	"insertstuff.tooltip": "插入资料",
 	"preview.tooltip": "预览",

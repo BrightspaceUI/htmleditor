@@ -1,11 +1,22 @@
 /* eslint quotes: 0 */
 
 export default {
-	"font.family.recommended": "Rekommenderat",
+	"attributes": "Attribut",
+	"attributes.cancel": "Avbryt",
+	"attributes.class": "Klass",
+	"attributes.create": "Skapa",
+	"attributes.direction.default": "Standard",
+	"attributes.direction.label": "Textorientering",
+	"attributes.id": "ID",
+	"attributes.style": "Format",
+	"attributes.title": "Rubrik",
+	"direction.ltr": "Från vänster till höger",
+	"direction.rtl": "Från höger till vänster",
 	"equationeditor.chemistrytooltip": "Kemiekvation",
 	"equationeditor.graphicaltooltip": "Grafisk ekvation",
 	"equationeditor.latextooltip": "LaTeX-ekvation",
 	"equationeditor.mathmltooltip": "MathML-ekvation",
+	"font.family.recommended": "Rekommenderat",
 	"image.tooltip": "Infoga bild",
 	"insertstuff.tooltip": "Infoga material",
 	"preview.tooltip": "Förhandsgranska",

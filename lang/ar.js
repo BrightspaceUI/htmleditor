@@ -1,11 +1,22 @@
 /* eslint quotes: 0 */
 
 export default {
-	"font.family.recommended": "موصى به",
+	"attributes": "السمات",
+	"attributes.cancel": "إلغاء",
+	"attributes.class": "الفئة",
+	"attributes.create": "إنشاء",
+	"attributes.direction.default": "الافتراضي",
+	"attributes.direction.label": "اتجاه النص",
+	"attributes.id": "المعرّف",
+	"attributes.style": "النمط",
+	"attributes.title": "العنوان",
+	"direction.ltr": "من اليسار إلى اليمين",
+	"direction.rtl": "من اليمين إلى اليسار",
 	"equationeditor.chemistrytooltip": "معادلة في الكيمياء",
 	"equationeditor.graphicaltooltip": "معادلة رسومية",
 	"equationeditor.latextooltip": "معادلة LaTeX",
 	"equationeditor.mathmltooltip": "معادلة MathML",
+	"font.family.recommended": "موصى به",
 	"image.tooltip": "إدراج صورة",
 	"insertstuff.tooltip": "إدراج الأغراض",
 	"preview.tooltip": "معاينة",
