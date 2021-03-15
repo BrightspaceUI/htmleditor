@@ -16,6 +16,7 @@ import { html, LitElement } from 'lit-element/lit-element.js';
 import { cmds } from '../commands.js';
 import { hasLmsContext } from '../lms-adapter.js';
 import { Localizer } from '../../lang/localizer.js';
+import ResizeObserver from 'resize-observer-polyfill/dist/ResizeObserver.es.js';
 import { ToolbarMixin } from './toolbar-mixin.js';
 
 export function getPlugins(component) {
@@ -53,6 +54,12 @@ export function getPlugins(component) {
 */
 
 class ToolbarFull extends Localizer(ToolbarMixin(LitElement)) {
+
+	firstUpdated() {
+		super.firstUpdated();
+		this._resizeObserver = new ResizeObserver(this._handleResize.bind(this));
+		this._resizeObserver.observe(this.shadowRoot.querySelector('.d2l-htmleditor-toolbar-container'));
+	}
 
 	render() {
 		const hasContext = hasLmsContext();
@@ -184,6 +191,10 @@ class ToolbarFull extends Localizer(ToolbarMixin(LitElement)) {
 			<d2l-htmleditor-separator></d2l-htmleditor-separator>
 			<d2l-htmleditor-button-toggle cmd="${cmds.fullscreen}" icon="fullscreen" text="${this.localize('fullscreen')}"></d2l-htmleditor-button-toggle>
 		`);
+	}
+
+	_handleResize(e) {
+		console.log('handling resize', e);
 	}
 
 }
