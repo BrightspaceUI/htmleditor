@@ -99,8 +99,8 @@ export const ToolbarMixin = superclass => class extends RtlMixin(superclass) {
 			this._updateItemsVisibility(false, items);
 		});
 
-		this._resizeObserver = new ResizeObserver(this._handleResize.bind(this));
-		this._resizeObserver.observe(this.shadowRoot.querySelector('.d2l-htmleditor-toolbar-container'));
+		this._chompResizeObserver = new ResizeObserver(this._handleChompResize.bind(this));
+		this._chompResizeObserver.observe(this.shadowRoot.querySelector('.d2l-htmleditor-toolbar-container'));
 
 		const focusables = this._getFocusables();
 		if (focusables && focusables.length > 0) focusables[0].activeFocusable = true;
@@ -123,6 +123,12 @@ export const ToolbarMixin = superclass => class extends RtlMixin(superclass) {
 	async _handleChomperClick() {
 		this._chomping = !this._chomping;
 		this._updateItemsVisibility(true);
+	}
+
+	_handleChompResize(entries) {
+		if (this._measures.available === entries[0].contentRect.width) return;
+		this._measures.available = entries[0].contentRect.width;
+		this._updateItemsVisibility(false);
 	}
 
 	_handleKeyDown(e) {
@@ -175,12 +181,6 @@ export const ToolbarMixin = superclass => class extends RtlMixin(superclass) {
 		e.preventDefault();
 
 		setActiveFocusable(focusables[newIndex]);
-	}
-
-	_handleResize(entries) {
-		if (this._measures.available === entries[0].contentRect.width) return;
-		this._measures.available = entries[0].contentRect.width;
-		this._updateItemsVisibility(false);
 	}
 
 	_render(items) {
