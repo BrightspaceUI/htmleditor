@@ -53,10 +53,10 @@ export const ToolbarMixin = superclass => class extends RtlMixin(superclass) {
 			.d2l-htmleditor-toolbar-chomper-container {
 				flex: none;
 			}
-			button {
+			.d2l-htmleditor-toolbar-chomper {
 				display: none;
 			}
-			.d2l-htmleditor-toolbar-overflowing button {
+			.d2l-htmleditor-toolbar-overflowing .d2l-htmleditor-toolbar-chomper {
 				display: flex;
 			}
 			.d2l-htmleditor-toolbar-actions > div > * {
