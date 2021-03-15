@@ -12,17 +12,10 @@ export function countAll(text) {
 	let charCount = 0;
 	let wordCount = 0;
 	for (let i = 0; i < text.length; i++) {
-		if (!whiteSpaceChars.includes(text.charAt(i))) {
-			charCount++;
+		if (whiteSpaceChars.includes(text.charAt(i))) continue;
 
-			if (i === 0) wordCount++;
-
-			continue;
-		}
-
-		if (i === 0 || whiteSpaceChars.includes(text.charAt(i - 1))) continue;
-
-		wordCount++;
+		if (i === 0 || whiteSpaceChars.includes(text.charAt(i - 1))) wordCount++;
+		charCount++;
 	}
 
 	return {

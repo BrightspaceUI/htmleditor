@@ -6,6 +6,7 @@ const textWithExtraWhiteSpace = `Some
 const textWithLeadingAndTrailingWhiteSpace = `
 	   Some test text here
 	   `;
+const textWithTrailingSpace = 'Some test text here ';
 const textWithNoCharacters = '';
 const textWithOnlyMultipleWhiteSpaceCharacters = `
 	`;
@@ -35,6 +36,11 @@ export const testCases = [
 		name: 'Text with leading and trailing whitespace',
 		text: textWithLeadingAndTrailingWhiteSpace,
 		expectedCounts: new Counts(4, 29, 16)
+	},
+	{
+		name: 'Text with trailing space character',
+		text: textWithTrailingSpace,
+		expectedCounts: new Counts(4, 20, 16)
 	},
 	{
 		name: 'Text with no characters',
