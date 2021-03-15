@@ -1,5 +1,4 @@
 import '@brightspace-ui/core/components/menu/menu-item-separator.js';
-import './toolbar.js';
 import './button.js';
 import './button-color.js';
 import './button-menu.js';
@@ -13,8 +12,11 @@ import '../plugins/preview.js';
 import '../plugins/quicklink.js';
 import '../plugins/wordcount.js';
 import './separator.js';
+import { html, LitElement } from 'lit-element/lit-element.js';
 import { cmds } from '../commands.js';
-import { html } from 'lit-element/lit-element.js';
+import { hasLmsContext } from '../lms-adapter.js';
+import { Localizer } from '../../lang/localizer.js';
+import { ToolbarMixin } from './toolbar-mixin.js';
 
 export function getPlugins(component) {
 	return [
@@ -50,10 +52,12 @@ export function getPlugins(component) {
 </d2l-htmleditor-button-menu>
 */
 
-export function renderFullToolbar(component) {
-	return html`
-		<d2l-htmleditor-toolbar>
-			<d2l-htmleditor-button-menu text="${component.localize('formats')}" style="width: 115px;">
+class ToolbarFull extends Localizer(ToolbarMixin(LitElement)) {
+
+	render() {
+		const hasContext = hasLmsContext();
+		return this._render(html`
+			<d2l-htmleditor-button-menu text="${this.localize('formats')}" style="width: 115px;">
 				<d2l-htmleditor-menu-item cmd="${cmds.formatBlock}" value="p"><p>Paragraph</p></d2l-htmleditor-menu-item>
 				<d2l-htmleditor-menu-item cmd="${cmds.formatBlock}" value="h1"><h1>Heading 1</h1></d2l-htmleditor-menu-item>
 				<d2l-htmleditor-menu-item cmd="${cmds.formatBlock}" value="h2"><h2>Heading 2</h2></d2l-htmleditor-menu-item>
@@ -63,8 +67,8 @@ export function renderFullToolbar(component) {
 				<d2l-htmleditor-menu-item cmd="${cmds.formatBlock}" value="code"><code>Code</code></d2l-htmleditor-menu-item>
 			</d2l-htmleditor-button-menu>
 			<d2l-htmleditor-separator></d2l-htmleditor-separator>
-			<d2l-htmleditor-button-toggle cmd="${cmds.bold}" icon="bold" text="${component.localize('bold')}"></d2l-htmleditor-button-toggle>
-			<d2l-htmleditor-button-toggle cmd="${cmds.italic}" icon="italic" text="${component.localize('italic')}"></d2l-htmleditor-button-toggle>
+			<d2l-htmleditor-button-toggle cmd="${cmds.bold}" icon="bold" text="${this.localize('bold')}"></d2l-htmleditor-button-toggle>
+			<d2l-htmleditor-button-toggle cmd="${cmds.italic}" icon="italic" text="${this.localize('italic')}"></d2l-htmleditor-button-toggle>
 			<d2l-htmleditor-button-menu text="Inline Formats" icon="strike-through">
 				<d2l-htmleditor-menu-item cmd="${cmds.underline}" icon="underline">Underline</d2l-htmleditor-menu-item>
 				<d2l-htmleditor-menu-item cmd="${cmds.strikethrough}" icon="strike-through">Strike-through</d2l-htmleditor-menu-item>
@@ -72,27 +76,27 @@ export function renderFullToolbar(component) {
 				<d2l-htmleditor-menu-item cmd="${cmds.subscript}" icon="subscript">Subscript</d2l-htmleditor-menu-item>
 			</d2l-htmleditor-button-menu>
 			<d2l-htmleditor-separator></d2l-htmleditor-separator>
-			<d2l-htmleditor-button-menu text="${component.localize('alignment')}" icon="align-left">
+			<d2l-htmleditor-button-menu text="${this.localize('alignment')}" icon="align-left">
 				<d2l-htmleditor-menu-item cmd="${cmds.alignLeft}" icon="align-left">Left</d2l-htmleditor-menu-item>
 				<d2l-htmleditor-menu-item cmd="${cmds.alignCenter}" icon="align-center">Center</d2l-htmleditor-menu-item>
 				<d2l-htmleditor-menu-item cmd="${cmds.alignRight}" icon="align-center">Right</d2l-htmleditor-menu-item>
 				<d2l-htmleditor-menu-item cmd="${cmds.alignJustify}" icon="align-justify">Justify</d2l-htmleditor-menu-item>
 				<d2l-menu-item-separator></d2l-menu-item-separator>
-				<d2l-htmleditor-menu-item cmd="${cmds.ltr}" icon="ltr">${component.localize('ltr')}</d2l-htmleditor-menu-item>
-				<d2l-htmleditor-menu-item cmd="${cmds.rtl}" icon="rtl">${component.localize('rtl')}</d2l-htmleditor-menu-item>
+				<d2l-htmleditor-menu-item cmd="${cmds.ltr}" icon="ltr">${this.localize('ltr')}</d2l-htmleditor-menu-item>
+				<d2l-htmleditor-menu-item cmd="${cmds.rtl}" icon="rtl">${this.localize('rtl')}</d2l-htmleditor-menu-item>
 			</d2l-htmleditor-button-menu>
-			<d2l-htmleditor-button-menu text="${component.localize('list')}" icon="unordered-list">
-				<d2l-htmleditor-menu-item cmd="${cmds.unorderedList}" icon="unordered-list">${component.localize('unorderedlist')}</d2l-htmleditor-menu-item>
-				<d2l-htmleditor-menu-item cmd="${cmds.orderedList}" icon="ordered-list">${component.localize('orderedlist')}</d2l-htmleditor-menu-item>
+			<d2l-htmleditor-button-menu text="${this.localize('list')}" icon="unordered-list">
+				<d2l-htmleditor-menu-item cmd="${cmds.unorderedList}" icon="unordered-list">${this.localize('unorderedlist')}</d2l-htmleditor-menu-item>
+				<d2l-htmleditor-menu-item cmd="${cmds.orderedList}" icon="ordered-list">${this.localize('orderedlist')}</d2l-htmleditor-menu-item>
 				<d2l-menu-item-separator></d2l-menu-item-separator>
-				<d2l-htmleditor-menu-item cmd="${cmds.indent}" icon="indent">${component.localize('indent')}</d2l-htmleditor-menu-item>
-				<d2l-htmleditor-menu-item cmd="${cmds.outdent}" icon="outdent">${component.localize('outdent')}</d2l-htmleditor-menu-item>
+				<d2l-htmleditor-menu-item cmd="${cmds.indent}" icon="indent">${this.localize('indent')}</d2l-htmleditor-menu-item>
+				<d2l-htmleditor-menu-item cmd="${cmds.outdent}" icon="outdent">${this.localize('outdent')}</d2l-htmleditor-menu-item>
 			</d2l-htmleditor-button-menu>
 			<d2l-htmleditor-separator></d2l-htmleditor-separator>
-			${component._context ? html`
-				<d2l-htmleditor-button cmd="${cmds.isf}" icon="insert-stuff" text="${component.localize('isf')}"></d2l-htmleditor-button>
-				<d2l-htmleditor-button cmd="${cmds.quicklink}" icon="link" text="${component.localize('quicklink')}"></d2l-htmleditor-button>
-				<d2l-htmleditor-button cmd="${cmds.image}" icon="image" text="${component.localize('image')}"></d2l-htmleditor-button>
+			${hasContext ? html`
+				<d2l-htmleditor-button cmd="${cmds.isf}" icon="insert-stuff" text="${this.localize('isf')}"></d2l-htmleditor-button>
+				<d2l-htmleditor-button cmd="${cmds.quicklink}" icon="link" text="${this.localize('quicklink')}"></d2l-htmleditor-button>
+				<d2l-htmleditor-button cmd="${cmds.image}" icon="image" text="${this.localize('image')}"></d2l-htmleditor-button>
 			` : ''}
 			<d2l-htmleditor-button-menu text="Table" icon="table">
 				<d2l-htmleditor-menu-item cmd="${cmds.table}" icon="table">Insert Table</d2l-htmleditor-menu-item>
@@ -125,27 +129,27 @@ export function renderFullToolbar(component) {
 				<d2l-htmleditor-menu-item cmd="${cmds.tableProps}">Table Properties</d2l-htmleditor-menu-item>
 				<d2l-htmleditor-menu-item cmd="${cmds.tableDelete}" icon="table-delete-table">Delete Table</d2l-htmleditor-menu-item>
 			</d2l-htmleditor-button-menu>
-			${component._context ? html`
+			${hasContext ? html`
 				<d2l-htmleditor-button-menu icon="equation-graphical" text="Equations">
-					<d2l-htmleditor-menu-item cmd="${cmds.equationGraphical}" icon="equation-graphical">${component.localize('graphical')}</d2l-htmleditor-menu-item>
-					<d2l-htmleditor-menu-item cmd="${cmds.equationLaTeX}" icon="equation-latex">${component.localize('latex')}</d2l-htmleditor-menu-item>
-					<d2l-htmleditor-menu-item cmd="${cmds.equationMathML}" icon="equation-mathml">${component.localize('mathml')}</d2l-htmleditor-menu-item>
-					<d2l-htmleditor-menu-item cmd="${cmds.equationChemistry}" icon="equation-chemistry">${component.localize('chemistry')}</d2l-htmleditor-menu-item>
+					<d2l-htmleditor-menu-item cmd="${cmds.equationGraphical}" icon="equation-graphical">${this.localize('graphical')}</d2l-htmleditor-menu-item>
+					<d2l-htmleditor-menu-item cmd="${cmds.equationLaTeX}" icon="equation-latex">${this.localize('latex')}</d2l-htmleditor-menu-item>
+					<d2l-htmleditor-menu-item cmd="${cmds.equationMathML}" icon="equation-mathml">${this.localize('mathml')}</d2l-htmleditor-menu-item>
+					<d2l-htmleditor-menu-item cmd="${cmds.equationChemistry}" icon="equation-chemistry">${this.localize('chemistry')}</d2l-htmleditor-menu-item>
 				</d2l-htmleditor-button-menu>
 			` : ''}
-			<d2l-htmleditor-button cmd="${cmds.character}" icon="insert-character" text="${component.localize('character')}"></d2l-htmleditor-button>
+			<d2l-htmleditor-button cmd="${cmds.character}" icon="insert-character" text="${this.localize('character')}"></d2l-htmleditor-button>
 			<d2l-htmleditor-button cmd="${cmds.emoticons}" icon="emoji" text="Emoticons"></d2l-htmleditor-button>
-			<d2l-htmleditor-button cmd="${cmds.hr}" icon="horizontal-rule" text="${component.localize('line')}"></d2l-htmleditor-button>
+			<d2l-htmleditor-button cmd="${cmds.hr}" icon="horizontal-rule" text="${this.localize('line')}"></d2l-htmleditor-button>
 			<d2l-htmleditor-separator></d2l-htmleditor-separator>
-			<d2l-htmleditor-button cmd="${cmds.a11yChecker}" icon="accessibility-check" text="${component.localize('allychecker')}"></d2l-htmleditor-button>
-			<d2l-htmleditor-button-menu cmd="${cmds.fontFamily}" text="${component.localize('fonts')}" style="width: 130px;">
+			<d2l-htmleditor-button cmd="${cmds.a11yChecker}" icon="accessibility-check" text="${this.localize('allychecker')}"></d2l-htmleditor-button>
+			<d2l-htmleditor-button-menu cmd="${cmds.fontFamily}" text="${this.localize('fonts')}" style="width: 130px;">
 				<d2l-htmleditor-menu-item value="arabic transparent,sans-serif"><span style="font-family: arabic transparent,sans-serif;">Arabic Transparent</span></d2l-htmleditor-menu-item>
 				<d2l-htmleditor-menu-item value="arial,helvetica,sans-serif"><span style="font-family: arial,helvetica,sans-serif;">Arial</span></d2l-htmleditor-menu-item>
 				<d2l-htmleditor-menu-item value="comic sans ms,sans-serif"><span style="font-family: comic sans ms,sans-serif;">Comic Sans</span></d2l-htmleditor-menu-item>
 				<d2l-htmleditor-menu-item value="courier new,courier,sans-serif"><span style="font-family: courier new,courier,sans-serif;">Courier</span></d2l-htmleditor-menu-item>
 				<d2l-htmleditor-menu-item value="ezra sil,arial unicode ms,arial,sans-serif"><span style="font-family: ezra sil,arial unicode ms,arial,sans-serif;">Ezra SIL</span></d2l-htmleditor-menu-item>
 				<d2l-htmleditor-menu-item value="georgia,serif"><span style="font-family: georgia,serif;">Georgia</span></d2l-htmleditor-menu-item>
-				<d2l-htmleditor-menu-item value="Lato,sans-serif"><span style="Lato,sans-serif">Lato (${component.localize('font.family.recommended')})</span></d2l-htmleditor-menu-item>
+				<d2l-htmleditor-menu-item value="Lato,sans-serif"><span style="Lato,sans-serif">Lato (${this.localize('font.family.recommended')})</span></d2l-htmleditor-menu-item>
 				<d2l-htmleditor-menu-item value="sbl hebrew,times new roman,serif"><span style="font-family: sbl hebrew,times new roman,serif;">SBL Hebrew</span></d2l-htmleditor-menu-item>
 				<d2l-htmleditor-menu-item value="simplified arabic,sans-serif"><span style="font-family: simplified arabic,sans-serif;">Simplified Arabic</span></d2l-htmleditor-menu-item>
 				<d2l-htmleditor-menu-item value="tahoma,sans-serif"><span style="font-family: tahoma,sans-serif;">Tahoma</span></d2l-htmleditor-menu-item>
@@ -158,7 +162,7 @@ export function renderFullToolbar(component) {
 				<d2l-htmleditor-menu-item value="mingliu,arial,helvetica,sans-serif"><span style="font-family: mingliu,arial,helvetica,sans-serif;">細明體 (Ming Liu)</span></d2l-htmleditor-menu-item>
 			</d2l-htmleditor-button-menu>
 			<d2l-htmleditor-separator></d2l-htmleditor-separator>
-			<d2l-htmleditor-button-menu cmd="${cmds.fontSize}" text="${component.localize('fontsize')}" style="width: 80px;">
+			<d2l-htmleditor-button-menu cmd="${cmds.fontSize}" text="${this.localize('fontsize')}" style="width: 80px;">
 				<d2l-htmleditor-menu-item value="8pt">8pt</d2l-htmleditor-menu-item>
 				<d2l-htmleditor-menu-item value="10pt">10pt</d2l-htmleditor-menu-item>
 				<d2l-htmleditor-menu-item value="12pt">12pt</d2l-htmleditor-menu-item>
@@ -168,17 +172,26 @@ export function renderFullToolbar(component) {
 				<d2l-htmleditor-menu-item value="36pt">36pt</d2l-htmleditor-menu-item>
 			</d2l-htmleditor-button-menu>
 			<d2l-htmleditor-separator></d2l-htmleditor-separator>
-			${component._context ? html`
+			${hasContext ? html`
 				<d2l-htmleditor-button-color></d2l-htmleditor-button-color>
 			` : ''}
-			<d2l-htmleditor-button cmd="${component._context ? cmds.preview : 'mcePreview'}" icon="preview" text="${component.localize('preview')}"></d2l-htmleditor-button>
-			<d2l-htmleditor-button cmd="${cmds.sourceCode}" icon="sourcecode" text="${component.localize('source')}"></d2l-htmleditor-button>
+			<d2l-htmleditor-button cmd="${hasContext ? cmds.preview : 'mcePreview'}" icon="preview" text="${this.localize('preview')}"></d2l-htmleditor-button>
+			<d2l-htmleditor-button cmd="${cmds.sourceCode}" icon="sourcecode" text="${this.localize('source')}"></d2l-htmleditor-button>
 			<d2l-htmleditor-button cmd="${cmds.wordCount}" icon="word-count" text="Word Count"></d2l-htmleditor-button>
 			<d2l-htmleditor-separator></d2l-htmleditor-separator>
-			<d2l-htmleditor-button cmd="${cmds.undo}" icon="undo" text="${component.localize('undo')}"></d2l-htmleditor-button>
-			<d2l-htmleditor-button cmd="${cmds.redo}" icon="redo" text="${component.localize('redo')}"></d2l-htmleditor-button>
+			<d2l-htmleditor-button cmd="${cmds.undo}" icon="undo" text="${this.localize('undo')}"></d2l-htmleditor-button>
+			<d2l-htmleditor-button cmd="${cmds.redo}" icon="redo" text="${this.localize('redo')}"></d2l-htmleditor-button>
 			<d2l-htmleditor-separator></d2l-htmleditor-separator>
-			<d2l-htmleditor-button-toggle cmd="${cmds.fullscreen}" icon="fullscreen" text="${component.localize('fullscreen')}"></d2l-htmleditor-button-toggle>
-		</d2l-htmleditor-toolbar>
+			<d2l-htmleditor-button-toggle cmd="${cmds.fullscreen}" icon="fullscreen" text="${this.localize('fullscreen')}"></d2l-htmleditor-button-toggle>
+		`);
+	}
+
+}
+
+customElements.define('d2l-htmleditor-toolbar-full', ToolbarFull);
+
+export function renderToolbarFull() {
+	return html`
+		<d2l-htmleditor-toolbar-full></d2l-htmleditor-toolbar-full>
 	`;
 }

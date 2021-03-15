@@ -1,5 +1,5 @@
 
-import { css, html, LitElement } from 'lit-element/lit-element.js';
+import { css, html } from 'lit-element/lit-element.js';
 import { buttonStyles } from './button-styles.js';
 import { classMap } from 'lit-html/directives/class-map.js';
 import ResizeObserver from 'resize-observer-polyfill/dist/ResizeObserver.es.js';
@@ -12,16 +12,15 @@ const keyCodes = Object.freeze({
 	LEFT: 37,
 	UP: 38,
 	RIGHT: 39,
-	DOWN: 40,
+	DOWN: 40
 });
 
-class Toolbar extends RtlMixin(LitElement) {
+export const ToolbarMixin = superclass => class extends RtlMixin(superclass) {
 
 	static get properties() {
 		return {
 			_chomping: { type: Boolean },
 			_state: { type: String },
-			_measured: { type: Boolean },
 			_overflowing: { type: Boolean }
 		};
 	}
@@ -40,12 +39,6 @@ class Toolbar extends RtlMixin(LitElement) {
 				max-height: 210px;
 				transition: max-height 250ms ease-out;
 			}
-			/*
-			.d2l-htmleditor-toolbar-measuring {
-				opacity: 0;
-				position: absolute;
-			}
-			*/
 			.d2l-htmleditor-toolbar-chomping {
 				max-height: 34px;
 			}
@@ -57,24 +50,22 @@ class Toolbar extends RtlMixin(LitElement) {
 				display: flex;
 				flex-wrap: wrap;
 			}
-			.d2l-htmleditor-toolbar-chomper {
+			.d2l-htmleditor-toolbar-chomper-container {
 				flex: none;
 			}
 			button {
 				display: none;
 			}
-			.d2l-htmleditor-toolbar-measuring button,
 			.d2l-htmleditor-toolbar-overflowing button {
 				display: flex;
 			}
-			::slotted(*) {
+			.d2l-htmleditor-toolbar-actions > div > * {
 				transition: opacity 250ms ease-out;
-				transition-delay: 200ms;
 			}
-			::slotted([data-toolbar-item-state="chomped"]) {
+			.d2l-htmleditor-toolbar-actions > div > [data-toolbar-item-state="chomped"] {
 				display: none;
 			}
-			::slotted([data-toolbar-item-state="hidden"]) {
+			.d2l-htmleditor-toolbar-actions > div > [data-toolbar-item-state="hidden"] {
 				opacity: 0;
 			}
 		`];
@@ -82,7 +73,6 @@ class Toolbar extends RtlMixin(LitElement) {
 
 	constructor() {
 		super();
-		this._measured = false;
 		this._measures = {};
 		this._overflowing = true;
 		this._chomping = true;
@@ -91,51 +81,43 @@ class Toolbar extends RtlMixin(LitElement) {
 
 	firstUpdated() {
 		super.firstUpdated();
-		this._measures.available = this.offsetWidth;
-		this._measures.chomper = this.shadowRoot.querySelector('button').offsetWidth;
+
+		this._measures = {
+			available: this.offsetWidth,
+			chomper: this.shadowRoot.querySelector('.d2l-htmleditor-toolbar-chomper').offsetWidth,
+			items: [],
+			total: 0
+		};
+
+		const items = this._getItems();
+		requestAnimationFrame(() => {
+			items.forEach(item => {
+				const width = item.offsetWidth;
+				this._measures.items.push(width);
+				this._measures.total += width;
+			});
+			this._updateItemsVisibility(false, items);
+		});
+
 		this._resizeObserver = new ResizeObserver(this._handleResize.bind(this));
 		this._resizeObserver.observe(this.shadowRoot.querySelector('.d2l-htmleditor-toolbar-container'));
+
 		const focusables = this._getFocusables();
 		if (focusables && focusables.length > 0) focusables[0].activeFocusable = true;
 	}
 
-	render() {
-		const classes = {
-			'd2l-htmleditor-toolbar-container': true,
-			//'d2l-htmleditor-toolbar-measuring': !this._measured,
-			'd2l-htmleditor-toolbar-overflowing': this._overflowing,
-			'd2l-htmleditor-toolbar-chomping': this._chomping
-		};
-
-		return html`
-			<div
-				class="${classMap(classes)}"
-				data-state="${this._state}"
-				@keydown="${this._handleKeyDown}">
-				<div class="d2l-htmleditor-toolbar-actions">
-					<div>
-						<slot @slotchange="${this._handleSlotChange}"></slot>
-					</div>
-				</div>
-				<div class="d2l-htmleditor-toolbar-chomper">
-					<button @click="${this._handleChomperClick}" tabindex="-1">
-						<d2l-icon icon="tier1:more"></d2l-icon>
-					</button>
-				</div>
-			</div>
-		`;
-	}
-
 	_getFocusables(chomped) {
-		const focusables = this.shadowRoot.querySelector('slot').assignedNodes({ flatten: true })
-			.filter(node => node.nodeType === Node.ELEMENT_NODE
-				&& node.tagName !== 'D2L-HTMLEDITOR-SEPARATOR'
-				&& (node.getAttribute('data-toolbar-item-state') !== 'chomped' || chomped)
-			);
+		const focusables = this._getItems().filter(node => node.tagName !== 'D2L-HTMLEDITOR-SEPARATOR'
+			&& (node.getAttribute('data-toolbar-item-state') !== 'chomped' || chomped));
+
 		if (this._overflowing) {
-			focusables.push(this.shadowRoot.querySelector('button'));
+			focusables.push(this.shadowRoot.querySelector('.d2l-htmleditor-toolbar-chomper'));
 		}
 		return focusables;
+	}
+
+	_getItems() {
+		return [...this.shadowRoot.querySelector('.d2l-htmleditor-toolbar-actions > div').children];
 	}
 
 	async _handleChomperClick() {
@@ -155,7 +137,7 @@ class Toolbar extends RtlMixin(LitElement) {
 			});
 		};
 
-		if (e.keyCode === keyCodes.ENTER && e.target === this.shadowRoot.querySelector('button')) {
+		if (e.keyCode === keyCodes.ENTER && e.target === this.shadowRoot.querySelector('.d2l-htmleditor-toolbar-chomper')) {
 			/*
 			if (this._chomping) {
 				const firstChompedFocusable = this._getFocusables(true)
@@ -201,28 +183,36 @@ class Toolbar extends RtlMixin(LitElement) {
 		this._updateItemsVisibility(false);
 	}
 
-	_handleSlotChange(e) {
+	_render(items) {
+		const classes = {
+			'd2l-htmleditor-toolbar-container': true,
+			'd2l-htmleditor-toolbar-overflowing': this._overflowing,
+			'd2l-htmleditor-toolbar-chomping': this._chomping
+		};
 
-		this._measures.items = [];
-		this._measures.total = 0;
-
-		const items = e.target.assignedNodes({ flatten: true })
-			.filter(node => node.nodeType === Node.ELEMENT_NODE);
-
-		requestAnimationFrame(() => {
-			items.forEach(item => {
-				const width = item.offsetWidth;
-				this._measures.items.push(width);
-				this._measures.total += width;
-			});
-			this._updateItemsVisibility(false, items);
-		});
-
+		return html`
+			<div
+				class="${classMap(classes)}"
+				data-state="${this._state}"
+				@keydown="${this._handleKeyDown}">
+				<div class="d2l-htmleditor-toolbar-actions">
+					<div>${items}</div>
+				</div>
+				<div class="d2l-htmleditor-toolbar-chomper-container">
+					<button
+						class="d2l-htmleditor-toolbar-chomper"
+						@click="${this._handleChomperClick}"
+						tabindex="-1">
+						<d2l-icon icon="tier1:more"></d2l-icon>
+					</button>
+				</div>
+			</div>
+		`;
 	}
 
 	_updateItemsVisibility(animate, items) {
-		if (!items) items = this.shadowRoot.querySelector('slot').assignedNodes({ flatten: true })
-			.filter(node => node.nodeType === Node.ELEMENT_NODE);
+
+		if (!items) items = this._getItems();
 
 		if (this._chomping) {
 
@@ -272,9 +262,6 @@ class Toolbar extends RtlMixin(LitElement) {
 
 		}
 
-		this._measured = true;
 	}
 
-}
-
-customElements.define('d2l-htmleditor-toolbar', Toolbar);
+};

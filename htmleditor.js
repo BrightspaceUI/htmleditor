@@ -193,7 +193,7 @@ class HtmlEditor extends HtmlEditorMixin(SkeletonMixin(LitElement)) {
 
 	_renderFullEditor() {
 		if (this._toolbar) {
-			return this._renderEditor(this._toolbar.renderFullToolbar(this));
+			return this._renderEditor(this._toolbar.renderToolbarFull());
 		} else {
 			return this._renderEditor();
 		}
@@ -229,7 +229,7 @@ class HtmlEditor extends HtmlEditorMixin(SkeletonMixin(LitElement)) {
 						<template>${unsafeHTML(this._html)}</template>
 					</d2l-html-block>
 				</div>
-				${this._renderEditor(renderFullToolbar())}
+				${this._renderEditor(renderToolbarFull())}
 			</div>`;
 
 	}
