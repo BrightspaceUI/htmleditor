@@ -194,15 +194,18 @@ export const ToolbarMixin = superclass => class extends RtlMixin(superclass) {
 			<div
 				class="${classMap(classes)}"
 				data-state="${this._state}"
-				@keydown="${this._handleKeyDown}">
+				@keydown="${this._handleKeyDown}"
+				role="toolbar">
 				<div class="d2l-htmleditor-toolbar-actions">
 					<div>${items}</div>
 				</div>
 				<div class="d2l-htmleditor-toolbar-chomper-container">
 					<button
+						aria-label="${this.localize('more')}"
 						class="d2l-htmleditor-toolbar-chomper"
 						@click="${this._handleChomperClick}"
-						tabindex="-1">
+						tabindex="-1"
+						title="${this.localize('more')}">
 						<d2l-icon icon="tier1:more"></d2l-icon>
 					</button>
 				</div>

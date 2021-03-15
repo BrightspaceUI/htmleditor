@@ -20,6 +20,7 @@ export default {
 	"list": "List",
 	"ltr": "Left to Right",
 	"mathml": "MathML Equation",
+	"more": "More Actions",
 	"orderedlist": "Ordered List",
 	"outdent": "Outdent",
 	"preview": "Preview",
