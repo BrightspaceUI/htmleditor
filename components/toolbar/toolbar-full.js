@@ -4,6 +4,8 @@ import './button-color.js';
 import './button-menu.js';
 import './button-toggle.js';
 import '../plugins/a11ychecker.js';
+import '../plugins/attributes.js';
+import '../plugins/emoji.js';
 import '../plugins/equation.js';
 import '../plugins/fullscreen.js';
 import '../plugins/image.js';
@@ -25,6 +27,7 @@ export function getPlugins(component) {
 		'advtable table',
 		'charmap',
 		'd2l-a11ychecker a11ychecker',
+		'd2l-attributes',
 		'd2l-equation',
 		'd2l-fullscreen',
 		'd2l-image',
@@ -81,7 +84,10 @@ class ToolbarFull extends Localizer(ToolbarMixin(LitElement)) {
 				<d2l-htmleditor-menu-item cmd="${cmds.strikethrough}" icon="strike-through">Strike-through</d2l-htmleditor-menu-item>
 				<d2l-htmleditor-menu-item cmd="${cmds.superscript}" icon="superscript">Superscript</d2l-htmleditor-menu-item>
 				<d2l-htmleditor-menu-item cmd="${cmds.subscript}" icon="subscript">Subscript</d2l-htmleditor-menu-item>
-			</d2l-htmleditor-button-menu>
+			</d2l-htmleditor-button-menu>			
+			${hasContext ? html`
+				<d2l-htmleditor-button-color></d2l-htmleditor-button-color>
+			` : ''}
 			<d2l-htmleditor-separator></d2l-htmleditor-separator>
 			<d2l-htmleditor-button-menu text="${this.localize('alignment')}" icon="align-left">
 				<d2l-htmleditor-menu-item cmd="${cmds.alignLeft}" icon="align-left">Left</d2l-htmleditor-menu-item>
@@ -104,6 +110,12 @@ class ToolbarFull extends Localizer(ToolbarMixin(LitElement)) {
 				<d2l-htmleditor-button cmd="${cmds.isf}" icon="insert-stuff" text="${this.localize('isf')}"></d2l-htmleditor-button>
 				<d2l-htmleditor-button cmd="${cmds.quicklink}" icon="link" text="${this.localize('quicklink')}"></d2l-htmleditor-button>
 				<d2l-htmleditor-button cmd="${cmds.image}" icon="image" text="${this.localize('image')}"></d2l-htmleditor-button>
+				<d2l-htmleditor-button-menu icon="equation-graphical" text="Equations">
+					<d2l-htmleditor-menu-item cmd="${cmds.equationGraphical}" icon="equation-graphical">${this.localize('graphical')}</d2l-htmleditor-menu-item>
+					<d2l-htmleditor-menu-item cmd="${cmds.equationLaTeX}" icon="equation-latex">${this.localize('latex')}</d2l-htmleditor-menu-item>
+					<d2l-htmleditor-menu-item cmd="${cmds.equationMathML}" icon="equation-mathml">${this.localize('mathml')}</d2l-htmleditor-menu-item>
+					<d2l-htmleditor-menu-item cmd="${cmds.equationChemistry}" icon="equation-chemistry">${this.localize('chemistry')}</d2l-htmleditor-menu-item>
+				</d2l-htmleditor-button-menu>
 			` : ''}
 			<d2l-htmleditor-button-menu text="Table" icon="table">
 				<d2l-htmleditor-menu-item cmd="${cmds.table}" icon="table">Insert Table</d2l-htmleditor-menu-item>
@@ -136,17 +148,12 @@ class ToolbarFull extends Localizer(ToolbarMixin(LitElement)) {
 				<d2l-htmleditor-menu-item cmd="${cmds.tableProps}">Table Properties</d2l-htmleditor-menu-item>
 				<d2l-htmleditor-menu-item cmd="${cmds.tableDelete}" icon="table-delete-table">Delete Table</d2l-htmleditor-menu-item>
 			</d2l-htmleditor-button-menu>
-			${hasContext ? html`
-				<d2l-htmleditor-button-menu icon="equation-graphical" text="Equations">
-					<d2l-htmleditor-menu-item cmd="${cmds.equationGraphical}" icon="equation-graphical">${this.localize('graphical')}</d2l-htmleditor-menu-item>
-					<d2l-htmleditor-menu-item cmd="${cmds.equationLaTeX}" icon="equation-latex">${this.localize('latex')}</d2l-htmleditor-menu-item>
-					<d2l-htmleditor-menu-item cmd="${cmds.equationMathML}" icon="equation-mathml">${this.localize('mathml')}</d2l-htmleditor-menu-item>
-					<d2l-htmleditor-menu-item cmd="${cmds.equationChemistry}" icon="equation-chemistry">${this.localize('chemistry')}</d2l-htmleditor-menu-item>
-				</d2l-htmleditor-button-menu>
-			` : ''}
-			<d2l-htmleditor-button cmd="${cmds.character}" icon="insert-character" text="${this.localize('character')}"></d2l-htmleditor-button>
-			<d2l-htmleditor-button cmd="${cmds.emoticons}" icon="emoji" text="Emoticons"></d2l-htmleditor-button>
-			<d2l-htmleditor-button cmd="${cmds.hr}" icon="horizontal-rule" text="${this.localize('line')}"></d2l-htmleditor-button>
+			<d2l-htmleditor-button-menu text="${this.localize('insert')}" icon="insert">
+				<d2l-htmleditor-menu-item cmd="${cmds.attributes}" icon="insert-attributes">${this.localize('attributes')}</d2l-htmleditor-menu-item>
+				<d2l-htmleditor-menu-item cmd="${cmds.hr}" icon="horizontal-rule">${this.localize('line')}</d2l-htmleditor-menu-item>
+				<d2l-htmleditor-menu-item cmd="${cmds.emoticons}" icon="emoji">${this.localize('emoji')}</d2l-htmleditor-menu-item>
+				<d2l-htmleditor-menu-item cmd="${cmds.character}" icon="insert-character">${this.localize('character')}</d2l-htmleditor-menu-item>			
+			</d2l-htmleditor-button-menu>
 			<d2l-htmleditor-separator></d2l-htmleditor-separator>
 			<d2l-htmleditor-button cmd="${cmds.a11yChecker}" icon="accessibility-check" text="${this.localize('allychecker')}"></d2l-htmleditor-button>
 			<d2l-htmleditor-button-menu cmd="${cmds.fontFamily}" text="${this.localize('fonts')}" style="width: 130px;">
@@ -179,9 +186,6 @@ class ToolbarFull extends Localizer(ToolbarMixin(LitElement)) {
 				<d2l-htmleditor-menu-item value="36pt">36pt</d2l-htmleditor-menu-item>
 			</d2l-htmleditor-button-menu>
 			<d2l-htmleditor-separator></d2l-htmleditor-separator>
-			${hasContext ? html`
-				<d2l-htmleditor-button-color></d2l-htmleditor-button-color>
-			` : ''}
 			<d2l-htmleditor-button cmd="${hasContext ? cmds.preview : 'mcePreview'}" icon="preview" text="${this.localize('preview')}"></d2l-htmleditor-button>
 			<d2l-htmleditor-button cmd="${cmds.sourceCode}" icon="sourcecode" text="${this.localize('source')}"></d2l-htmleditor-button>
 			<d2l-htmleditor-button cmd="${cmds.wordCount}" icon="word-count" text="Word Count"></d2l-htmleditor-button>
