@@ -262,7 +262,7 @@ export const HtmlEditorMixin = superclass => class extends Localizer(RtlMixin(Pr
 
 	save() {
 		const editor = tinymce.EditorManager.get(this._editorId);
-		if (editor) editor.save(); 
+		if (editor) editor.save();
 	}
 
 	async _getEditor() {
