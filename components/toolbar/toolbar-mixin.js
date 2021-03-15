@@ -217,9 +217,9 @@ export const ToolbarMixin = superclass => class extends RtlMixin(superclass) {
 
 		if (!items) items = this._getItems();
 
+		this._overflowing = (this._measures.total > this._measures.available);
 		if (this._chomping) {
 
-			this._overflowing = (this._measures.total > this._measures.available);
 			let total = (this._overflowing ? this._measures.chomper : 0);
 
 			items.forEach((item, i) => {
