@@ -61,6 +61,8 @@ class ButtonToggle extends ToolbarItemMixin(LitElement) {
 		if (!this.cmd) return;
 		const editor = await this._getEditor();
 		editor.execCommand(this.cmd);
+		// make sure the cmd state if updated (ex. for fullscreen)
+		this._active = !!editor.queryCommandState(this.cmd);
 	}
 
 }
