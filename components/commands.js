@@ -5,6 +5,7 @@ export const cmds = {
 	alignJustify: 'justifyFull',
 	alignLeft: 'justifyLeft',
 	alignRight: 'justifyRight',
+	attributes: 'attributes',
 	blockQuote: 'mceBlockQuote',
 	bold: 'bold',
 	character: 'mceShowCharmap',

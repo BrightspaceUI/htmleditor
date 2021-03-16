@@ -4,6 +4,7 @@ import '@brightspace-ui/core/components/inputs/input-text.js';
 import 'tinymce/tinymce.js';
 import { css, html, LitElement } from 'lit-element/lit-element.js';
 import { RequesterMixin, requestInstance } from '@brightspace-ui/core/mixins/provider-mixin.js';
+import { cmds } from '../commands.js';
 import { inputLabelStyles } from '@brightspace-ui/core/components/inputs/input-label-styles.js';
 import { RtlMixin } from '@brightspace-ui/core/mixins/rtl-mixin.js';
 import { selectStyles } from '@brightspace-ui/core/components/inputs/input-select-styles.js';
@@ -68,7 +69,7 @@ tinymce.PluginManager.add('d2l-attributes', function(editor) {
 		}, { once: true });
 	};
 
-	editor.addCommand('attributes', openAttributesDialog);
+	editor.addCommand(cmds.attributes, openAttributesDialog);
 
 	editor.ui.registry.addMenuItem('d2l-attributes', {
 		text: localize('attributes'),
@@ -171,8 +172,8 @@ class AttributesDialog extends RequesterMixin(RtlMixin(LitElement)) {
 					<label class="d2l-input-label d2l-skeletize" for="d2l-attributes-direction-select">${this._localize('attributes.direction.label')}</label>
 					<select id="d2l-attributes-direction-select" class="d2l-input-select">
 						<option ?selected="${this._getDefaultDirection('')}" value="${directionOptions.Default}">${this._localize('attributes.direction.default')}</option>
-						<option ?selected="${this._getDefaultDirection(directionOptions.LTR)}" value="${directionOptions.LTR}">${this._localize('direction.ltr')}</option>
-						<option ?selected="${this._getDefaultDirection(directionOptions.RTL)}" value="${directionOptions.RTL}">${this._localize('direction.rtl')}</option>
+						<option ?selected="${this._getDefaultDirection(directionOptions.LTR)}" value="${directionOptions.LTR}">${this._localize('ltr')}</option>
+						<option ?selected="${this._getDefaultDirection(directionOptions.RTL)}" value="${directionOptions.RTL}">${this._localize('rtl')}</option>
 					</select>
 				</div>
 				<d2l-button slot="footer" primary data-dialog-action="create">${this._localize('attributes.create')}</d2l-button>

@@ -7,8 +7,6 @@ import 'tinymce/plugins/autolink/plugin.js';
 import 'tinymce/plugins/charmap/plugin.js';
 import 'tinymce/plugins/code/plugin.js';
 import 'tinymce/plugins/directionality/plugin.js';
-import 'tinymce/plugins/emoticons/plugin.js';
-import 'tinymce/plugins/emoticons/js/emojis.js';
 import 'tinymce/plugins/fullpage/plugin.js';
 import 'tinymce/plugins/fullscreen/plugin.js';
 import 'tinymce/plugins/hr/plugin.js';
@@ -261,6 +259,11 @@ export const HtmlEditorMixin = superclass => class extends Localizer(RtlMixin(Pr
 		return (editor && editor.isDirty());
 	}
 
+	save() {
+		const editor = tinymce.EditorManager.get(this._editorId);
+		if (editor) editor.save();
+	}
+
 	async _getEditor() {
 		await this._initializationComplete;
 		const editor = tinymce.EditorManager.get(this._editorId);
@@ -350,6 +353,7 @@ export const HtmlEditorMixin = superclass => class extends Localizer(RtlMixin(Pr
 			font_formats: `Arabic Transparent=arabic transparent,sans-serif; Arial=arial,helvetica,sans-serif; Comic Sans=comic sans ms,sans-serif; Courier=courier new,courier,sans-serif; Ezra SIL=ezra sil,arial unicode ms,arial,sans-serif; Georgia=georgia,serif; Lato (${this.localize('font.family.recommended')})=Lato,sans-serif; SBL Hebrew=sbl hebrew,times new roman,serif; Simplified Arabic=simplified arabic,sans-serif; Tahoma=tahoma,sans-serif; Times New Roman=times new roman,times,serif; Traditional Arabic=traditional arabic,serif; Trebuchet=trebuchet ms,helvetica,sans-serif; Verdana=verdana,sans-serif; 돋움 (Dotum)=dotum,arial,helvetica,sans-serif; 宋体 (Sim Sun)=simsun; 細明體 (Ming Liu)=mingliu,arial,helvetica,sans-serif`,
 			fontsize_formats: '8pt 10pt 12pt 14pt 18pt 24pt 36pt',
 			height: this.height,
+			image_uploadtab: false,
 			images_upload_handler: (blobInfo, success, failure) => uploadImage(this, blobInfo, success, failure),
 			init_instance_callback: editor => {
 				if (!editor) return;
