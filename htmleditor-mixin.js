@@ -7,7 +7,6 @@ import 'tinymce/plugins/autolink/plugin.js';
 import 'tinymce/plugins/charmap/plugin.js';
 import 'tinymce/plugins/code/plugin.js';
 import 'tinymce/plugins/directionality/plugin.js';
-import 'tinymce/plugins/emoticons/js/emojis.js';
 import 'tinymce/plugins/fullpage/plugin.js';
 import 'tinymce/plugins/fullscreen/plugin.js';
 import 'tinymce/plugins/hr/plugin.js';

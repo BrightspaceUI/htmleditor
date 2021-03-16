@@ -1,4 +1,5 @@
 /* eslint-disable */
+import 'tinymce/plugins/emoticons/js/emojis.js';
 
 /**
  * Copyright (c) Tiny Technologies, Inc. All rights reserved.
