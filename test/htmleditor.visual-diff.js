@@ -49,7 +49,7 @@ describe('d2l-htmleditor', () => {
 		it('fullscreen', async function() {
 			await page.setViewport({ width: 1000, height: 800, deviceScaleFactor: 2 });
 			await page.$eval('#full', (elem) => {
-				tinymce.EditorManager.get(elem._editorId).execCommand('mceFullScreen');
+				tinymce.EditorManager.get(elem._editorId).execCommand('d2l-fullscreen');
 			});
 			await page.hover('body');
 			await visualDiff.screenshotAndCompare(page, this.test.fullTitle());
