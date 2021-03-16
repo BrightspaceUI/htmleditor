@@ -216,6 +216,16 @@ export const HtmlEditorMixin = superclass => class extends Localizer(RtlMixin(Pr
 		}
 	}
 
+	get isDirty() {
+		const editor = tinymce.EditorManager.get(this._editorId);
+		return (editor && editor.isDirty());
+	}
+
+	set isDirty(isDirty) {
+		const editor = tinymce.EditorManager.get(this._editorId);
+		if (editor) editor.setDirty(isDirty);
+	}
+
 	async firstUpdated(changedProperties) {
 		super.firstUpdated(changedProperties);
 
@@ -256,16 +266,6 @@ export const HtmlEditorMixin = superclass => class extends Localizer(RtlMixin(Pr
 
 	get initializationComplete() {
 		return this._initializationComplete;
-	}
-
-	get isDirty() {
-		const editor = tinymce.EditorManager.get(this._editorId);
-		return (editor && editor.isDirty());
-	}
-
-	save() {
-		const editor = tinymce.EditorManager.get(this._editorId);
-		if (editor) editor.save();
 	}
 
 	_getMinHeight() {
