@@ -148,7 +148,7 @@ class HtmlEditor extends HtmlEditorMixin(SkeletonMixin(LitElement)) {
 
 	_getToolbarConfig() {
 		return false;
-		if (this.type === editorTypes.INLINE_LIMITED) {
+		/*if (this.type === editorTypes.INLINE_LIMITED) {
 			return 'bold italic underline | d2l-list d2l-isf emoticons';
 		} else if (this.type === editorTypes.INLINE) {
 			return [
@@ -157,7 +157,7 @@ class HtmlEditor extends HtmlEditorMixin(SkeletonMixin(LitElement)) {
 			];
 		} else {
 			return `styleselect | bold italic underline d2l-inline | d2l-align d2l-list | d2l-isf d2l-quicklink d2l-image | table d2l-equation charmap emoticons hr | a11ycheck | fontselect | fontsizeselect | forecolor | ${ this._context ? 'd2l-preview' : 'preview'} code d2l-wordcount | undo redo | fullscreen`;
-		}
+		}*/
 	}
 
 	_onInlineEditButtonBlur() {
@@ -229,7 +229,7 @@ class HtmlEditor extends HtmlEditorMixin(SkeletonMixin(LitElement)) {
 						<template>${unsafeHTML(this._html)}</template>
 					</d2l-html-block>
 				</div>
-				${this._renderEditor(renderToolbarFull())}
+				${this._toolbar ? this._renderEditor(this._toolbar.renderToolbarFull()) : ''}
 			</div>`;
 
 	}
