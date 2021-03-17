@@ -180,6 +180,7 @@ export const ToolbarMixin = superclass => class extends RtlMixin(superclass) {
 						@click="${this._handleChomperClick}"
 						tabindex="-1"
 						title="${this.localize('more')}">
+						<div class="d2l-htmleditor-button-background"></div>
 						<d2l-icon icon="tier1:more"></d2l-icon>
 					</button>
 				</div>

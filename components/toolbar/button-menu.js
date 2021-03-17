@@ -1,13 +1,9 @@
 import '@brightspace-ui/core/components/colors/colors.js';
 import '@brightspace-ui/core/components/dropdown/dropdown.js';
-import '@brightspace-ui/core/components/dropdown/dropdown-menu.js';
 import '@brightspace-ui/core/components/icons/icon.js';
-import '@brightspace-ui/core/components/menu/menu.js';
 import { css, html, LitElement } from 'lit-element/lit-element.js';
 import { buttonStyles } from './button-styles.js';
 import { icons } from '../../generated/icons.js';
-import { MenuItemSelectableMixin } from '@brightspace-ui/core/components/menu/menu-item-selectable-mixin.js';
-import { menuItemStyles } from '@brightspace-ui/core/components/menu/menu-item-styles.js';
 import { ToolbarItemMixin } from './toolbar-item-mixin.js';
 import { unsafeHTML } from 'lit-html/directives/unsafe-html.js';
 
@@ -29,6 +25,7 @@ class ButtonMenu extends ToolbarItemMixin(LitElement) {
 		return [buttonStyles, css`
 			:host {
 				font-size: 1rem;
+				margin-top: -1px;
 			}
 			button {
 				align-items: center;
@@ -73,10 +70,6 @@ class ButtonMenu extends ToolbarItemMixin(LitElement) {
 			d2l-dropdown {
 				width: 100%;
 			}
-			d2l-menu {
-				max-width: 100%;
-				min-width: 100%;
-			}
 		`];
 	}
 
@@ -90,9 +83,11 @@ class ButtonMenu extends ToolbarItemMixin(LitElement) {
 		super.firstUpdated();
 		if (!this.cmd) return;
 
-		const items = this.shadowRoot.querySelector('d2l-menu').querySelector('slot')
-			.assignedNodes({ flatten: true })
-			.filter(node => node.nodeType === Node.ELEMENT_NODE);
+		const content = this.shadowRoot.querySelector('#content').assignedNodes()
+			.filter(node => node.nodeType === Node.ELEMENT_NODE && node.tagName === 'D2L-DROPDOWN-MENU');
+		if (!content || content.length === 0) return;
+
+		const items = [...content[0].querySelectorAll('d2l-htmleditor-menu-item')];
 
 		const editor = await this._getEditor();
 		editor.on('NodeChange', () => {
@@ -120,7 +115,7 @@ class ButtonMenu extends ToolbarItemMixin(LitElement) {
 	render() {
 		const hasIcon = this.icon || this._hasSlottedIcon;
 		return html`
-			<d2l-dropdown>
+			<d2l-dropdown @d2l-htmleditor-menu-item-change="${this._handleMenuItemChange}">
 				<button
 					aria-label="${this.text}"
 					class="d2l-dropdown-opener"
@@ -132,11 +127,7 @@ class ButtonMenu extends ToolbarItemMixin(LitElement) {
 					</div>` : null}
 					<d2l-icon icon="tier1:chevron-down-thin"></d2l-icon>
 				</button>
-				<d2l-dropdown-menu @d2l-htmleditor-menu-item-change="${this._handleMenuItemChange}">
-					<d2l-menu label="${this.text}">
-						<slot></slot>
-					</d2l-menu>
-				</d2l-dropdown-menu>
+				<slot id="content"></slot>
 			</d2l-dropdown>
 		`;
 	}
@@ -161,150 +152,12 @@ class ButtonMenu extends ToolbarItemMixin(LitElement) {
 				this._valueText = item.textContent;
 			}
 		}
-		this.shadowRoot.querySelector('d2l-dropdown-menu').close();
+
+		const content = this.shadowRoot.querySelector('#content').assignedNodes()
+			.filter(node => node.hasAttribute && node.hasAttribute('dropdown-content'))[0];
+		content.close();
 	}
 
 }
 
 customElements.define('d2l-htmleditor-button-menu', ButtonMenu);
-
-class MenuItem extends MenuItemSelectableMixin(ToolbarItemMixin(LitElement)) {
-
-	static get properties() {
-		return {
-			cmd: { type: String },
-			icon: { type: String }
-		};
-	}
-
-	static get styles() {
-		return [ menuItemStyles, css`
-			:host {
-				--d2l-menu-border-color: transparent;
-				--d2l-menu-border-color-hover: transparent;
-				--d2l-menu-foreground-color-hover: var(--d2l-color-celestine);
-				align-items: center;
-				border-radius: 3px;
-				display: flex;
-				fill: var(--d2l-color-ferrite);
-				margin: 0 4px;
-				padding: 7px 12px;
-				width: calc(100% - 8px);
-			}
-			:host([hidden]) {
-				display: none;
-			}
-			div {
-				flex: auto;
-				overflow: hidden;
-				text-overflow: ellipsis;
-				white-space: nowrap;
-			}
-			d2l-icon {
-				flex: none;
-				visibility: hidden;
-			}
-			:host(:focus),
-			:host(:hover),
-			:host(:focus) d2l-icon,
-			:host(:hover) d2l-icon {
-				fill: var(--d2l-color-celestine);
-			}
-			:host([aria-checked="true"]) > d2l-icon {
-				visibility: visible;
-			}
-			::slotted(p),
-			::slotted(h1),
-			::slotted(h2),
-			::slotted(h3),
-			::slotted(h4),
-			::slotted(blockquote),
-			::slotted(code) {
-				margin: 0.2em 0;
-			}
-			svg,
-			::slotted([slot="icon"]) {
-				margin-right: 12px;
-			}
-			:host([dir="rtl"]) svg,
-			:host([dir="rtl"]) ::slotted([slot="icon"]) {
-				margin-left: 12px;
-				margin-right: 0;
-			}
-		`];
-	}
-
-	constructor() {
-		super();
-		this.role = 'menuitemcheckbox';
-	}
-
-	async firstUpdated() {
-		super.firstUpdated();
-		this.addEventListener('d2l-menu-item-select', this._handleSelectCheckbox);
-
-		if (!this.cmd) return;
-
-		const setSelected = selected => {
-			if (selected === this.selected) return;
-			this.selected = selected;
-			this.dispatchEvent(new CustomEvent('d2l-htmleditor-menu-item-change', { bubbles: true, composed: false }));
-		};
-
-		const editor = await this._getEditor();
-		editor.on('NodeChange', () => {
-			if (this.value) {
-				const value = editor.queryCommandValue(this.cmd);
-				setSelected(this.value === value);
-			} else {
-				const state = editor.queryCommandState(this.cmd);
-				setSelected(state);
-			}
-		});
-	}
-
-	render() {
-		return html`
-			${this.icon ? unsafeHTML(icons[this.icon]) : html`<slot name="icon"></slot>`}
-			<div><slot></slot></div>
-			<d2l-icon icon="tier1:check"></d2l-icon>
-		`;
-	}
-
-	async _handleSelectCheckbox(e) {
-		this.selected = !this.selected;
-		if (this.cmd) {
-			const editor = await this._getEditor();
-			editor.execCommand(this.cmd, false, this.value);
-		}
-		if (this.selected) {
-			this.dispatchEvent(new CustomEvent('d2l-htmleditor-menu-item-select', { bubbles: true, composed: false }));
-		}
-		this.dispatchEvent(new CustomEvent('d2l-htmleditor-menu-item-change', { bubbles: true, composed: false }));
-		this.__onSelect(e);
-	}
-
-}
-
-customElements.define('d2l-htmleditor-menu-item', MenuItem);
-
-class MenuItemSeparator extends LitElement {
-
-	static get styles() {
-		return css`
-			:host {
-				border-top: 2px solid var(--d2l-color-gypsum);
-				display: block;
-				margin: 4px 0;
-			}
-		`;
-	}
-
-	firstUpdated() {
-		super.firstUpdated();
-
-		this.setAttribute('role', 'separator');
-	}
-}
-
-customElements.define('d2l-htmleditor-menu-item-separator', MenuItemSeparator);
