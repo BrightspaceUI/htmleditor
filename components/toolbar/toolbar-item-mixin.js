@@ -1,6 +1,7 @@
 import { findComposedAncestor } from '@brightspace-ui/core/helpers/dom.js';
+import { RtlMixin } from '@brightspace-ui/core/mixins/rtl-mixin.js';
 
-export const ToolbarItemMixin = superclass => class extends superclass {
+export const ToolbarItemMixin = superclass => class extends RtlMixin(superclass) {
 
 	static get properties() {
 		return {

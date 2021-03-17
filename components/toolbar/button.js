@@ -39,6 +39,7 @@ class Button extends ToolbarItemMixin(LitElement) {
 				?disabled="${this.disabled}"
 				tabindex="${this.activeFocusable ? 0 : -1}"
 				title="${this.text}">
+				<div class="d2l-htmleditor-button-background"></div>
 				${this.icon ? unsafeHTML(icons[this.icon]) : html`<slot></slot>`}
 			</button>`;
 	}

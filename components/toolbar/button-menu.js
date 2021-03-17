@@ -8,11 +8,10 @@ import { buttonStyles } from './button-styles.js';
 import { icons } from '../../generated/icons.js';
 import { MenuItemSelectableMixin } from '@brightspace-ui/core/components/menu/menu-item-selectable-mixin.js';
 import { menuItemStyles } from '@brightspace-ui/core/components/menu/menu-item-styles.js';
-import { RtlMixin } from '@brightspace-ui/core/mixins/rtl-mixin.js';
 import { ToolbarItemMixin } from './toolbar-item-mixin.js';
 import { unsafeHTML } from 'lit-html/directives/unsafe-html.js';
 
-class ButtonMenu extends ToolbarItemMixin(RtlMixin(LitElement)) {
+class ButtonMenu extends ToolbarItemMixin(LitElement) {
 
 	static get properties() {
 		return {
@@ -30,32 +29,43 @@ class ButtonMenu extends ToolbarItemMixin(RtlMixin(LitElement)) {
 		return [buttonStyles, css`
 			:host {
 				font-size: 1rem;
-				margin-top: -1px;
 			}
 			button {
 				align-items: center;
 				display: flex;
 				justify-content: center;
 				overflow: hidden;
-				padding: var(--d2l-htmleditor-button-padding, 0 10px);
+				padding: 0 8px 0 10px;
 				text-align: start;
 				width: 100%;
-
+			}
+			:host([dir="rtl"]) button {
+				padding: 0 10px 0 8px;
 			}
 			button > div {
 				flex: auto;
-				margin-right: 10px;
+				margin-right: 5px;
 				overflow: hidden;
 				text-overflow: ellipsis;
 				white-space: nowrap;
+			}
+			:host([dir="rtl"]) button > div {
+				margin-left: 5px;
+				margin-right: 0;
 			}
 			button > d2l-icon {
 				fill: var(--d2l-color-galena);
 				flex: none;
 			}
-			:host([dir="rtl"]) button > div {
-				margin-left: 10px;
-				margin-right: 0;
+			button[aria-expanded="true"] .d2l-htmleditor-button-background {
+				background-color: var(--d2l-color-celestine-plus-2);
+			}
+			button[aria-expanded="true"]:hover .d2l-htmleditor-button-background {
+				background-color: #dbf5ff;
+			}
+			button[aria-expanded="true"] d2l-icon,
+			button[aria-expanded="true"] svg {
+				fill: var(--d2l-color-celestine);
 			}
 			.d2l-htmleditor-button-menu-icon-container {
 				line-height: 0;
@@ -116,6 +126,7 @@ class ButtonMenu extends ToolbarItemMixin(RtlMixin(LitElement)) {
 					class="d2l-dropdown-opener"
 					tabindex="${this.activeFocusable ? 0 : -1}"
 					title="${this.text}">
+					<div class="d2l-htmleditor-button-background"></div>
 					${!this.noOpenerContent ? html`<div class="${hasIcon ? 'd2l-htmleditor-button-menu-icon-container' : ''}">
 						${this.icon ? unsafeHTML(icons[this.icon]) : html`<slot @slotchange="${this._handleIconSlotChange}" name="icon">${this._valueText ? this._valueText : this.text}</slot>`}
 					</div>` : null}
@@ -157,7 +168,7 @@ class ButtonMenu extends ToolbarItemMixin(RtlMixin(LitElement)) {
 
 customElements.define('d2l-htmleditor-button-menu', ButtonMenu);
 
-class MenuItem extends MenuItemSelectableMixin(ToolbarItemMixin(RtlMixin(LitElement))) {
+class MenuItem extends MenuItemSelectableMixin(ToolbarItemMixin(LitElement)) {
 
 	static get properties() {
 		return {
@@ -169,12 +180,16 @@ class MenuItem extends MenuItemSelectableMixin(ToolbarItemMixin(RtlMixin(LitElem
 	static get styles() {
 		return [ menuItemStyles, css`
 			:host {
-				--d2l-menu-border-color-hover: var(--d2l-color-celestine);
+				--d2l-menu-border-color: transparent;
+				--d2l-menu-border-color-hover: transparent;
 				--d2l-menu-foreground-color-hover: var(--d2l-color-celestine);
 				align-items: center;
+				border-radius: 3px;
 				display: flex;
 				fill: var(--d2l-color-ferrite);
-				padding: 7px 10px;
+				margin: 0 4px;
+				padding: 7px 12px;
+				width: calc(100% - 8px);
 			}
 			:host([hidden]) {
 				display: none;
@@ -209,11 +224,11 @@ class MenuItem extends MenuItemSelectableMixin(ToolbarItemMixin(RtlMixin(LitElem
 			}
 			svg,
 			::slotted([slot="icon"]) {
-				margin-right: 10px;
+				margin-right: 12px;
 			}
 			:host([dir="rtl"]) svg,
 			:host([dir="rtl"]) ::slotted([slot="icon"]) {
-				margin-left: 10px;
+				margin-left: 12px;
 				margin-right: 0;
 			}
 		`];
@@ -272,3 +287,24 @@ class MenuItem extends MenuItemSelectableMixin(ToolbarItemMixin(RtlMixin(LitElem
 }
 
 customElements.define('d2l-htmleditor-menu-item', MenuItem);
+
+class MenuItemSeparator extends LitElement {
+
+	static get styles() {
+		return css`
+			:host {
+				border-top: 2px solid var(--d2l-color-gypsum);
+				display: block;
+				margin: 4px 0;
+			}
+		`;
+	}
+
+	firstUpdated() {
+		super.firstUpdated();
+
+		this.setAttribute('role', 'separator');
+	}
+}
+
+customElements.define('d2l-htmleditor-menu-item-separator', MenuItemSeparator);

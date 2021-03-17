@@ -19,8 +19,14 @@ class ButtonToggle extends ToolbarItemMixin(LitElement) {
 
 	static get styles() {
 		return [buttonStyles, css`
-			button[aria-pressed="true"] {
+			button[aria-pressed="true"] .d2l-htmleditor-button-background {
 				background-color: var(--d2l-color-celestine-plus-2);
+			}
+			button[aria-pressed="true"]:hover .d2l-htmleditor-button-background {
+				background-color: #dbf5ff;
+			}
+			button[aria-pressed="true"] svg {
+				fill: var(--d2l-color-celestine);
 			}
 		`];
 	}
@@ -48,6 +54,7 @@ class ButtonToggle extends ToolbarItemMixin(LitElement) {
 				?disabled="${this.disabled}"
 				tabindex="${this.activeFocusable ? 0 : -1}"
 				title="${this.text}">
+				<div class="d2l-htmleditor-button-background"></div>
 				${this.icon ? unsafeHTML(icons[this.icon]) : html`<slot></slot>`}
 			</button>`;
 	}

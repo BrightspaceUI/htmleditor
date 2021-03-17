@@ -82,22 +82,7 @@ export const ToolbarMixin = superclass => class extends RtlMixin(superclass) {
 	firstUpdated() {
 		super.firstUpdated();
 
-		this._measures = {
-			available: this.offsetWidth,
-			chomper: this.shadowRoot.querySelector('.d2l-htmleditor-toolbar-chomper').offsetWidth,
-			items: [],
-			total: 0
-		};
-
-		const items = this._getItems();
-		requestAnimationFrame(() => {
-			items.forEach(item => {
-				const width = item.offsetWidth;
-				this._measures.items.push(width);
-				this._measures.total += width;
-			});
-			this._updateItemsVisibility(false, items);
-		});
+		this._updateMeasures();
 
 		this._chompResizeObserver = new ResizeObserver(this._handleChompResize.bind(this));
 		this._chompResizeObserver.observe(this.shadowRoot.querySelector('.d2l-htmleditor-toolbar-container'));
@@ -133,7 +118,7 @@ export const ToolbarMixin = superclass => class extends RtlMixin(superclass) {
 
 	_handleKeyDown(e) {
 
-		if (e.keyCode !== keyCodes.LEFT && e.keyCode !== keyCodes.RIGHT && e.keyCode !== keyCodes.HOME && e.keyCode !== keyCodes.END && e.keyCode !== keyCodes.ENTER) return;
+		if (e.keyCode !== keyCodes.LEFT && e.keyCode !== keyCodes.RIGHT && e.keyCode !== keyCodes.HOME && e.keyCode !== keyCodes.END) return;
 
 		const setActiveFocusable = async focusable => {
 			focusable.activeFocusable = true;
@@ -142,17 +127,6 @@ export const ToolbarMixin = superclass => class extends RtlMixin(superclass) {
 				focusable.focus();
 			});
 		};
-
-		if (e.keyCode === keyCodes.ENTER && e.target === this.shadowRoot.querySelector('.d2l-htmleditor-toolbar-chomper')) {
-			/*
-			if (this._chomping) {
-				const firstChompedFocusable = this._getFocusables(true)
-					.find(item => item.getAttribute('data-toolbar-item-state') === 'chomped');
-				setActiveFocusable(firstChompedFocusable);
-			}
-			*/
-			return;
-		}
 
 		const focusables = this._getFocusables();
 		const index = focusables.findIndex(item => item.activeFocusable);
@@ -264,6 +238,27 @@ export const ToolbarMixin = superclass => class extends RtlMixin(superclass) {
 			});
 
 		}
+
+	}
+
+	_updateMeasures() {
+
+		this._measures = {
+			available: this.offsetWidth,
+			chomper: this.shadowRoot.querySelector('.d2l-htmleditor-toolbar-chomper').offsetWidth,
+			items: [],
+			total: 0
+		};
+
+		const items = this._getItems();
+		requestAnimationFrame(() => {
+			items.forEach(item => {
+				const width = item.offsetWidth;
+				this._measures.items.push(width);
+				this._measures.total += width;
+			});
+			this._updateItemsVisibility(false, items);
+		});
 
 	}
 

@@ -7,7 +7,7 @@ class Separator extends LitElement {
 		return css`
 			:host {
 				display: inline-block;
-				padding: 0 6px;
+				padding: 0 4px;
 			}
 			:host([hidden]) {
 				display: none;

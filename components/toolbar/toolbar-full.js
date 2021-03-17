@@ -84,7 +84,7 @@ class ToolbarFull extends Localizer(ToolbarMixin(LitElement)) {
 				<d2l-htmleditor-menu-item cmd="${cmds.strikethrough}" icon="strike-through">Strike-through</d2l-htmleditor-menu-item>
 				<d2l-htmleditor-menu-item cmd="${cmds.superscript}" icon="superscript">Superscript</d2l-htmleditor-menu-item>
 				<d2l-htmleditor-menu-item cmd="${cmds.subscript}" icon="subscript">Subscript</d2l-htmleditor-menu-item>
-			</d2l-htmleditor-button-menu>			
+			</d2l-htmleditor-button-menu>
 			${hasContext ? html`
 				<d2l-htmleditor-button-color></d2l-htmleditor-button-color>
 			` : ''}
@@ -94,14 +94,14 @@ class ToolbarFull extends Localizer(ToolbarMixin(LitElement)) {
 				<d2l-htmleditor-menu-item cmd="${cmds.alignCenter}" icon="align-center">Center</d2l-htmleditor-menu-item>
 				<d2l-htmleditor-menu-item cmd="${cmds.alignRight}" icon="align-center">Right</d2l-htmleditor-menu-item>
 				<d2l-htmleditor-menu-item cmd="${cmds.alignJustify}" icon="align-justify">Justify</d2l-htmleditor-menu-item>
-				<d2l-menu-item-separator></d2l-menu-item-separator>
+				<d2l-htmleditor-menu-item-separator></d2l-htmleditor-menu-item-separator>
 				<d2l-htmleditor-menu-item cmd="${cmds.ltr}" icon="ltr">${this.localize('ltr')}</d2l-htmleditor-menu-item>
 				<d2l-htmleditor-menu-item cmd="${cmds.rtl}" icon="rtl">${this.localize('rtl')}</d2l-htmleditor-menu-item>
 			</d2l-htmleditor-button-menu>
 			<d2l-htmleditor-button-menu text="${this.localize('list')}" icon="unordered-list">
 				<d2l-htmleditor-menu-item cmd="${cmds.unorderedList}" icon="unordered-list">${this.localize('unorderedlist')}</d2l-htmleditor-menu-item>
 				<d2l-htmleditor-menu-item cmd="${cmds.orderedList}" icon="ordered-list">${this.localize('orderedlist')}</d2l-htmleditor-menu-item>
-				<d2l-menu-item-separator></d2l-menu-item-separator>
+				<d2l-htmleditor-menu-item-separator></d2l-htmleditor-menu-item-separator>
 				<d2l-htmleditor-menu-item cmd="${cmds.indent}" icon="indent">${this.localize('indent')}</d2l-htmleditor-menu-item>
 				<d2l-htmleditor-menu-item cmd="${cmds.outdent}" icon="outdent">${this.localize('outdent')}</d2l-htmleditor-menu-item>
 			</d2l-htmleditor-button-menu>
@@ -119,11 +119,11 @@ class ToolbarFull extends Localizer(ToolbarMixin(LitElement)) {
 			` : ''}
 			<d2l-htmleditor-button-menu text="Table" icon="table">
 				<d2l-htmleditor-menu-item cmd="${cmds.table}" icon="table">Insert Table</d2l-htmleditor-menu-item>
-				<d2l-menu-item-separator></d2l-menu-item-separator>
+				<d2l-htmleditor-menu-item-separator></d2l-htmleditor-menu-item-separator>
 				<d2l-htmleditor-menu-item cmd="${cmds.tableCellProps}" icon="table-cell-properties">Cell Properties</d2l-htmleditor-menu-item>
 				<d2l-htmleditor-menu-item cmd="${cmds.tableMergeCells}" icon="table-merge-cells">Merge Cells</d2l-htmleditor-menu-item>
 				<d2l-htmleditor-menu-item cmd="${cmds.tableSplitCells}" icon="table-split-cells">Split Cell</d2l-htmleditor-menu-item>
-				<d2l-menu-item-separator></d2l-menu-item-separator>
+				<d2l-htmleditor-menu-item-separator></d2l-htmleditor-menu-item-separator>
 				<d2l-htmleditor-menu-item cmd="${cmds.tableInsertRowBefore}" icon="table-insert-row-above">Insert Row Before</d2l-htmleditor-menu-item>
 				<d2l-htmleditor-menu-item cmd="${cmds.tableInsertRowAfter}" icon="table-insert-row-after">Insert Row After</d2l-htmleditor-menu-item>
 				<d2l-htmleditor-menu-item cmd="${cmds.tableDeleteRow}" icon="table-delete-row">Delete Row</d2l-htmleditor-menu-item>
@@ -132,7 +132,7 @@ class ToolbarFull extends Localizer(ToolbarMixin(LitElement)) {
 				<d2l-htmleditor-menu-item cmd="${cmds.tableCopyRow}" icon="duplicate-row">Copy Row</d2l-htmleditor-menu-item>
 				<d2l-htmleditor-menu-item cmd="${cmds.tablePasteRowBefore}" icon="paste-row-before">Paste Row Before</d2l-htmleditor-menu-item>
 				<d2l-htmleditor-menu-item cmd="${cmds.tablePasteRowAfter}" icon="paste-row-after">Paste Row After</d2l-htmleditor-menu-item>
-				<d2l-menu-item-separator></d2l-menu-item-separator>
+				<d2l-htmleditor-menu-item-separator></d2l-htmleditor-menu-item-separator>
 				<d2l-htmleditor-menu-item cmd="${cmds.tableInsertColumnBefore}" icon="table-insert-column-before">Insert Column Before</d2l-htmleditor-menu-item>
 				<d2l-htmleditor-menu-item cmd="${cmds.tableInsertColumnAfter}" icon="table-insert-column-after">Insert Column After</d2l-htmleditor-menu-item>
 				<d2l-htmleditor-menu-item cmd="${cmds.tableDeleteColumn}" icon="table-delete-column">Delete Column</d2l-htmleditor-menu-item>
@@ -140,11 +140,11 @@ class ToolbarFull extends Localizer(ToolbarMixin(LitElement)) {
 				<d2l-htmleditor-menu-item cmd="${cmds.tableCopyColumn}">Copy Column</d2l-htmleditor-menu-item>
 				<d2l-htmleditor-menu-item cmd="${cmds.tablePasteColumnBefore}">Paste Column Before</d2l-htmleditor-menu-item>
 				<d2l-htmleditor-menu-item cmd="${cmds.tablePasteColumnAfter}">Paste Column After</d2l-htmleditor-menu-item>
-				<d2l-menu-item-separator></d2l-menu-item-separator>
+				<d2l-htmleditor-menu-item-separator></d2l-htmleditor-menu-item-separator>
 				<d2l-htmleditor-menu-item cmd="${cmds.tableSortColumnAsc}">Sort by Column Ascending</d2l-htmleditor-menu-item>
 				<d2l-htmleditor-menu-item cmd="${cmds.tableSortColumnDesc}">Sort by Column Descending</d2l-htmleditor-menu-item>
 				<d2l-htmleditor-menu-item cmd="${cmds.tableSortAdvanced}">Advanced Sort</d2l-htmleditor-menu-item>
-				<d2l-menu-item-separator></d2l-menu-item-separator>
+				<d2l-htmleditor-menu-item-separator></d2l-htmleditor-menu-item-separator>
 				<d2l-htmleditor-menu-item cmd="${cmds.tableProps}">Table Properties</d2l-htmleditor-menu-item>
 				<d2l-htmleditor-menu-item cmd="${cmds.tableDelete}" icon="table-delete-table">Delete Table</d2l-htmleditor-menu-item>
 			</d2l-htmleditor-button-menu>
@@ -152,7 +152,7 @@ class ToolbarFull extends Localizer(ToolbarMixin(LitElement)) {
 				<d2l-htmleditor-menu-item cmd="${cmds.attributes}" icon="insert-attributes">${this.localize('attributes')}</d2l-htmleditor-menu-item>
 				<d2l-htmleditor-menu-item cmd="${cmds.hr}" icon="horizontal-rule">${this.localize('line')}</d2l-htmleditor-menu-item>
 				<d2l-htmleditor-menu-item cmd="${cmds.emoticons}" icon="emoji">${this.localize('emoji')}</d2l-htmleditor-menu-item>
-				<d2l-htmleditor-menu-item cmd="${cmds.character}" icon="insert-character">${this.localize('character')}</d2l-htmleditor-menu-item>			
+				<d2l-htmleditor-menu-item cmd="${cmds.character}" icon="insert-character">${this.localize('character')}</d2l-htmleditor-menu-item>
 			</d2l-htmleditor-button-menu>
 			<d2l-htmleditor-separator></d2l-htmleditor-separator>
 			<d2l-htmleditor-button cmd="${cmds.a11yChecker}" icon="accessibility-check" text="${this.localize('allychecker')}"></d2l-htmleditor-button>
